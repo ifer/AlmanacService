@@ -1,0 +1,12 @@
+{
+  "name": "AlmanacService",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "moment": "^2.27.0",
+    "nodemon": "^2.0.4",
+    "suncalc": "^1.8.0"
+  }
+}
