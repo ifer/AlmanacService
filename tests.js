@@ -4,7 +4,7 @@ var moment = require('moment');
 
 moonPhases.populateMoonPhases();
 
-let testDate = moment('03/08/2020 12:00', 'DD/MM/YYYY HH:mm');
+let testDate = moment('03/08/2020 12:01', 'DD/MM/YYYY hh:mm');
 let mp = moonPhases.getMoonPhaseEvent(testDate);
 
 console.log(mp);

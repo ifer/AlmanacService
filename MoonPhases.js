@@ -21,6 +21,9 @@ function getMoonPhaseEvent(thisday) {
     const dateUtcOffset = thisday.utcOffset();
     const secs_per_day = 86400;
 
+    console.log(`thisday=${thisday.format('ddd DD/MM/YYYY hh:mm')}`);
+    console.log(`day=${thisday.date()}, month=${thisday.month()}, year=${thisday.year()}`);
+
     for (let i = 0; i < mpdata.length; i++) {
         if (mpdata[i].year < thisday.year()) {
             //Keep last new moon of previous year
@@ -30,28 +33,44 @@ function getMoonPhaseEvent(thisday) {
                     month: mpdata[i].newMoonMonth - 1,
                     day: mpdata[i].newMoonDay,
                 }).utcOffset(dateUtcOffset);
+                console.log(`newMoon=${newMoon.format('DD/MM/YYYY HH:mm')}`);
             }
             continue;
         }
 
-        if (thisday.day() == mpdata[i].newMoonDay && m == mpdata[i].newMoonMonth) {
+        if (i == 650) {
+            console.log(`thisday.date()=${thisday.date()}, mpdata[i].fullMoonDay=${mpdata[i].fullMoonDay}`);
+        }
+        console.log(`thisday.date()=${thisday.date()}, mpdata[i].fullMoonDay=${mpdata[i].fullMoonDay}`);
+        console.log(`thisday.month()=${thisday.month() + 1}, mpdata[i].fullMoonMonth=${mpdata[i].fullMoonMonth}`);
+        console.log('i=' + i);
+
+        if (thisday.date() == mpdata[i].newMoonDay && m == mpdata[i].newMoonMonth) {
             sRet = 'Νέα σελήνη';
             if (mpdata[i].newMoonEclipseEvent != ' ')
                 sRet = sRet + '\n' + getEclipseEvent(mpdata[i].newMoonEclipseEvent);
             return sRet;
-        } else if (thisday.day() == mpdata[i].fullMoonDay && m == mpdata[i].fullMoonMonth) {
+        } else if (thisday.date() == mpdata[i].fullMoonDay && thisday.month() + 1 == mpdata[i].fullMoonMonth) {
             sRet = 'Πανσέληνος';
             return sRet;
         } else {
-            tempNewMoon = moment({
-                year: mpdata[i].year,
-                month: mpdata[i].newMoonMonth - 1,
-                day: mpdata[i].newMoonDay,
-            }).utcOffset(dateUtcOffset);
-
-            if (tempNewMoon.isBefore(thisday)) {
+            if (
+                is_before(
+                    mpdata[i].newMoonDay,
+                    mpdata[i].newMoonMonth,
+                    mpdata[i].year,
+                    thisday.date(),
+                    thisday.month(),
+                    thisday.year()
+                )
+            ) {
                 if (mpdata[i].newMoonMonth > 0 && mpdata[i].newMoonDay > 0) {
-                    newMoon = tempNewMoon;
+                    newMoon = moment({
+                        year: mpdata[i].year,
+                        month: mpdata[i].newMoonMonth - 1,
+                        day: mpdata[i].newMoonDay,
+                    }).utcOffset(dateUtcOffset);
+                    console.log(`newMoon2=${newMoon.format('DD/MM/YYYY HH:mm')}`);
                 }
             } else {
                 let thisDaySecs = thisday.valueOf() / 1000;
@@ -100,6 +119,18 @@ function getEclipseEvent(eventType) {
     }
 
     return sRet;
+}
+
+function is_before(day1, month1, year1, day2, month2, year2) {
+    if (year1 < year2) return true;
+    else if (year1 > year2) return false;
+
+    if (month1 < month2) return true;
+    else if (month1 > month2) return false;
+
+    if (day1 < day2) return true;
+
+    return false;
 }
 
 function populateMoonPhases() {
