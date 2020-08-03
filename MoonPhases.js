@@ -21,8 +21,8 @@ function getMoonPhaseEvent(thisday) {
     const dateUtcOffset = thisday.utcOffset();
     const secs_per_day = 86400;
 
-    console.log(`thisday=${thisday.format('ddd DD/MM/YYYY hh:mm')}`);
-    console.log(`day=${thisday.date()}, month=${thisday.month()}, year=${thisday.year()}`);
+    // console.log(`thisday=${thisday.format('ddd DD/MM/YYYY hh:mm')}`);
+    // console.log(`day=${thisday.date()}, month=${thisday.month()}, year=${thisday.year()}`);
 
     for (let i = 0; i < mpdata.length; i++) {
         if (mpdata[i].year < thisday.year()) {
@@ -33,19 +33,19 @@ function getMoonPhaseEvent(thisday) {
                     month: mpdata[i].newMoonMonth - 1,
                     day: mpdata[i].newMoonDay,
                 }).utcOffset(dateUtcOffset);
-                console.log(`newMoon=${newMoon.format('DD/MM/YYYY HH:mm')}`);
+                // console.log(`newMoon=${newMoon.format('DD/MM/YYYY HH:mm')}`);
             }
             continue;
         }
 
-        if (i == 650) {
-            console.log(`thisday.date()=${thisday.date()}, mpdata[i].fullMoonDay=${mpdata[i].fullMoonDay}`);
-        }
-        console.log(`thisday.date()=${thisday.date()}, mpdata[i].fullMoonDay=${mpdata[i].fullMoonDay}`);
-        console.log(`thisday.month()=${thisday.month() + 1}, mpdata[i].fullMoonMonth=${mpdata[i].fullMoonMonth}`);
-        console.log('i=' + i);
+        // if (i == 650) {
+        //     console.log(`thisday.date()=${thisday.date()}, mpdata[i].fullMoonDay=${mpdata[i].fullMoonDay}`);
+        // }
+        // console.log(`thisday.date()=${thisday.date()}, mpdata[i].fullMoonDay=${mpdata[i].fullMoonDay}`);
+        // console.log(`thisday.month()=${thisday.month() + 1}, mpdata[i].fullMoonMonth=${mpdata[i].fullMoonMonth}`);
+        // console.log('i=' + i);
 
-        if (thisday.date() == mpdata[i].newMoonDay && m == mpdata[i].newMoonMonth) {
+        if (thisday.date() == mpdata[i].newMoonDay && thisday.month() + 1 == mpdata[i].newMoonMonth) {
             sRet = 'Νέα σελήνη';
             if (mpdata[i].newMoonEclipseEvent != ' ')
                 sRet = sRet + '\n' + getEclipseEvent(mpdata[i].newMoonEclipseEvent);
@@ -54,13 +54,18 @@ function getMoonPhaseEvent(thisday) {
             sRet = 'Πανσέληνος';
             return sRet;
         } else {
+            // console.log(
+            //     `Comparing ${mpdata[i].newMoonDay}/${mpdata[i].newMoonMonth}/${mpdata[i].year} and ${thisday.date()}/${
+            //         thisday.month() + 1
+            //     }/${thisday.year()}`
+            // );
             if (
                 is_before(
                     mpdata[i].newMoonDay,
                     mpdata[i].newMoonMonth,
                     mpdata[i].year,
                     thisday.date(),
-                    thisday.month(),
+                    thisday.month() + 1,
                     thisday.year()
                 )
             ) {
@@ -70,15 +75,20 @@ function getMoonPhaseEvent(thisday) {
                         month: mpdata[i].newMoonMonth - 1,
                         day: mpdata[i].newMoonDay,
                     }).utcOffset(dateUtcOffset);
-                    console.log(`newMoon2=${newMoon.format('DD/MM/YYYY HH:mm')}`);
+                    // console.log(`newMoon2=${newMoon.format('DD/MM/YYYY HH:mm')}`);
                 }
             } else {
+                // console.log('thisday=' + thisday.format());
                 let thisDaySecs = thisday.valueOf() / 1000;
                 let newMoonSecs = newMoon.valueOf() / 1000;
-                let moonDays = thisDaySecs / secs_per_day - newMoonSecs / secs_per_day;
-                moonDays = thisDaySecs / secs_per_day - newMoonSecs / secs_per_day;
+                let a = thisDaySecs / secs_per_day;
+                let b = newMoonSecs / secs_per_day;
+                let moonDays = Math.round(a - b);
+                // let moonDays = thisDaySecs / secs_per_day - newMoonSecs / secs_per_day;
+                // console.log(`thisDaySecs=${thisDaySecs}, newMoonSecs=${newMoonSecs}, moonDays=${moonDays} i=${i}`);
+                // moonDays = thisDaySecs / secs_per_day - newMoonSecs / secs_per_day;
                 if (moonDays == 1) {
-                    return 'Σελήνη ' + Long.toString(moonDays) + ' ημέρας';
+                    return 'Σελήνη ' + moonDays + ' ημέρας';
                 } else {
                     return 'Σελήνη ' + moonDays + ' ημερών';
                 }
