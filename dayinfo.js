@@ -8,7 +8,7 @@ moment.locale('el');
 const latitude = 37.97945;
 const longitude = 23.71622;
 
-moonPhases.populateMoonPhases();
+// moonPhases.populateMoonPhases();
 
 function getDayInfo(datestr) {
     let date;
