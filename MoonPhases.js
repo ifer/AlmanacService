@@ -1,6 +1,6 @@
 const moment = require('moment');
 
-const mpdata = require('./moondata.json');
+const moondata = require('./moondata.json');
 
 moment.locale('el');
 
@@ -12,44 +12,44 @@ function getMoonPhaseEvent(thisday) {
     // console.log(`thisday=${thisday.format('ddd DD/MM/YYYY hh:mm')}`);
     // console.log(`day=${thisday.date()}, month=${thisday.month()}, year=${thisday.year()}`);
 
-    for (let i = 0; i < mpdata.length; i++) {
-        if (mpdata[i].year < thisday.year()) {
+    for (let i = 0; i < moondata.length; i++) {
+        if (moondata[i].year < thisday.year()) {
             //Keep last new moon of previous year
-            if (mpdata[i].year == thisday.year() - 1 && mpdata[i].newMoonMonth >= 11) {
+            if (moondata[i].year == thisday.year() - 1 && moondata[i].newMoonMonth >= 11) {
                 newMoon = moment({
-                    year: mpdata[i].year,
-                    month: mpdata[i].newMoonMonth - 1,
-                    day: mpdata[i].newMoonDay,
+                    year: moondata[i].year,
+                    month: moondata[i].newMoonMonth - 1,
+                    day: moondata[i].newMoonDay,
                 }).utcOffset(dateUtcOffset);
                 // console.log(`newMoon=${newMoon.format('DD/MM/YYYY HH:mm')}`);
             }
             continue;
         }
 
-        if (thisday.date() == mpdata[i].newMoonDay && thisday.month() + 1 == mpdata[i].newMoonMonth) {
+        if (thisday.date() == moondata[i].newMoonDay && thisday.month() + 1 == moondata[i].newMoonMonth) {
             sRet = 'Νέα σελήνη';
-            if (mpdata[i].newMoonEclipseEvent != ' ')
-                sRet = sRet + '\n' + getEclipseEvent(mpdata[i].newMoonEclipseEvent);
+            if (moondata[i].newMoonEclipseEvent != ' ')
+                sRet = sRet + '\n' + getEclipseEvent(moondata[i].newMoonEclipseEvent);
             return sRet;
-        } else if (thisday.date() == mpdata[i].fullMoonDay && thisday.month() + 1 == mpdata[i].fullMoonMonth) {
+        } else if (thisday.date() == moondata[i].fullMoonDay && thisday.month() + 1 == moondata[i].fullMoonMonth) {
             sRet = 'Πανσέληνος';
             return sRet;
         } else {
             if (
                 is_before(
-                    mpdata[i].newMoonDay,
-                    mpdata[i].newMoonMonth,
-                    mpdata[i].year,
+                    moondata[i].newMoonDay,
+                    moondata[i].newMoonMonth,
+                    moondata[i].year,
                     thisday.date(),
                     thisday.month() + 1,
                     thisday.year()
                 )
             ) {
-                if (mpdata[i].newMoonMonth > 0 && mpdata[i].newMoonDay > 0) {
+                if (moondata[i].newMoonMonth > 0 && moondata[i].newMoonDay > 0) {
                     newMoon = moment({
-                        year: mpdata[i].year,
-                        month: mpdata[i].newMoonMonth - 1,
-                        day: mpdata[i].newMoonDay,
+                        year: moondata[i].year,
+                        month: moondata[i].newMoonMonth - 1,
+                        day: moondata[i].newMoonDay,
                     }).utcOffset(dateUtcOffset);
                     // console.log(`newMoon2=${newMoon.format('DD/MM/YYYY HH:mm')}`);
                 }
