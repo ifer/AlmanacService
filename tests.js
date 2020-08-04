@@ -1,7 +1,37 @@
 // const getDayInfo = require('./dayinfo').getDayInfo;
 
 // testMobileHolidays();
-testFixedHolidays();
+// testFixedHolidays();
+// testMobileNamedays();
+testFixedNamedays();
+
+function testFixedNamedays() {
+    fixedNameMap = require('./namedays').fixedNameMap;
+
+    console.log('get  St.JOHN holiday: ' + fixedNameMap.get('0701'));
+    console.log('get St. EIRINI holiday: ' + fixedNameMap.get('0505'));
+    console.log('get fixed holidays number: ' + fixedNameMap.size);
+    console.log('check existence of key 7: ' + fixedNameMap.has('0612'));
+
+    // iterate
+    fixedNameMap.forEach((value, key) => {
+        console.log(`key:${key} value: ${value} names size: ${value.length}`);
+    });
+}
+
+function testMobileNamedays() {
+    mobileNameMap = require('./namedays').mobileNameMap;
+
+    console.log('get EASTER holiday: ' + mobileNameMap.get(0));
+    console.log('get THEODORE holiday: ' + mobileNameMap.get(-43));
+    console.log('get mobile holidays number: ' + mobileNameMap.size);
+    console.log('check existence of key 7: ' + mobileNameMap.has(7));
+
+    // iterate
+    mobileNameMap.forEach((value, key) => {
+        console.log(`key:${key} value: ${value} `);
+    });
+}
 
 function testMobileHolidays() {
     mobileHolMap = require('./holidays').mobileHolMap;
