@@ -1,6 +1,6 @@
 const moment = require('moment');
 
-const moondata = require('./moondata.json');
+const moondata = require('./data/moondata.json');
 
 moment.locale('el');
 

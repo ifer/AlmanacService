@@ -1,12 +1,50 @@
 // const getDayInfo = require('./dayinfo').getDayInfo;
 
+// testMoonPhases();
+
 // testMobileHolidays();
 // testFixedHolidays();
 // testMobileNamedays();
-testFixedNamedays();
+// testFixedNamedays();
+
+// testHolidayService();
+testCalendarService();
+
+function testCalendarService() {
+    var moment = require('moment');
+    // moment.locale('el');
+
+    let calendarService = require('./services/calendarService');
+    // for (let i = 2020; i < 2099; i += 5) {
+    //     console.log(`${i}: ${calendarService.getEasterByYear(i).format('DD/MM/YYYY')}`);
+    // }
+
+    console.log('ΑΓ.ΓΕΩΡΓΙΟΥ 2020: ' + calendarService.getStGeorgeByYear(2020).format('DD/MM/YYYY')); //Must be 23/04/2020
+    console.log('ΑΓ.ΓΕΩΡΓΙΟΥ 2022: ' + calendarService.getStGeorgeByYear(2022).format('DD/MM/YYYY')); //Must be 25/04/2022
+    console.log('ΑΓ.ΓΕΩΡΓΙΟΥ 2024: ' + calendarService.getStGeorgeByYear(2024).format('DD/MM/YYYY')); //Must be 06/05/2024
+}
+
+function testHolidayService() {
+    var moment = require('moment');
+    // moment.locale('el');
+
+    holidayService = require('./services/holidayService');
+
+    let stJohnDay = moment({ day: 7, month: 0, year: 2020 });
+    console.log(holidayService.getFixedHolidayByDate(stJohnDay));
+
+    // let easter = moment({ day: 19, month: 3, year: 2020 });
+    let date1 = moment('27/03/2020', 'DD/MM/YYYY');
+    console.log(holidayService.getMobileHolidayByDate(date1));
+    let date0 = moment('19/04/2020', 'DD/MM/YYYY');
+    console.log(holidayService.getMobileHolidayByDate(date0));
+    let date2 = moment('07/06/2020', 'DD/MM/YYYY');
+    console.log(holidayService.getMobileHolidayByDate(date2));
+    // console.log(date.format());
+}
 
 function testFixedNamedays() {
-    fixedNameMap = require('./namedays').fixedNameMap;
+    fixedNameMap = require('./data/namedays').fixedNameMap;
 
     console.log('get  St.JOHN holiday: ' + fixedNameMap.get('0701'));
     console.log('get St. EIRINI holiday: ' + fixedNameMap.get('0505'));
@@ -20,7 +58,7 @@ function testFixedNamedays() {
 }
 
 function testMobileNamedays() {
-    mobileNameMap = require('./namedays').mobileNameMap;
+    mobileNameMap = require('./data/namedays').mobileNameMap;
 
     console.log('get EASTER holiday: ' + mobileNameMap.get(0));
     console.log('get THEODORE holiday: ' + mobileNameMap.get(-43));
@@ -34,7 +72,7 @@ function testMobileNamedays() {
 }
 
 function testMobileHolidays() {
-    mobileHolMap = require('./holidays').mobileHolMap;
+    mobileHolMap = require('./data/holidays').mobileHolMap;
 
     console.log('get EASTER holiday: ' + mobileHolMap.get(0));
     console.log('get CLEAN MONDAY holiday: ' + mobileHolMap.get(-48));
@@ -48,7 +86,7 @@ function testMobileHolidays() {
 }
 
 function testFixedHolidays() {
-    fixedHolMap = require('./holidays').fixedHolMap;
+    fixedHolMap = require('./data/holidays').fixedHolMap;
 
     console.log('get St.JOHN holiday: ' + fixedHolMap.get('0701'));
     console.log('get St NIKOLAS holiday: ' + fixedHolMap.get('0612'));
@@ -70,9 +108,10 @@ function testMoonPhases() {
     const moonPhases = require('./MoonPhases');
 
     let testDate = moment('04/08/2020', 'DD/MM/YYYY');
+    // console.log(testDate.format());
     let mp = moonPhases.getMoonPhaseEvent(testDate);
 
     console.log(mp);
 
-    console.log(getDayInfo('01/10/2020'));
+    // console.log(getDayInfo('01/10/2020'));
 }

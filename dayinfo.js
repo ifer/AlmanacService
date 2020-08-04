@@ -1,6 +1,7 @@
 var moment = require('moment');
 var SunCalc = require('suncalc');
-const moonPhases = require('./MoonPhases');
+
+const moonPhases = require('./data/MoonPhases');
 
 moment.locale('el');
 
@@ -25,14 +26,14 @@ function getDayInfo(datestr) {
     const sunsetStr = times.sunset.getHours() + ':' + times.sunset.getMinutes();
 
     // moonPhase(date);
-    let testDate = moment('01/03/2025 00:00', 'DD/MM/YYYY HH:mm');
-    let mondays = testDate.daysInMonth();
-
-    for (let i = 1; i <= mondays; i++) {
-        let moon = SunCalc.getMoonIllumination(testDate);
-        console.log(`${testDate.format('DD/MM/YYYY')} ${moonPhases.getMoonPhaseEvent(testDate)}`);
-        testDate.add(1, 'days');
-    }
+    // let testDate = moment('01/03/2025 00:00', 'DD/MM/YYYY HH:mm');
+    // let mondays = testDate.daysInMonth();
+    //
+    // for (let i = 1; i <= mondays; i++) {
+    //     let moon = SunCalc.getMoonIllumination(testDate);
+    //     console.log(`${testDate.format('DD/MM/YYYY')} ${moonPhases.getMoonPhaseEvent(testDate)}`);
+    //     testDate.add(1, 'days');
+    // }
 
     return {
         nDay: date.date(),
