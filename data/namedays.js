@@ -2,7 +2,7 @@ const mobileNameMap = new Map([
     [-43, ['ΘΕΟΔ', 'ΘΟΔ', 'THEOD', 'THOD']],
     [-8, ['ΛΑΖΑΡ', 'LAZAR']],
     [0, ['ΑΝΑΣΤ', 'ΤΑΣ', 'ΛΑΜΠ', 'ΠΑΣΧ', 'ANAST', 'TAS', 'LAMB', 'LAB', 'LAMB', 'PASX']],
-    [5, ['ΖΩΗ', 'ZOI', 'ZOH']],
+    [5, ['ΖΩΗ', 'ZOI', 'ZOH', 'ZOE']],
     [7, ['ΘΩΜ', 'THOM']],
 ]);
 
@@ -64,7 +64,7 @@ const fixedNameMap = new Map([
     ['2304', ['ΓΕΩΡΓ', 'ΓΙΩΡΓ', 'ΓΩΓΩ', 'ΓΙΟΥΛΑ', 'ΤΖΙΝΑ', 'GEORG', 'GIORG', 'GOGO', 'GIOULA', 'TZINA', 'GINA']],
     ['2310', ['ΙΑΚΩΒ', 'IAKOV']],
     ['2401', ['ΞΕΝΗ', 'XENI']],
-    ['2404', ['ΕΛΙΣΑΒΕΤ', 'ΕΛΛΗ', 'ELISAVET', 'ELLI', 'ELI']],
+    ['2404', ['ΕΛΙΣΑΒΕΤ', 'ΕΛΛΗ', 'ELISAVET', 'ELLI', 'ELI', 'ELISABETH']],
     ['2412', ['ΕΥΓΕΝ', 'ΤΡΙΣΕΥΓΕΝΗ', 'EVGEN', 'TRISEVGENI']],
     ['2501', ['ΓΡΗΓΟΡ', 'ΜΑΡΓΑΡΙΤΑ', 'GRIGOR', 'MARGARITA']],
     ['2503', ['ΕΥΑΓΓ', 'ΒΑΓΓΕ', 'ΑΓΓΕΛ', 'EVAG', 'VAGE', 'ANGEL', 'VANGE', 'AGEL', 'ANGEL']],

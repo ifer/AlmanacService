@@ -33,30 +33,3 @@ module.exports = {
     getEasterByYear,
     getStGeorgeByYear,
 };
-/*
-public Calendar getEasterByYear (int year){
-    int v, v1, v2, v3, v4, v5;
-    Calendar easter = Calendar.getInstance(timezoneAthens);
-
-
-    //Initialize easter calendar to the (spring) vernal equinox
-    easter.set(Calendar.YEAR, year);
-    easter.set(Calendar.MONTH, Calendar.MARCH);
-    easter.set(Calendar.DATE, 22);
-
-    easter = setTimeToNoon(easter);
-
-
-    v1 = year % 4;
-    v2 = year % 7;
-    v3 = year % 19;
-    v4 = ((v3*19 + 15) % 30);
-    v5 = ((2*v1) + (4*v2) + 6*(v4 + 1)) % 7;
-    v = v4 + v5 + 13;
-
-    //ADD v DAYS TO easter
-    easter.add (Calendar.DATE, v);
-
-    return (easter);
-}
-*/

@@ -12,6 +12,58 @@ const getDayInfo = require('./dayinfo').getDayInfo;
 
 testDayInfo();
 
+// testGetDayMonthOfHoliday();
+
+// testGetNamesByDate();
+
+function testGetNamesByDate() {
+    var moment = require('moment');
+
+    let holidayService = require('./services/holidayService');
+
+    console.log('fixed holiday names:');
+    console.log(holidayService.getFixedNamesByDate(moment('01/07/2020', 'DD/MM/YYYY'))); //['ΑΝΑΡΓΥΡΟΣ', 'ΑΡΓΥΡ', 'ΚΟΣΜΑΣ', ...]
+    console.log(holidayService.getFixedNamesByDate(moment('06/12/2020', 'DD/MM/YYYY'))); //['ΝΙΚ', 'NIK']
+    console.log(holidayService.getFixedNamesByDate(moment('07/01/2020', 'DD/MM/YYYY'))); //['ΙΩΑΝ', 'ΓΙΑΝ', 'ΠΡΟΔΡ' ... ]
+
+    console.log(holidayService.getFixedNamesByDate(moment('23/04/2020', 'DD/MM/YYYY'))); //['ΓΕΩΡΓ', 'ΓΙΩΡΓ', 'ΓΩΓΩ', ... ]
+    console.log(holidayService.getFixedNamesByDate(moment('23/04/2021', 'DD/MM/YYYY'))); //[]
+    console.log(holidayService.getFixedNamesByDate(moment('03/05/2021', 'DD/MM/YYYY'))); //['ΓΕΩΡΓ', 'ΓΙΩΡΓ', 'ΓΩΓΩ', ... ]
+
+    console.log('mobile holiday names:');
+    console.log(holidayService.getMobileNamesByDate(moment('19/04/2020', 'DD/MM/YYYY'))); //'ΑΝΑΣΤ', 'ΤΑΣ', 'ΛΑΜΠ', '
+    console.log(holidayService.getMobileNamesByDate(moment('07/03/2020', 'DD/MM/YYYY'))); //['ΘΕΟΔ', 'ΘΟΔ', 'THEOD', 'THOD']
+    console.log(holidayService.getMobileNamesByDate(moment('24/04/2020', 'DD/MM/YYYY'))); //['ΖΩΗ', 'ZOI', 'ZOH']
+    console.log(holidayService.getMobileNamesByDate(moment('23/04/2020', 'DD/MM/YYYY'))); //[]
+    console.log(holidayService.getMobileNamesByDate(moment('03/05/2021', 'DD/MM/YYYY'))); //[]
+
+    console.log('all holiday names:');
+    console.log(holidayService.getAllNamesByDate(moment('24/04/2020', 'DD/MM/YYYY'))); // ['ΕΛΙΣΑΒΕΤ', 'ΕΛΛΗ', 'ELISAVET', ... , 'ΖΩΗ', 'ZOI', 'ZOH', ..]
+}
+
+function testGetDayMonthOfHoliday() {
+    let holidayService = require('./services/holidayService');
+
+    console.log('fixed holidays:');
+    console.log(
+        holidayService
+            .getDateOfFixedHoliday('Βαρβάρας μεγαλομάρτυρος, Ιωάννου Δαμασκηνού,  Κασσιανού οσίου κυπρίου')
+            .format('DD/MM/YYYY')
+    ); // 04/12/YYYY
+    console.log(
+        holidayService.getDateOfFixedHoliday('Ιωάννου του Ευαγγελιστού, Αρσενίου μεγάλου.').format('DD/MM/YYYY')
+    ); // 08/05/YYYY
+    console.log(holidayService.getDateOfFixedHoliday('Γεωργίου του Τροπαιοφόρου', 2020).format('DD/MM/YYYY')); // 23/04/2020
+    console.log(holidayService.getDateOfFixedHoliday('Γεωργίου του Τροπαιοφόρου', 2021).format('DD/MM/YYYY')); // 03/05/2021
+    console.log('mobile holidays:');
+    console.log(holidayService.getDateOfMobileHoliday('Γεωργίου του Τροπαιοφόρου', 2020).format('DD/MM/YYYY')); // 23/04/2020
+    console.log(holidayService.getDateOfMobileHoliday('Γεωργίου του Τροπαιοφόρου', 2021).format('DD/MM/YYYY')); // 03/05/2020
+    console.log(holidayService.getDateOfMobileHoliday('Καθαρά Δευτέρα', 2020).format('DD/MM/YYYY')); // 02/03/2020
+    console.log(holidayService.getDateOfMobileHoliday('ΤΟ ΑΓΙΟΝ ΠΑΣΧΑ', 2020).format('DD/MM/YYYY')); // 19/04/2020
+    console.log(holidayService.getDateOfMobileHoliday('ΑΓΙΟΥ ΠΝΕΥΜΑΤΟΣ', 2020).format('DD/MM/YYYY')); // 08/06/2020
+    console.log(holidayService.getDateOfMobileHoliday('ΤΟ ΑΓΙΟΝ ΠΑΣΧΑ', 2021).format('DD/MM/YYYY')); // 02/05/2020
+}
+
 function testDayInfo() {
     console.log(getDayInfo('07/01/2020'));
     console.log(getDayInfo('06/12/2020'));
