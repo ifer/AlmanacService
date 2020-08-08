@@ -1,4 +1,4 @@
-// const getDayInfo = require('./dayinfo').getDayInfo;
+const getDayInfo = require('./dayinfo').getDayInfo;
 
 // testMoonPhases();
 
@@ -8,7 +8,21 @@
 // testFixedNamedays();
 
 // testHolidayService();
-testCalendarService();
+// testCalendarService();
+
+testDayInfo();
+
+function testDayInfo() {
+    console.log(getDayInfo('07/01/2020'));
+    console.log(getDayInfo('06/12/2020'));
+    console.log(getDayInfo('23/02/2020'));
+    console.log(getDayInfo('02/03/2020'));
+    console.log(getDayInfo('19/04/2020'));
+    console.log(getDayInfo('23/04/2020'));
+    console.log(getDayInfo('08/06/2020'));
+    console.log(getDayInfo('23/04/2021'));
+    console.log(getDayInfo('03/05/2021'));
+}
 
 function testCalendarService() {
     var moment = require('moment');

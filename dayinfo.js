@@ -1,7 +1,8 @@
 var moment = require('moment');
 var SunCalc = require('suncalc');
 
-const moonPhases = require('./data/MoonPhases');
+const moonPhases = require('./MoonPhases');
+const holidayService = require('./services/holidayService');
 
 moment.locale('el');
 
@@ -16,8 +17,9 @@ function getDayInfo(datestr) {
     if (datestr === undefined) {
         date = moment();
     } else {
-        date = moment(datestr + ' 12:00', 'DD/MM/YYYY HH:mm');
+        date = moment(datestr + ' 00:00', 'DD/MM/YYYY HH:mm');
     }
+    console.log(date.format());
 
     // get today's sunlight times for Athens
     const times = SunCalc.getTimes(date, latitude, longitude);
@@ -44,8 +46,8 @@ function getDayInfo(datestr) {
         month: date.format('DD/MMMM').split('/')[1],
         year: date.format('YYYY'),
         dayHolidays: null,
-        dayFixedHoliday: null,
-        dayMobileHoliday: null,
+        dayFixedHoliday: holidayService.getFixedHolidayByDate(date),
+        dayMobileHoliday: holidayService.getMobileHolidayByDate(date),
         moonPhase: moonPhases.getMoonPhaseEvent(date),
         sunRiseSet: `Ανατολή: ${sunriseStr}  Δύση: ${sunsetStr}`,
         datestr: date.format('DD/MM/YYYY'),

@@ -8,15 +8,15 @@ const calendarService = require('./calendarService');
 function getFixedHolidayByDate(date) {
     let daymon = date.format('DDMM');
 
-    return fixedHolMap.get(daymon);
+    return fixedHolMap.get(daymon) || '';
 }
 
 function getMobileHolidayByDate(date) {
     let easter = calendarService.getEasterByYear(date.year());
     let offset = date.diff(easter, 'days');
-    console.log(`easter=${easter.format()} date=${date.format()}, offset=${offset}`);
+    // console.log(`easter=${easter.format()} date=${date.format()}, offset=${offset}`);
 
-    return mobileHolMap.get(offset);
+    return mobileHolMap.get(offset) || '';
 }
 
 module.exports = {
