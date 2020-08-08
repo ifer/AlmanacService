@@ -6,9 +6,21 @@ const fixedHolMap = require('../data/holidays').fixedHolMap;
 const calendarService = require('./calendarService');
 
 function getFixedHolidayByDate(date) {
-    let daymon = date.format('DDMM');
+    const daymon = date.format('DDMM');
+    let fh = fixedHolMap.get(daymon);
 
-    return fixedHolMap.get(daymon) || '';
+    const stGeorge = calendarService.getStGeorgeByYear(date.year());
+    if (daymon === '2304') {
+        if (!date.isSame(stGeorge)) {
+            fh = '';
+        }
+    } else {
+        if (date.isSame(stGeorge)) {
+            fh = fixedHolMap.get('2304') + ', ' + fh;
+        }
+    }
+
+    return fh || '';
 }
 
 function getMobileHolidayByDate(date) {
