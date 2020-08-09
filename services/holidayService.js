@@ -34,11 +34,22 @@ function getFixedHolidayByDate(date) {
 }
 
 function getMobileHolidayByDate(date) {
+    let holidays = [];
     let easter = calendarService.getEasterByYear(date.year());
     let offset = date.diff(easter, 'days');
     // console.log(`easter=${easter.format()} date=${date.format()}, offset=${offset}`);
+    let mh = mobileHolMap.get(offset);
+    if (mh) {
+        holidays.push(mh);
+    }
 
-    return mobileHolMap.get(offset) || '';
+    return holidays;
+}
+
+function getAllHolidaysByDate(date) {
+    const fixed = getFixedHolidayByDate(date);
+    const mobile = getMobileHolidayByDate(date);
+    return mobile.concat(fixed);
 }
 
 function getDateOfFixedHoliday(holidayName, year) {
@@ -130,4 +141,5 @@ module.exports = {
     getFixedNamesByDate,
     getMobileNamesByDate,
     getAllNamesByDate,
+    getAllHolidaysByDate,
 };
