@@ -2,7 +2,7 @@ var moment = require('moment');
 var SunCalc = require('suncalc');
 
 const moonPhases = require('./MoonPhases');
-const holidayService = require('./services/holidayService');
+const holidayService = require('./holidayService');
 
 moment.locale('el');
 
