@@ -1,6 +1,6 @@
 // Tests with nedb and camo
 
-const User = require('../db/User').User;
+const User = require('../models/User').User;
 
 const getAppRoot = require('../index.js').getAppRoot;
 
@@ -45,7 +45,6 @@ function testCreate() {
 function testFindOne(googleid, displayname) {
     const connect = require('camo').connect;
 
-    let appdir = process.cwd();
     const uri = `nedb://${appRoot}/db/users`;
     connect(uri).then((db) => {
         User.findOne({ googleid: googleid }).then((existingUser) => {
