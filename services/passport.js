@@ -64,16 +64,30 @@ passport.use(
             });
 
             let contacts;
-            contactsService.fetchContacts(accessToken, (c, e) => {
-                if (c) {
+
+            contactsService
+                .fetchContacts(accessToken)
+                .then((c) => {
                     contacts = c;
                     console.log(`contacts number = ${contacts.length}`);
-                } else if (e) {
-                    console.log('ERROR:' + e);
-                } else {
-                    console.log('UKNOWN ERROR!');
-                }
-            });
+                    contacts.forEach((item, i) => {
+                        console.log(`${JSON.stringify(item)}`);
+                    });
+                })
+                .catch((errmsg) => {
+                    console.log('ERROR:' + errmsg);
+                });
+
+            // contactsService.fetchContacts(accessToken, (c, e) => {
+            //     if (c) {
+            //         contacts = c;
+            //         console.log(`contacts number = ${contacts.length}`);
+            //     } else if (e) {
+            //         console.log('ERROR:' + e);
+            //     } else {
+            //         console.log('UKNOWN ERROR!');
+            //     }
+            // });
         }
     )
 );
