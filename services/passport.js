@@ -42,7 +42,7 @@ passport.use(
         (accessToken, refreshToken, profile, done) => {
             // Function that is called after callback route is executed and google returns access token
             // Check if user already exists
-            console.log(`accessToken: ${accessToken}, profile: ${JSON.stringify(profile)}`);
+            console.log(`accessToken: ${accessToken}`);
             connect(dbURI).then((db) => {
                 User.findOne({ googleid: profile.id }).then((existingUser) => {
                     if (!existingUser) {
@@ -60,6 +60,23 @@ passport.use(
                     }
                 });
             });
+
+            var GoogleContacts = require('google-contacts').GoogleContacts;
+            var c = new GoogleContacts({
+                token: accessToken,
+            });
+
+            c.getContacts(
+                function (err, contacts) {
+                    if (err) {
+                        console.log('ERROR: ' + err);
+                    }
+                    if (contacts) {
+                        console.log(contacts);
+                    }
+                },
+                { thin: 'full' }
+            );
         }
     )
 );

@@ -605,6 +605,14 @@ google-auth-library@^6.0.0:
     jws "^4.0.0"
     lru-cache "^6.0.0"
 
+google-contacts@^0.1.5:
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/google-contacts/-/google-contacts-0.1.5.tgz#d7533120e6b8783445214639a633e8666a86ec74"
+  integrity sha1-11MxIOa4eDRFIUY5pjPoZmqG7HQ=
+  dependencies:
+    debug "^2.2.0"
+    lodash "^4.5.1"
+
 google-p12-pem@^3.0.0:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/google-p12-pem/-/google-p12-pem-3.0.2.tgz#12d443994b6f4cd8c9e4ac479f2f18d4694cbdb8"
@@ -925,6 +933,11 @@ lodash@3.9.3:
   version "3.9.3"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-3.9.3.tgz#0159e86832feffc6d61d852b12a953b99496bd32"
   integrity sha1-AVnoaDL+/8bWHYUrEqlTuZSWvTI=
+
+lodash@^4.5.1:
+  version "4.17.19"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.19.tgz#e48ddedbe30b3321783c5b4301fbd353bc1e4a4b"
+  integrity sha512-JNvd8XER9GQX0v2qJgsaN/mzFCNA5BRe/j8JN9d+tWyGLSodKQHKFicdwNYzWwI3wjRnaKPsGj1XkBjx/F96DQ==
 
 lowercase-keys@^1.0.0, lowercase-keys@^1.0.1:
   version "1.0.1"
