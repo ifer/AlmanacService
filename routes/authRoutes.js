@@ -7,7 +7,12 @@ module.exports = (app) => {
     app.get(
         '/auth/google', //our URL
         passport.authenticate('google', {
-            scope: ['profile', 'email', 'https://www.googleapis.com/auth/contacts.readonly'], // access to user info
+            scope: [
+                'profile',
+                'email',
+                'https://www.googleapis.com/auth/contacts.readonly',
+                'https://www.googleapis.com/auth/userinfo.email',
+            ], // access to user info
         })
     );
     //Read-write contacts scope: 'https://www.googleapis.com/auth/contacts' or 'https://www.google.com/m8/feeds'

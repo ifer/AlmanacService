@@ -7,6 +7,8 @@ const User = require('../models/User').User;
 const connect = require('camo').connect;
 const dbURI = `nedb://${appRoot}/db/users`;
 
+const contactsService = require('../services/contactsService');
+
 // The function passed as argument to 'serializeUser' is used by  Passport
 // to create a cookie and send it to the browser.
 // We pass to the function a User class instance which is turned into an id
@@ -61,22 +63,17 @@ passport.use(
                 });
             });
 
-            var GoogleContacts = require('google-contacts').GoogleContacts;
-            var c = new GoogleContacts({
-                token: accessToken,
+            let contacts;
+            contactsService.fetchContacts(accessToken, (c, e) => {
+                if (c) {
+                    contacts = c;
+                    console.log(`contacts number = ${contacts.length}`);
+                } else if (e) {
+                    console.log('ERROR:' + e);
+                } else {
+                    console.log('UKNOWN ERROR!');
+                }
             });
-
-            c.getContacts(
-                function (err, contacts) {
-                    if (err) {
-                        console.log('ERROR: ' + err);
-                    }
-                    if (contacts) {
-                        console.log(contacts);
-                    }
-                },
-                { thin: 'full' }
-            );
         }
     )
 );
