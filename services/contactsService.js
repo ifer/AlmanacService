@@ -39,7 +39,7 @@ function fetchContacts(accessToken) {
                     reject('ERROR:' + err);
                 }
             },
-            { thin: 'full' }
+            { thin: 'thin' }
         );
     });
 }
