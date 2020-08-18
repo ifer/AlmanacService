@@ -5,10 +5,14 @@
     "license": "MIT",
     "scripts": {
         "start": "node index.js",
-        "dev": "nodemon index.js"
+        "server": "nodemon index.js",
+        "debug": "nodemon --inspect index.js",
+        "client": "yarn --cwd client run start",
+        "dev": "concurrently \"yarn run server\" \"yarn run client\""
     },
     "dependencies": {
         "camo": "^0.12.3",
+        "concurrently": "^5.3.0",
         "cookie-session": "^1.4.0",
         "express": "^4.17.1",
         "google-contacts": "file:../Google-Contacts",
