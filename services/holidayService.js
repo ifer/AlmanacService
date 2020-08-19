@@ -90,6 +90,46 @@ function getDateOfMobileHoliday(holidayName, year) {
     return undefined;
 }
 
+// Returns a Map with the results of search
+// where key is the holiday name and value the daymon or the offset
+function searchHolidayByName(holidayName, year) {
+    if (!year) {
+        year = moment().year();
+    }
+    // special handling for St George
+    // if (holidayName === fixedHolMap.get('2304')) {
+    //     return calendarService.getStGeorgeByYear(year);
+    //
+    const resultsMap = new Map();
+    for (let item of fixedHolMap) {
+        if (item[1].includes(holidayName)) {
+            resultsMap.set(item[1], item[0]);
+        }
+    }
+    for (let item of mobileHolMap) {
+        if (item[1].includes(holidayName)) {
+            resultsMap.set(item[1], item[0]);
+        }
+    }
+
+    // console.log(resultsMap);
+    return resultsMap;
+}
+
+// After search, user picks a specific holiday name from the
+// results list. This function returns the date of the selection
+function selectFromSearchResults(holidayname, year, resultsMap) {
+    let key = resultsMap.get(holidayname);
+    // console.log(key);
+    if (typeof key == 'number' && isFinite(key)) {
+        // mobile holiday
+        return getDateOfMobileHoliday(holidayname, year);
+    } else {
+        //fixed holiday
+        return getDateOfFixedHoliday(holidayname, year);
+    }
+}
+
 // St.George names are handled by this function only
 function getFixedNamesByDate(date) {
     console.log('Date: ' + date.format('DD/MM/YYYY'));
@@ -142,4 +182,6 @@ module.exports = {
     getMobileNamesByDate,
     getAllNamesByDate,
     getAllHolidaysByDate,
+    searchHolidayByName,
+    selectFromSearchResults,
 };

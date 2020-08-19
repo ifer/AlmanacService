@@ -19,8 +19,8 @@ const keys = require('./config/keys');
 // console.log
 
 // In production, take the port number by the env variable PORT
-// In development, use 5001
-const PORT = process.env.PORT || 5001;
+// In development, use 5000
+const PORT = process.env.PORT || 5000;
 
 const app = express();
 

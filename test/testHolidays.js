@@ -11,11 +11,14 @@ const util = require('../util/util.js');
 // testHolidayService();
 // testCalendarService();
 
-testDayInfo();
+// testDayInfo();
 
 // testGetDayMonthOfHoliday();
 
 // testGetNamesByDate();
+
+// testSearchHolidayByName();
+testSelectFromSearchResults();
 
 function testGetNamesByDate() {
     var moment = require('moment');
@@ -59,6 +62,8 @@ function testGetDayMonthOfHoliday() {
     console.log('mobile holidays:');
     console.log(holidayService.getDateOfMobileHoliday('Γεωργίου του Τροπαιοφόρου', 2020).format('DD/MM/YYYY')); // 23/04/2020
     console.log(holidayService.getDateOfMobileHoliday('Γεωργίου του Τροπαιοφόρου', 2021).format('DD/MM/YYYY')); // 03/05/2020
+    console.log(holidayService.getDateOfMobileHoliday('Αγ.Θεοδώρου Τήρωνος', 2020).format('DD/MM/YYYY')); // 07/03/2020
+
     console.log(holidayService.getDateOfMobileHoliday('Καθαρά Δευτέρα', 2020).format('DD/MM/YYYY')); // 02/03/2020
     console.log(holidayService.getDateOfMobileHoliday('ΤΟ ΑΓΙΟΝ ΠΑΣΧΑ', 2020).format('DD/MM/YYYY')); // 19/04/2020
     console.log(holidayService.getDateOfMobileHoliday('ΑΓΙΟΥ ΠΝΕΥΜΑΤΟΣ', 2020).format('DD/MM/YYYY')); // 08/06/2020
@@ -170,6 +175,40 @@ function testFixedHolidays() {
         n++;
         if (n == 10) break;
     }
+}
+
+function testSearchHolidayByName() {
+    const holidayService = require('../services/holidayService');
+    let resultsMap = holidayService.searchHolidayByName('Θεοδώρου', 2020);
+
+    console.log(resultsMap);
+}
+
+function testSelectFromSearchResults() {
+    const holidayService = require('../services/holidayService');
+    let resultsMap = holidayService.searchHolidayByName('Θεοδώρου', 2020);
+
+    let date = holidayService.selectFromSearchResults('Αγ.Θεοδώρου Τήρωνος', 2020, resultsMap);
+    console.log(date.format('dddd DD/MM/YYYY')); // 07/03/2020
+
+    date = holidayService.selectFromSearchResults('Θεοδώρου του Τριχινά, Ζακχαίου αποστόλου', 2020, resultsMap);
+    console.log(date.format('dddd DD/MM/YYYY')); //20/04/2020
+
+    resultsMap = holidayService.searchHolidayByName('Θωμά', 2020);
+
+    date = holidayService.selectFromSearchResults('Κυριακή τού Θωμά', 2020, resultsMap);
+    console.log(date.format('dddd DD/MM/YYYY')); //26/04/2020
+
+    date = holidayService.selectFromSearchResults('Θωμά αποστόλου, Κενδέου οσίου του θαυματουργού', 2020, resultsMap);
+    console.log(date.format('dddd DD/MM/YYYY')); //06/10/2020
+
+    resultsMap = holidayService.searchHolidayByName('Γεωργίου', 2020);
+    date = holidayService.selectFromSearchResults('Γεωργίου του Τροπαιοφόρου', 2020, resultsMap);
+    console.log(date.format('dddd DD/MM/YYYY')); // 23/04/2020
+
+    resultsMap = holidayService.searchHolidayByName('Γεωργίου', 2021);
+    date = holidayService.selectFromSearchResults('Γεωργίου του Τροπαιοφόρου', 2021, resultsMap);
+    console.log(date.format('dddd DD/MM/YYYY')); // 03/05/2021
 }
 
 function testMoonPhases() {

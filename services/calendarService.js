@@ -1,6 +1,42 @@
 var moment = require('moment');
 moment.locale('el');
 
+function nextDay(date) {
+    return date.add(1, 'days');
+}
+
+function prevDay(date) {
+    return date.add(-1, 'days');
+}
+
+function nextWeek(date) {
+    return date.add(7, 'days');
+}
+
+function prevWeek(date) {
+    return date.add(-7, 'days');
+}
+
+function nextMonth(date) {
+    return date.add(1, 'months');
+}
+
+function prevMonth(date) {
+    return date.add(-1, 'months');
+}
+
+function prevYear(date) {
+    return date.add(-1, 'years');
+}
+
+function nextYear(date) {
+    return date.add(1, 'years');
+}
+
+function gotoDate(datestr) {
+    return moment(datestr + ' HH:mm', 'DD/MM/YYYY HH:mm');
+}
+
 function getEasterByYear(year) {
     let v, v1, v2, v3, v4, v5;
 
@@ -32,4 +68,13 @@ function getStGeorgeByYear(year) {
 module.exports = {
     getEasterByYear,
     getStGeorgeByYear,
+    nextDay,
+    prevDay,
+    nextWeek,
+    prevWeek,
+    nextMonth,
+    prevMonth,
+    nextYear,
+    prevYear,
+    gotoDate,
 };

@@ -5,8 +5,8 @@
     "license": "MIT",
     "scripts": {
         "start": "node index.js",
-        "server": "nodemon index.js",
-        "debug": "nodemon --inspect index.js",
+        "server": "nodemon index.js --ignore './client/'",
+        "debug": "nodemon --inspect index.js --ignore './client/'",
         "client": "yarn --cwd client run start",
         "dev": "concurrently \"yarn run server\" \"yarn run client\""
     },
@@ -25,5 +25,8 @@
         "passport-google-oauth20": "^2.0.0",
         "suncalc": "^1.8.0",
         "xmlhttprequest": "^1.8.0"
+    },
+    "comments": {
+        "server": "--ignore './client/' needed for a proxy problem (ECONNREFUSED to localhost:5000)"
     }
 }
