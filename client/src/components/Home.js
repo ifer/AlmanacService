@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 class Home extends Component {
     render() {
-        let caldate = '01/01/1970';
+        let caldate = '21082020';
         return (
             <div>
                 <div className="row">
@@ -24,7 +24,7 @@ class Home extends Component {
                         </a>
                     </div>
                     <div className="col s3">
-                        <a className="waves-effect waves-light btn-large">
+                        <a className="waves-effect waves-light btn-large" href="/api/goto/next/21082020">
                             <i className="material-icons right">arrow_forward</i>
                             next day
                         </a>
