@@ -9,11 +9,10 @@ import { FETCH_USER } from './types';
 // μόλις επιστρέψει τα data η axios. Αυτή τη δουλειά κάνει το package 'redux-thunk'
 // που περάσαμε ως παράμετρο στην createStore στο index.js
 export const fetchUser = () => {
-    return function (dispatch) {
+    return async (dispatch) => {
         // console.log('fetchUser called');
-        axios.get('/api/current_user').then((res) => {
-            // console.log('axios res=' + JSON.stringify(res));
-            dispatch({ type: FETCH_USER, payload: res });
-        });
+        const res = await axios.get('/api/current_user');
+        dispatch({ type: FETCH_USER, payload: res.data });
+        // console.log('axios res=' + JSON.stringify(res));
     };
 };

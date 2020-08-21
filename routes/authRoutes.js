@@ -20,7 +20,11 @@ module.exports = (app) => {
     // Setup route handler for google authentication callback
     app.get(
         '/auth/google/callback', //our URL
-        passport.authenticate('google')
+        passport.authenticate('google'), // authentication
+        (req, res) => {
+            // after auth, redirect to surveys
+            res.redirect('/surveys');
+        }
     );
 
     app.get('/api/current_user', (req, res) => {
@@ -29,6 +33,6 @@ module.exports = (app) => {
 
     app.get('/api/logout', (req, res) => {
         req.logout();
-        res.send(req.user);
+        res.redirect('/'); // after logout, redirect to landing page
     });
 };
