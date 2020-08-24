@@ -13,7 +13,7 @@ export const fetchUser = () => {
         // console.log('fetchUser called');
         const res = await axios.get('/api/current_user');
         dispatch({ type: FETCH_USER, payload: res.data });
-        console.log('axios fetchuser res=' + JSON.stringify(res.data));
+        // console.log('axios fetchuser res=' + JSON.stringify(res.data));
     };
 };
 export const changeDate = (where, basedate) => {
@@ -21,6 +21,6 @@ export const changeDate = (where, basedate) => {
         // console.log('fetchUser called');
         const res = await axios.get(`/api/goto/${where}/${basedate}`);
         dispatch({ type: CHANGE_DATE, payload: res.data });
-        console.log('axios changedate res=' + JSON.stringify(res.data));
+        // console.log('axios changedate res=' + JSON.stringify(res.data));
     };
 };

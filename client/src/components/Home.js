@@ -14,26 +14,19 @@ moment.locale('el');
 class Home extends Component {
     constructor(props) {
         super(props);
-        // this.caldate = '21082020';
+
         this.gotoDate = this.gotoDate.bind(this);
-        // this.state = {
-        //     curdate: moment(),
-        // };
     }
 
     componentDidMount() {
-        // this.setState({ curdate: this.props.date || moment() });
+        this.props.changeDate('today');
     }
 
-    gotoDate() {
-        // console.log(this.props.curdate);
-        this.props.changeDate('next', this.props.curdate.format('DDMMYYYY'));
+    gotoDate(where) {
+        this.props.changeDate(where, this.props.curdayinfo.datestr);
     }
 
     render() {
-        // let curdate = null;
-        // if (this.props.curdate) curdate = this.props.curdate.format('DD/MM/YYYY');
-        // else curdate = moment().format('DD/MM/YYYY');
         return (
             <div>
                 <Row>
@@ -45,28 +38,61 @@ class Home extends Component {
                             textClassName="white-text"
                             title="Ημερολόγιο"
                         >
-                            {this.props.curdate.format('dddd DD/MM/YYYY')}
+                            {JSON.stringify(this.props.curdayinfo)}
                         </Card>
                     </Col>
                 </Row>
-                <Button node="button" waves="light" style={{ marginTop: '10px' }} onClick={this.gotoDate}>
-                    Next day
-                </Button>
+                <Row>
+                    <Col m={3} s={6}>
+                        <Button
+                            node="button"
+                            waves="light"
+                            style={{ marginTop: '10px' }}
+                            onClick={() => this.gotoDate('prevDay')}
+                        >
+                            Prev day
+                            <Icon left>arrow_back</Icon>
+                        </Button>
+                    </Col>
+                    <Col m={3} s={6}>
+                        <Button
+                            node="button"
+                            waves="light"
+                            style={{ marginTop: '10px' }}
+                            onClick={() => this.gotoDate('today')}
+                        >
+                            Today
+                            <Icon left>arrow_downward</Icon>
+                        </Button>
+                    </Col>{' '}
+                    <Col m={3} s={6}>
+                        <Button
+                            node="button"
+                            waves="light"
+                            style={{ marginTop: '10px' }}
+                            onClick={() => this.gotoDate('nextDay')}
+                        >
+                            Next day
+                            <Icon right>arrow_forward</Icon>
+                        </Button>
+                    </Col>
+                </Row>
             </div>
         );
     }
 }
 
-//href={this.props.changeDate('next', this.state.curdate.format('DDMMYYYY'))}
 function mapStateToProps(state) {
-    let curdate;
+    let curdayinfo = {};
     if (!state.date) {
-        curdate = moment();
+        curdayinfo.datestr = moment().format('DDMMYYYY');
+        // curdayinfo = '';
     } else {
-        curdate = moment(state.date, 'DDMMYYYY');
+        // curdayinfo = moment(state.date, 'DDMMYYYY');
+        curdayinfo = state.date;
     }
-
-    return { curdate: curdate };
+    // console.log(curdayinfo);
+    return { curdayinfo: curdayinfo };
 }
 
 // With the statement below, actions will be passed to App as props

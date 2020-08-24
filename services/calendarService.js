@@ -1,6 +1,13 @@
 var moment = require('moment');
 moment.locale('el');
 
+function today() {
+    const date = moment();
+    date.hour(0);
+    date.minute(0);
+    return date;
+}
+
 function nextDay(datestr) {
     const date = moment(datestr + ' 00:00', 'DDMMYYYY HH:mm');
     return date.add(1, 'days');
@@ -85,4 +92,5 @@ module.exports = {
     nextYear,
     prevYear,
     gotoDate,
+    today,
 };
