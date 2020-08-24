@@ -7,64 +7,51 @@ import * as actions from '../actions';
 
 import moment from 'moment';
 
+import { Button, Row, Col, Card, Icon } from 'react-materialize';
+
+moment.locale('el');
+
 class Home extends Component {
     constructor(props) {
         super(props);
         // this.caldate = '21082020';
-        this.state = {
-            curdate: moment(),
-        };
+        this.gotoDate = this.gotoDate.bind(this);
+        // this.state = {
+        //     curdate: moment(),
+        // };
     }
 
     componentDidMount() {
         // this.setState({ curdate: this.props.date || moment() });
     }
 
+    gotoDate() {
+        // console.log(this.props.curdate);
+        this.props.changeDate('next', this.props.curdate.format('DDMMYYYY'));
+    }
+
     render() {
+        // let curdate = null;
+        // if (this.props.curdate) curdate = this.props.curdate.format('DD/MM/YYYY');
+        // else curdate = moment().format('DD/MM/YYYY');
         return (
             <div>
-                <div className="row">
-                    <div className="col s12">
-                        <span className="flow-text">{this.state.curdate.format('DD/MM/YYYY')}</span>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col s3">
-                        <a className="waves-effect waves-light btn-large" href="#">
-                            <i className="material-icons left">arrow_upward</i>
-                            prev month
-                        </a>
-                    </div>
-                    <div className="col s3">
-                        <a className="waves-effect waves-light btn-large" href="#">
-                            <i className="material-icons left">arrow_back</i>
-                            prev day
-                        </a>
-                    </div>
-                    <div className="col s3">
-                        <a
-                            className="waves-effect waves-light btn-large"
-                            href={this.props.changeDate('next', this.state.curdate.format('DDMMYYYY'))}
+                <Row>
+                    <Col m={6} s={12}>
+                        <Card
+                            className="blue-grey darken-1"
+                            closeIcon={<Icon>close</Icon>}
+                            revealIcon={<Icon>more_vert</Icon>}
+                            textClassName="white-text"
+                            title="Ημερολόγιο"
                         >
-                            <i className="material-icons right">arrow_forward</i>
-                            next day
-                        </a>
-                    </div>
-                    <div className="col s3">
-                        <a className="waves-effect waves-light btn-large" href="#">
-                            <i className="material-icons right">arrow_downward</i>
-                            next month
-                        </a>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col s12">
-                        <a className="waves-effect waves-light btn-large" href="#">
-                            <i className="material-icons right">keyboard_return</i>
-                            today
-                        </a>
-                    </div>
-                </div>
+                            {this.props.curdate.format('dddd DD/MM/YYYY')}
+                        </Card>
+                    </Col>
+                </Row>
+                <Button node="button" waves="light" style={{ marginTop: '10px' }} onClick={this.gotoDate}>
+                    Next day
+                </Button>
             </div>
         );
     }
@@ -72,7 +59,14 @@ class Home extends Component {
 
 //href={this.props.changeDate('next', this.state.curdate.format('DDMMYYYY'))}
 function mapStateToProps(state) {
-    return { date: state.date };
+    let curdate;
+    if (!state.date) {
+        curdate = moment();
+    } else {
+        curdate = moment(state.date, 'DDMMYYYY');
+    }
+
+    return { curdate: curdate };
 }
 
 // With the statement below, actions will be passed to App as props

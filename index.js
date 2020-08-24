@@ -45,7 +45,7 @@ app.use(passport.session());
 
 // Declare all the app routes (URLs) relative to authorization
 authRoutes(app);
-// apiRoutes(app);
+apiRoutes(app);
 
 app.listen(PORT);
 

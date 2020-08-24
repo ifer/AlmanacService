@@ -1,40 +1,48 @@
 var moment = require('moment');
 moment.locale('el');
 
-function nextDay(date) {
+function nextDay(datestr) {
+    const date = moment(datestr + ' 00:00', 'DDMMYYYY HH:mm');
     return date.add(1, 'days');
 }
 
-function prevDay(date) {
+function prevDay(datestr) {
+    const date = moment(datestr + ' 00:00', 'DDMMYYYY HH:mm');
     return date.add(-1, 'days');
 }
 
-function nextWeek(date) {
+function nextWeek(datestr) {
+    const date = moment(datestr + ' 00:00', 'DDMMYYYY HH:mm');
     return date.add(7, 'days');
 }
 
-function prevWeek(date) {
+function prevWeek(datestr) {
+    const date = moment(datestr + ' 00:00', 'DDMMYYYY HH:mm');
     return date.add(-7, 'days');
 }
 
-function nextMonth(date) {
+function nextMonth(datestr) {
+    const date = moment(datestr + ' 00:00', 'DDMMYYYY HH:mm');
     return date.add(1, 'months');
 }
 
-function prevMonth(date) {
+function prevMonth(datestr) {
+    const date = moment(datestr + ' 00:00', 'DDMMYYYY HH:mm');
     return date.add(-1, 'months');
 }
 
-function prevYear(date) {
+function prevYear(datestr) {
+    const date = moment(datestr + ' 00:00', 'DDMMYYYY HH:mm');
     return date.add(-1, 'years');
 }
 
-function nextYear(date) {
+function nextYear(datestr) {
+    const date = moment(datestr + ' 00:00', 'DDMMYYYY HH:mm');
     return date.add(1, 'years');
 }
 
 function gotoDate(datestr) {
-    return moment(datestr + ' HH:mm', 'DD/MM/YYYY HH:mm');
+    return moment(datestr + ' 00:00', 'DDMMYYYY HH:mm');
 }
 
 function getEasterByYear(year) {

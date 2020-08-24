@@ -35,11 +35,4 @@ module.exports = (app) => {
         req.logout();
         res.redirect('/'); // after logout, redirect to landing page
     });
-
-    app.get('/api/goto/:where/:basedate', (req, res) => {
-        console.log(`where=${req.params.where} basedate=${req.params.basedate}`);
-    });
-    // app.get('/api/goto', (req, res) => {
-    //     console.log('goto URL');
-    // });
 };
