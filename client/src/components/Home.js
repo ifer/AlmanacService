@@ -5,16 +5,30 @@ import { connect } from 'react-redux';
 // Import all action -creator functions
 import * as actions from '../actions';
 
+import { withStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+
 import moment from 'moment';
 
-import { Button, Row, Col, Card, Icon } from 'react-materialize';
-
 moment.locale('el');
+
+const useStyles = (theme) => ({
+    root: {
+        flexGrow: 1,
+    },
+    paper: {
+        padding: theme.spacing(2),
+        textAlign: 'center',
+        color: theme.palette.text.secondary,
+    },
+});
 
 class Home extends Component {
     constructor(props) {
         super(props);
-
+        this.classes = this.props.classes;
         this.gotoDate = this.gotoDate.bind(this);
     }
 
@@ -29,54 +43,31 @@ class Home extends Component {
     render() {
         return (
             <div>
-                <Row>
-                    <Col m={6} s={12}>
-                        <Card
-                            className="blue-grey darken-1"
-                            closeIcon={<Icon>close</Icon>}
-                            revealIcon={<Icon>more_vert</Icon>}
-                            textClassName="white-text"
-                            title="Ημερολόγιο"
-                        >
-                            {JSON.stringify(this.props.curdayinfo)}
-                        </Card>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col m={3} s={6}>
-                        <Button
-                            node="button"
-                            waves="light"
-                            style={{ marginTop: '10px' }}
-                            onClick={() => this.gotoDate('prevDay')}
-                        >
-                            Prev day
-                            <Icon left>arrow_back</Icon>
-                        </Button>
-                    </Col>
-                    <Col m={3} s={6}>
-                        <Button
-                            node="button"
-                            waves="light"
-                            style={{ marginTop: '10px' }}
-                            onClick={() => this.gotoDate('today')}
-                        >
-                            Today
-                            <Icon left>arrow_downward</Icon>
-                        </Button>
-                    </Col>{' '}
-                    <Col m={3} s={6}>
-                        <Button
-                            node="button"
-                            waves="light"
-                            style={{ marginTop: '10px' }}
-                            onClick={() => this.gotoDate('nextDay')}
-                        >
-                            Next day
-                            <Icon right>arrow_forward</Icon>
-                        </Button>
-                    </Col>
-                </Row>
+                <div className={this.classes.root}>
+                    <Grid container spacing={3}>
+                        <Grid item xs={12}>
+                            <Paper className={this.classes.paper}>xs=12</Paper>
+                        </Grid>
+                        <Grid item xs={4}>
+                            <Paper className={this.classes.paper}>xs=6</Paper>
+                        </Grid>
+                        <Grid item xs={4}>
+                            <Paper className={this.classes.paper}>xs=6</Paper>
+                        </Grid>
+                        <Grid item xs={4}>
+                            <Paper className={this.classes.paper}>xs=3</Paper>
+                        </Grid>
+                        <Grid item xs={4}>
+                            <Paper className={this.classes.paper}>xs=3</Paper>
+                        </Grid>
+                        <Grid item xs={4}>
+                            <Paper className={this.classes.paper}>xs=3</Paper>
+                        </Grid>
+                        <Grid item xs={4}>
+                            <Paper className={this.classes.paper}>xs=3</Paper>
+                        </Grid>
+                    </Grid>
+                </div>
             </div>
         );
     }
@@ -95,6 +86,8 @@ function mapStateToProps(state) {
     return { curdayinfo: curdayinfo };
 }
 
+//plugin styles as props (material-ui)
+const styledHome = withStyles(useStyles)(Home);
 // With the statement below, actions will be passed to App as props
-export default connect(mapStateToProps, actions)(Home);
+export default connect(mapStateToProps, actions)(styledHome);
 // export default Home;
