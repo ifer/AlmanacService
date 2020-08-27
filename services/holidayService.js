@@ -132,7 +132,7 @@ function selectFromSearchResults(holidayname, year, resultsMap) {
 
 // St.George names are handled by this function only
 function getFixedNamesByDate(date) {
-    console.log('Date: ' + date.format('DD/MM/YYYY'));
+    // console.log('Date: ' + date.format('DD/MM/YYYY'));
     // console.log(`day=${date.date()}, month=${date.month() + 1}`);
     // special handling for St George
     const stGeorge = calendarService.getStGeorgeByYear(date.year());
