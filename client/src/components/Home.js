@@ -13,8 +13,9 @@ import IconButton from '@material-ui/core/IconButton';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
-
+import { KeyboardDatePicker } from '@material-ui/pickers';
 import moment from 'moment';
+// pick a date util library
 
 moment.locale('el');
 
@@ -28,6 +29,10 @@ const useStyles = (theme) => ({
         padding: theme.spacing(2),
         textAlign: 'center',
         color: theme.palette.text.secondary,
+        /* background: 'FloralWhite',
+        background: 'WhiteSmoke',*/
+        background: '#FAFAFA',
+        width: '100%',
     },
 
     calDayOfMonthYear: {
@@ -41,15 +46,20 @@ const useStyles = (theme) => ({
     },
 
     calHolidays: {
+        marginTop: '60px',
         color: 'blue',
+        minHeight: '100px',
     },
 
     calMoonPhase: {
+        marginTop: '30px',
         color: 'green',
     },
 
     calSunRiseSet: {
+        marginTop: '30px',
         color: 'magenta',
+        marginBottom: '60px',
     },
 });
 
@@ -59,6 +69,7 @@ class Home extends Component {
         this.classes = this.props.classes;
         this.gotoDate = this.gotoDate.bind(this);
         this.renderCalendar = this.renderCalendar.bind(this);
+        this.handleDateChange = this.handleDateChange.bind(this);
     }
 
     componentDidMount() {
@@ -69,41 +80,29 @@ class Home extends Component {
         this.props.changeDate(where, this.props.curdayinfo.datestr);
     }
 
+    handleDateChange() {}
+
     renderCalendar(dayinfo) {
         return (
             <div>
-                <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                        <Typography paragraph variant="h5" className={this.classes.calDayOfMonthYear}>
-                            {dayinfo.dayOfWeek}
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Typography paragraph variant="h4" className={this.classes.calDayOfMonth}>
-                            {dayinfo.dayOfMonth}
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Typography paragraph variant="h5" className={this.classes.calDayOfMonthYear}>
-                            {dayinfo.month} {dayinfo.year}
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Typography paragraph variant="body1" className={this.classes.calHolidays}>
-                            {dayinfo.dayHolidays}
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Typography paragraph variant="subtitle1" className={this.classes.calMoonPhase}>
-                            {dayinfo.moonPhase}
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Typography paragraph variant="subtitle1" className={this.classes.calSunRiseSet}>
-                            {dayinfo.sunRiseSet}
-                        </Typography>
-                    </Grid>
-                </Grid>
+                <Typography paragraph variant="h5" className={this.classes.calDayOfMonthYear}>
+                    {dayinfo.dayOfWeek}
+                </Typography>
+                <Typography paragraph variant="h4" className={this.classes.calDayOfMonth}>
+                    {dayinfo.dayOfMonth}
+                </Typography>
+                <Typography paragraph variant="h5" className={this.classes.calDayOfMonthYear}>
+                    {dayinfo.month} {dayinfo.year}
+                </Typography>
+                <Typography paragraph variant="body1" className={this.classes.calHolidays}>
+                    {dayinfo.dayHolidays}
+                </Typography>
+                <Typography paragraph variant="subtitle1" className={this.classes.calMoonPhase}>
+                    {dayinfo.moonPhase}
+                </Typography>
+                <Typography paragraph variant="subtitle1" className={this.classes.calSunRiseSet}>
+                    {dayinfo.sunRiseSet}
+                </Typography>
             </div>
         );
     }
@@ -120,29 +119,47 @@ class Home extends Component {
                             </Paper>
                         </Grid>
                         <Grid item xs={3}></Grid>
-                        <Grid container justify="flex-end" item xs={4}>
+                        <Grid container justify="flex-end" item xs={3}>
+                            <IconButton aria-label="prev month" onClick={() => this.gotoDate('prevMonth')}>
+                                <ArrowBackIcon />
+                                <ArrowBackIcon />
+                            </IconButton>
+                        </Grid>{' '}
+                        <Grid container justify="flex-end" item xs={2}>
                             <IconButton aria-label="prev day" onClick={() => this.gotoDate('prevDay')}>
                                 <ArrowBackIcon />
                             </IconButton>
                         </Grid>
-                        <Grid container justify="center" item xs={4}>
+                        <Grid container justify="center" item xs={2}>
                             <IconButton aria-label="next day" onClick={() => this.gotoDate('today')}>
                                 <ArrowDownwardIcon />
                             </IconButton>
                         </Grid>
-                        <Grid container justify="flex-start" item xs={4}>
+                        <Grid container justify="flex-start" item xs={2}>
                             <IconButton aria-label="next day" onClick={() => this.gotoDate('nextDay')}>
                                 <ArrowForwardIcon />
                             </IconButton>
                         </Grid>
-                        <Grid item xs={4}>
-                            <Paper className={this.classes.paper}>xs=3</Paper>
+                        <Grid container justify="flex-start" item xs={3}>
+                            <IconButton aria-label="next month" onClick={() => this.gotoDate('nextMonth')}>
+                                <ArrowForwardIcon />
+                                <ArrowForwardIcon />
+                            </IconButton>
                         </Grid>
-                        <Grid item xs={4}>
-                            <Paper className={this.classes.paper}>xs=3</Paper>
-                        </Grid>
-                        <Grid item xs={4}>
-                            <Paper className={this.classes.paper}>xs=3</Paper>
+                        <Grid item xs={12}>
+                            <KeyboardDatePicker
+                                disableToolbar
+                                variant="inline"
+                                format="dd/MM/yyyy"
+                                margin="normal"
+                                id="date-picker-inline"
+                                label="Date picker inline"
+                                value={moment(this.props.curdayinfo.datestr, 'DDMMYYYY')}
+                                onChange={this.handleDateChange}
+                                KeyboardButtonProps={{
+                                    'aria-label': 'change date',
+                                }}
+                            />
                         </Grid>
                     </Grid>
                 </div>

@@ -10,6 +10,11 @@ import * as actions from '../actions';
 import Header from './Header';
 import Home from './Home';
 
+// Package to tell @material-ui/pickers which date-time package to use (eg moment)
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+// pick a date util library
+import MomentUtils from '@date-io/moment';
+
 // pseudo-components for testing:
 // const Header = () => <h2>Header</h2>;
 const Dashboard = () => <h2>Dashboard</h2>;
@@ -25,26 +30,29 @@ class App extends Component {
 
     render() {
         return (
-            // className='container' needed by materialize.css
-            <div className="container">
-                <BrowserRouter>
-                    {/* BrowserRouter accepts only one child-component */}
-                    <div>
-                        <Header />
-                        {/* Επειδή δεν συνδέουμε τον header με κάποιο Route,
+            /* tell @material-ui/pickers which date-time package to use */
+            <MuiPickersUtilsProvider utils={MomentUtils}>
+                {/* className='container' needed by materialize.css */}
+                <div className="container">
+                    <BrowserRouter>
+                        {/* BrowserRouter accepts only one child-component */}
+                        <div>
+                            <Header />
+                            {/* Επειδή δεν συνδέουμε τον header με κάποιο Route,
                         ο router θα το εμφανίζει πάντα, πριν από όλα τα
                         components!
                         */}
-                        <Route exact={true} path="/" component={Home} />
-                        {/* Αν δεν χρησιμοποιήσουμε exact=true στο root, o router
+                            <Route exact={true} path="/" component={Home} />
+                            {/* Αν δεν χρησιμοποιήσουμε exact=true στο root, o router
                             θα δείχνει και το Landing και σε όλα τα άλλα paths
                             που περιέχουν '/'. Το ίδιο και στο '/surveys'
                          */}
-                        <Route exact path="/surveys" component={Dashboard} />
-                        <Route path="/surveys/new" component={SurveyNew} />
-                    </div>
-                </BrowserRouter>
-            </div>
+                            <Route exact path="/surveys" component={Dashboard} />
+                            <Route path="/surveys/new" component={SurveyNew} />
+                        </div>
+                    </BrowserRouter>
+                </div>
+            </MuiPickersUtilsProvider>
         );
     }
 }
