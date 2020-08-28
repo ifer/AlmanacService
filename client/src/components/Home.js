@@ -40,7 +40,7 @@ const useStyles = (theme) => ({
         width: '100%',
     },
 
-    calDayOfMonthYear: {
+    calDayOfWeek: {
         color: 'black',
         fontWeight: 'bold',
     },
@@ -50,10 +50,19 @@ const useStyles = (theme) => ({
         fontWeight: 'bold',
     },
 
+    calMonthYear: {
+        color: 'black',
+        fontWeight: 'bold',
+    },
+
     calHolidays: {
-        marginTop: '60px',
         color: 'blue',
-        minHeight: '100px',
+        // minHeight: '120px',
+    },
+
+    calHolidayDiv: {
+        marginTop: '60px',
+        minHeight: '120px',
     },
 
     calMoonPhase: {
@@ -75,6 +84,7 @@ class Home extends Component {
         this.gotoDate = this.gotoDate.bind(this);
         this.renderCalendar = this.renderCalendar.bind(this);
         this.handleDateChange = this.handleDateChange.bind(this);
+        this.renderHolidays = this.renderHolidays.bind(this);
     }
 
     componentDidMount() {
@@ -86,24 +96,47 @@ class Home extends Component {
     }
 
     handleDateChange(date, value) {
-        console.log(`date=${date} value=${value}`);
+        // console.log(`date=${date} value=${value} type=${typeof value}`);
+        if (!moment(value, 'DD/MM/YYYY', true).isValid()) {
+            console.log('date not valid');
+            return;
+        }
+
+        this.props.changeDate('gotoDate', value.replace(/\//g, ''));
+    }
+
+    renderHolidays(dayHolidays) {
+        return (
+            <div>
+                {dayHolidays.map((holiday) => (
+                    <Typography paragraph variant="body1" className={this.classes.calHolidays}>
+                        {holiday}
+                    </Typography>
+                ))}
+            </div>
+        );
     }
 
     renderCalendar(dayinfo) {
         return (
             <div>
-                <Typography paragraph variant="h5" className={this.classes.calDayOfMonthYear}>
+                <Typography paragraph variant="h5" className={this.classes.calDayOfWeek}>
                     {dayinfo.dayOfWeek}
                 </Typography>
                 <Typography paragraph variant="h4" className={this.classes.calDayOfMonth}>
                     {dayinfo.dayOfMonth}
                 </Typography>
-                <Typography paragraph variant="h5" className={this.classes.calDayOfMonthYear}>
+                <Typography paragraph variant="h5" className={this.classes.calMonthYear}>
                     {dayinfo.month} {dayinfo.year}
                 </Typography>
-                <Typography paragraph variant="body1" className={this.classes.calHolidays}>
-                    {dayinfo.dayHolidays}
-                </Typography>
+                <div className={this.classes.calHolidayDiv}>
+                    {/* dayHolidays is an array */}
+                    {dayinfo.dayHolidays.map((holiday, index) => (
+                        <Typography paragraph variant="body1" className={this.classes.calHolidays} key={index}>
+                            {holiday}
+                        </Typography>
+                    ))}
+                </div>
                 <Typography paragraph variant="subtitle1" className={this.classes.calMoonPhase}>
                     {dayinfo.moonPhase}
                 </Typography>
@@ -115,6 +148,9 @@ class Home extends Component {
     }
 
     render() {
+        if (!this.props.curdayinfo.dayOfMonth) {
+            return <div />;
+        }
         return (
             <div>
                 {/* tell @material-ui/pickers which date-time package to use */}
@@ -159,12 +195,14 @@ class Home extends Component {
                                 <KeyboardDatePicker
                                     disableToolbar
                                     variant="dialog"
-                                    format="DDMMYYYY"
+                                    format="DD/MM/YYYY"
                                     margin="normal"
                                     id="date-picker-inline"
                                     label="Επιλέξτε ημερομηνία"
-                                    value={moment(this.props.curdayinfo.datestr, 'DDMMYYYY')}
+                                    value={moment(this.props.curdayinfo.datestr, 'DD/MM/YYYY')}
                                     onChange={this.handleDateChange}
+                                    minDate={new Date('1971-01-01')}
+                                    minDateMessage="Παλαιότερη δυνατή ημερομηνία: 01/01/1971"
                                     KeyboardButtonProps={{
                                         'aria-label': 'change date',
                                     }}
@@ -193,7 +231,7 @@ function mapStateToProps(state) {
         // curdayinfo = moment(state.date, 'DDMMYYYY');
         curdayinfo = state.date;
     }
-    // console.log(curdayinfo);
+    console.log(curdayinfo);
     return { curdayinfo: curdayinfo };
 }
 

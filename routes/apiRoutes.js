@@ -35,6 +35,11 @@ module.exports = (app) => {
                 dayinfo = getDayInfo(date.format('DD/MM/YYYY'));
                 res.send(dayinfo);
                 return;
+            case 'gotoDate':
+                date = calendarService.gotoDate(req.params.basedate);
+                dayinfo = getDayInfo(date.format('DD/MM/YYYY'));
+                res.send(dayinfo);
+                return;
             default:
                 res.send(req.params.basedate);
         }
