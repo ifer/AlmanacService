@@ -14,8 +14,13 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import { KeyboardDatePicker } from '@material-ui/pickers';
-import moment from 'moment';
+// Package to tell @material-ui/pickers which date-time package to use (eg moment)
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 // pick a date util library
+import MomentUtils from '@date-io/moment';
+
+import moment from 'moment';
+import 'moment/locale/el';
 
 moment.locale('el');
 
@@ -80,7 +85,9 @@ class Home extends Component {
         this.props.changeDate(where, this.props.curdayinfo.datestr);
     }
 
-    handleDateChange() {}
+    handleDateChange(date, value) {
+        console.log(`date=${date} value=${value}`);
+    }
 
     renderCalendar(dayinfo) {
         return (
@@ -110,59 +117,62 @@ class Home extends Component {
     render() {
         return (
             <div>
-                <div className={this.classes.root}>
-                    <Grid container spacing={3}>
-                        <Grid item xs={3}></Grid>
-                        <Grid item xs={6}>
-                            <Paper elevation={5} className={this.classes.paper}>
-                                {this.renderCalendar(this.props.curdayinfo)}
-                            </Paper>
+                {/* tell @material-ui/pickers which date-time package to use */}
+                <MuiPickersUtilsProvider utils={MomentUtils} locale={'el'}>
+                    <div className={this.classes.root}>
+                        <Grid container spacing={3}>
+                            <Grid item xs={3}></Grid>
+                            <Grid item xs={6}>
+                                <Paper elevation={5} className={this.classes.paper}>
+                                    {this.renderCalendar(this.props.curdayinfo)}
+                                </Paper>
+                            </Grid>
+                            <Grid item xs={3}></Grid>
+                            <Grid container justify="flex-end" item xs={3}>
+                                <IconButton aria-label="prev month" onClick={() => this.gotoDate('prevMonth')}>
+                                    <ArrowBackIcon />
+                                    <ArrowBackIcon />
+                                </IconButton>
+                            </Grid>{' '}
+                            <Grid container justify="flex-end" item xs={2}>
+                                <IconButton aria-label="prev day" onClick={() => this.gotoDate('prevDay')}>
+                                    <ArrowBackIcon />
+                                </IconButton>
+                            </Grid>
+                            <Grid container justify="center" item xs={2}>
+                                <IconButton aria-label="next day" onClick={() => this.gotoDate('today')}>
+                                    <ArrowDownwardIcon />
+                                </IconButton>
+                            </Grid>
+                            <Grid container justify="flex-start" item xs={2}>
+                                <IconButton aria-label="next day" onClick={() => this.gotoDate('nextDay')}>
+                                    <ArrowForwardIcon />
+                                </IconButton>
+                            </Grid>
+                            <Grid container justify="flex-start" item xs={3}>
+                                <IconButton aria-label="next month" onClick={() => this.gotoDate('nextMonth')}>
+                                    <ArrowForwardIcon />
+                                    <ArrowForwardIcon />
+                                </IconButton>
+                            </Grid>
+                            <Grid container justify="center" item xs={12}>
+                                <KeyboardDatePicker
+                                    disableToolbar
+                                    variant="dialog"
+                                    format="DDMMYYYY"
+                                    margin="normal"
+                                    id="date-picker-inline"
+                                    label="Επιλέξτε ημερομηνία"
+                                    value={moment(this.props.curdayinfo.datestr, 'DDMMYYYY')}
+                                    onChange={this.handleDateChange}
+                                    KeyboardButtonProps={{
+                                        'aria-label': 'change date',
+                                    }}
+                                />
+                            </Grid>
                         </Grid>
-                        <Grid item xs={3}></Grid>
-                        <Grid container justify="flex-end" item xs={3}>
-                            <IconButton aria-label="prev month" onClick={() => this.gotoDate('prevMonth')}>
-                                <ArrowBackIcon />
-                                <ArrowBackIcon />
-                            </IconButton>
-                        </Grid>{' '}
-                        <Grid container justify="flex-end" item xs={2}>
-                            <IconButton aria-label="prev day" onClick={() => this.gotoDate('prevDay')}>
-                                <ArrowBackIcon />
-                            </IconButton>
-                        </Grid>
-                        <Grid container justify="center" item xs={2}>
-                            <IconButton aria-label="next day" onClick={() => this.gotoDate('today')}>
-                                <ArrowDownwardIcon />
-                            </IconButton>
-                        </Grid>
-                        <Grid container justify="flex-start" item xs={2}>
-                            <IconButton aria-label="next day" onClick={() => this.gotoDate('nextDay')}>
-                                <ArrowForwardIcon />
-                            </IconButton>
-                        </Grid>
-                        <Grid container justify="flex-start" item xs={3}>
-                            <IconButton aria-label="next month" onClick={() => this.gotoDate('nextMonth')}>
-                                <ArrowForwardIcon />
-                                <ArrowForwardIcon />
-                            </IconButton>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <KeyboardDatePicker
-                                disableToolbar
-                                variant="inline"
-                                format="dd/MM/yyyy"
-                                margin="normal"
-                                id="date-picker-inline"
-                                label="Date picker inline"
-                                value={moment(this.props.curdayinfo.datestr, 'DDMMYYYY')}
-                                onChange={this.handleDateChange}
-                                KeyboardButtonProps={{
-                                    'aria-label': 'change date',
-                                }}
-                            />
-                        </Grid>
-                    </Grid>
-                </div>
+                    </div>
+                </MuiPickersUtilsProvider>
             </div>
         );
     }
