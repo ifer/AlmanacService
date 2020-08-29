@@ -75,6 +75,13 @@ const useStyles = (theme) => ({
         color: 'magenta',
         marginBottom: '60px',
     },
+
+    controls: {
+        alignItems: 'center',
+    },
+    controlLabels: {
+        color: 'darkred',
+    },
 });
 
 class Home extends Component {
@@ -168,19 +175,92 @@ class Home extends Component {
                 <MuiPickersUtilsProvider utils={MomentUtils} locale={'el'}>
                     <div className={this.classes.root}>
                         <Grid container spacing={3}>
-                            <Grid item xs={3}></Grid>
+                            <Grid item xs={6}>
+                                <Paper elevation={5} className={this.classes.paper}>
+                                    <Grid container spacing={2} className={this.classes.controls}>
+                                        <Grid container justify="flex-end" item xs={3}>
+                                            <Typography className={this.classes.controlLabels}>Hμέρα:</Typography>
+                                        </Grid>
+                                        <Grid container justify="flex-end" item xs={3}>
+                                            <IconButton aria-label="prev day" onClick={() => this.gotoDate('prevDay')}>
+                                                <ArrowBackIcon />
+                                            </IconButton>
+                                        </Grid>
+                                        <Grid container justify="center" item xs={3}>
+                                            <IconButton aria-label="next day" onClick={() => this.gotoDate('today')}>
+                                                <ArrowDownwardIcon />
+                                            </IconButton>
+                                        </Grid>
+                                        <Grid container justify="flex-start" item xs={3}>
+                                            <IconButton aria-label="next day" onClick={() => this.gotoDate('nextDay')}>
+                                                <ArrowForwardIcon />
+                                            </IconButton>
+                                        </Grid>
+                                    </Grid>
+                                    <Grid container spacing={2} className={this.classes.controls}>
+                                        <Grid container justify="flex-end" item xs={3}>
+                                            <Typography className={this.classes.controlLabels}>Μήνας:</Typography>
+                                        </Grid>
+                                        <Grid container justify="flex-end" item xs={3}>
+                                            <IconButton
+                                                aria-label="prev month"
+                                                onClick={() => this.gotoDate('prevMonth')}
+                                            >
+                                                <ArrowBackIcon />
+                                                <ArrowBackIcon />
+                                            </IconButton>
+                                        </Grid>
+                                        <Grid container justify="center" item xs={3}></Grid>
+                                        <Grid container justify="flex-start" item xs={3}>
+                                            <IconButton
+                                                aria-label="next month"
+                                                onClick={() => this.gotoDate('nextMonth')}
+                                            >
+                                                <ArrowForwardIcon />
+                                                <ArrowForwardIcon />
+                                            </IconButton>
+                                        </Grid>
+                                    </Grid>
+                                    <Grid container spacing={2} className={this.classes.controls}>
+                                        <Grid container justify="flex-end" item xs={3}>
+                                            <Typography className={this.classes.controlLabels}>Hμερομηνία:</Typography>
+                                        </Grid>
+                                        <Grid container justify="center" item xs={9}>
+                                            <DatePicker
+                                                openTo="date"
+                                                format="DD/MM/YYYY"
+                                                label=""
+                                                value={moment(this.props.curdayinfo.datestr, 'DD/MM/YYYY')}
+                                                onChange={this.handleDateChange}
+                                                views={['year', 'month', 'date']}
+                                                minDate={new Date('1971-01-01')}
+                                                minDateMessage="Παλαιότερη δυνατή ημερομηνία: 01/01/1971"
+                                                maxDate={new Date('2200-12-31')}
+                                                maxDateMessage="Νεώτερη δυνατή ημερομηνία: 31/12/2200"
+                                                inputProps={{
+                                                    style: {
+                                                        textAlign: 'center',
+                                                        borderStyle: 'none',
+                                                        marginBottom: '0px',
+                                                    },
+                                                }}
+                                            />
+                                        </Grid>
+                                    </Grid>
+                                </Paper>
+                            </Grid>
                             <Grid item xs={6}>
                                 <Paper elevation={5} className={this.classes.paper}>
                                     {this.renderCalendar(this.props.curdayinfo)}
                                 </Paper>
                             </Grid>
-                            <Grid item xs={3}></Grid>
+
                             <Grid container justify="flex-end" item xs={3}>
                                 <IconButton aria-label="prev month" onClick={() => this.gotoDate('prevMonth')}>
                                     <ArrowBackIcon />
                                     <ArrowBackIcon />
                                 </IconButton>
-                            </Grid>{' '}
+                            </Grid>
                             <Grid container justify="flex-end" item xs={2}>
                                 <IconButton aria-label="prev day" onClick={() => this.gotoDate('prevDay')}>
                                     <ArrowBackIcon />
