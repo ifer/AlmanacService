@@ -13,7 +13,7 @@ import IconButton from '@material-ui/core/IconButton';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
-import { KeyboardDatePicker } from '@material-ui/pickers';
+import { KeyboardDatePicker, DatePicker } from '@material-ui/pickers';
 // Package to tell @material-ui/pickers which date-time package to use (eg moment)
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 // pick a date util library
@@ -84,6 +84,7 @@ class Home extends Component {
         this.gotoDate = this.gotoDate.bind(this);
         this.renderCalendar = this.renderCalendar.bind(this);
         this.handleDateChange = this.handleDateChange.bind(this);
+        this.handleKeyboardDateChange = this.handleKeyboardDateChange.bind(this);
         this.renderHolidays = this.renderHolidays.bind(this);
     }
 
@@ -95,16 +96,26 @@ class Home extends Component {
         this.props.changeDate(where, this.props.curdayinfo.datestr);
     }
 
-    handleDateChange(date, value) {
+    handleKeyboardDateChange(date, value) {
         // console.log(`date=${date} value=${value} type=${typeof value}`);
         if (!moment(value, 'DD/MM/YYYY', true).isValid()) {
             console.log('date not valid');
             return;
         }
-
-        this.props.changeDate('gotoDate', value.replace(/\//g, ''));
+        if (value) {
+            this.props.changeDate('gotoDate', value.replace(/\//g, ''));
+        }
     }
 
+    handleDateChange(date, value) {
+        console.log(`date=${date} value=${value} type=${typeof value}`);
+        // if (!moment(value, 'DD/MM/YYYY', true).isValid()) {
+        //     console.log('date not valid');
+        //     return;
+        // }
+
+        this.props.changeDate('gotoDate', date.format('DDMMYYYY'));
+    }
     renderHolidays(dayHolidays) {
         return (
             <div>
@@ -193,19 +204,35 @@ class Home extends Component {
                             </Grid>
                             <Grid container justify="center" item xs={12}>
                                 <KeyboardDatePicker
-                                    disableToolbar
                                     variant="dialog"
                                     format="DD/MM/YYYY"
                                     margin="normal"
                                     id="date-picker-inline"
                                     label="Επιλέξτε ημερομηνία"
                                     value={moment(this.props.curdayinfo.datestr, 'DD/MM/YYYY')}
-                                    onChange={this.handleDateChange}
+                                    // handle clearing outside => pass plain array if you are not controlling value outside
+                                    mask="__/__/____"
+                                    placeholder="DD/MM/YYYY"
+                                    onChange={this.handleKeyboardDateChange}
                                     minDate={new Date('1971-01-01')}
                                     minDateMessage="Παλαιότερη δυνατή ημερομηνία: 01/01/1971"
                                     KeyboardButtonProps={{
                                         'aria-label': 'change date',
                                     }}
+                                />
+                            </Grid>
+                            <Grid container justify="center" item xs={12}>
+                                <DatePicker
+                                    openTo="year"
+                                    format="DD/MM/YYYY"
+                                    label="Επιλέξτε ημερομηνία"
+                                    value={moment(this.props.curdayinfo.datestr, 'DD/MM/YYYY')}
+                                    onChange={this.handleDateChange}
+                                    views={['year', 'month', 'date']}
+                                    minDate={new Date('1971-01-01')}
+                                    minDateMessage="Παλαιότερη δυνατή ημερομηνία: 01/01/1971"
+                                    maxDate={new Date('2200-12-31')}
+                                    maxDateMessage="Νεώτερη δυνατή ημερομηνία: 31/12/2200"
                                 />
                             </Grid>
                         </Grid>
