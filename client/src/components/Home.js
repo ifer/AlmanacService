@@ -82,6 +82,9 @@ const useStyles = (theme) => ({
     controlLabels: {
         color: 'darkred',
     },
+    title: {
+        color: theme.palette.primary.main,
+    },
 });
 
 class Home extends Component {
@@ -179,7 +182,9 @@ class Home extends Component {
                                 <Paper elevation={5} className={this.classes.paper}>
                                     <Grid container spacing={2} className={this.classes.controls}>
                                         <Grid container justify="flex-end" item xs={3}>
-                                            <Typography className={this.classes.controlLabels}>Hμέρα:</Typography>
+                                            <Typography variant="h6" className={this.classes.controlLabels}>
+                                                Hμέρα:
+                                            </Typography>
                                         </Grid>
                                         <Grid container justify="flex-end" item xs={3}>
                                             <IconButton aria-label="prev day" onClick={() => this.gotoDate('prevDay')}>
@@ -199,7 +204,9 @@ class Home extends Component {
                                     </Grid>
                                     <Grid container spacing={2} className={this.classes.controls}>
                                         <Grid container justify="flex-end" item xs={3}>
-                                            <Typography className={this.classes.controlLabels}>Μήνας:</Typography>
+                                            <Typography variant="h6" className={this.classes.controlLabels}>
+                                                Μήνας:
+                                            </Typography>
                                         </Grid>
                                         <Grid container justify="flex-end" item xs={3}>
                                             <IconButton
@@ -223,7 +230,9 @@ class Home extends Component {
                                     </Grid>
                                     <Grid container spacing={2} className={this.classes.controls}>
                                         <Grid container justify="flex-end" item xs={3}>
-                                            <Typography className={this.classes.controlLabels}>Hμερομηνία:</Typography>
+                                            <Typography variant="h6" className={this.classes.controlLabels}>
+                                                Hμερομηνία:
+                                            </Typography>
                                         </Grid>
                                         <Grid container justify="center" item xs={9}>
                                             <DatePicker

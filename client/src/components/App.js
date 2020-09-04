@@ -4,6 +4,10 @@ import { BrowserRouter, Route } from 'react-router-dom';
 
 // To connect to Redux
 import { connect } from 'react-redux';
+
+import { ThemeProvider } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import theme from '../style/theme';
 // Import all action -creator functions
 import * as actions from '../actions';
 
@@ -30,25 +34,29 @@ class App extends Component {
 
     render() {
         return (
-            <div className="container">
-                <BrowserRouter>
-                    {/* BrowserRouter accepts only one child-component */}
-                    <div>
-                        <Header />
-                        {/* Επειδή δεν συνδέουμε τον header με κάποιο Route,
+            <ThemeProvider theme={theme}>
+                <CssBaseline />
+
+                <div className="container">
+                    <BrowserRouter>
+                        {/* BrowserRouter accepts only one child-component */}
+                        <div>
+                            <Header />
+                            {/* Επειδή δεν συνδέουμε τον header με κάποιο Route,
                         ο router θα το εμφανίζει πάντα, πριν από όλα τα
                         components!
                         */}
-                        <Route exact={true} path="/" component={Home} />
-                        {/* Αν δεν χρησιμοποιήσουμε exact=true στο root, o router
+                            <Route exact={true} path="/" component={Home} />
+                            {/* Αν δεν χρησιμοποιήσουμε exact=true στο root, o router
                             θα δείχνει και το Landing και σε όλα τα άλλα paths
                             που περιέχουν '/'. Το ίδιο και στο '/surveys'
                          */}
-                        <Route exact path="/surveys" component={Dashboard} />
-                        <Route path="/surveys/new" component={SurveyNew} />
-                    </div>
-                </BrowserRouter>
-            </div>
+                            <Route exact path="/surveys" component={Dashboard} />
+                            <Route path="/surveys/new" component={SurveyNew} />
+                        </div>
+                    </BrowserRouter>
+                </div>
+            </ThemeProvider>
         );
     }
 }
