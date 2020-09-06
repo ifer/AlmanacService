@@ -18,7 +18,7 @@ export const fetchUser = () => {
 };
 export const changeDate = (where, basedate) => {
     return async (dispatch) => {
-        // console.log('fetchUser called');
+        // console.log(`changeDate called ${where}/${basedate}`);
         const res = await axios.get(`/api/goto/${where}/${basedate}`);
         dispatch({ type: CHANGE_DATE, payload: res.data });
         // console.log('axios changedate res=' + JSON.stringify(res.data));

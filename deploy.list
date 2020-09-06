@@ -1,0 +1,14 @@
+client/build
+client/node_modules
+client/package.json
+client/public
+node_modules
+config
+data
+db
+models
+routes
+services
+util
+index.js
+package.json

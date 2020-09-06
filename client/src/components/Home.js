@@ -347,7 +347,7 @@ function mapStateToProps(state) {
         // curdayinfo = moment(state.date, 'DDMMYYYY');
         curdayinfo = state.date;
     }
-    console.log(curdayinfo);
+    // console.log(curdayinfo);
     return { curdayinfo: curdayinfo };
 }
 

@@ -1,0 +1,12 @@
+client/build
+client/public
+client/package.json
+config
+data
+db
+models
+routes
+services
+util
+index.js
+package.json

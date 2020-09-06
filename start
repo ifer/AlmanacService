@@ -1,0 +1,6 @@
+export NODE_ENV=production
+export GOOGLE_CLIENT_ID="896547059396-ut9go18uru02c6fsma98cgrbdej7k39r.apps.googleusercontent.com"
+export GOOGLE_CLIENT_SECRET="jeh32Up4e2oAQzmk3md9SS7t"
+export COOKIE_KEY="aRandomStringToBeUsedAsCookieEncryptionKey"
+
+node index.js
