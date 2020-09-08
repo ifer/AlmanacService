@@ -25,6 +25,7 @@ import leftArrow from '../style/leftArrow.png';
 import rightArrow from '../style/rightArrow.png';
 import leftDoubleArrow from '../style/leftDoubleArrow.png';
 import rightDoubleArrow from '../style/rightDoubleArrow.png';
+import messages from '../util/messages';
 
 moment.locale('el');
 
@@ -155,7 +156,7 @@ class Home extends Component {
 
     renderCalendar(dayinfo) {
         return (
-            <div>
+            <Paper elevation={5} className={this.classes.paper} style={{ height: '600px' }}>
                 <Typography paragraph variant="h5" className={this.classes.calDayOfWeek}>
                     {dayinfo.dayOfWeek}
                 </Typography>
@@ -179,13 +180,13 @@ class Home extends Component {
                 <Typography paragraph variant="subtitle1" className={this.classes.calSunRiseSet}>
                     {dayinfo.sunRiseSet}
                 </Typography>
-            </div>
+            </Paper>
         );
     }
 
     renderLeftPage() {
         return (
-            <Paper elevation={5} className={this.classes.paper}>
+            <Paper elevation={5} className={this.classes.paper} style={{ height: '600px' }}>
                 <Grid container spacing={2} className={this.classes.controls}>
                     <Grid container justify="flex-start" item xs={3}>
                         <IconButton onClick={() => this.gotoDate('prevMonth')}>
@@ -200,7 +201,7 @@ class Home extends Component {
                     <Grid container justify="center" item xs={2}>
                         <Button onClick={() => this.gotoDate('today')}>
                             <Typography paragraph variant="h6" className={this.classes.controlButtons}>
-                                Σήμερα
+                                {messages.today}
                             </Typography>
                         </Button>
                     </Grid>
@@ -221,10 +222,10 @@ class Home extends Component {
                         <Typography
                             paragraph
                             variant="h6"
-                            className={this.classes.controlButtons}
-                            style={{ marginLeft: '0px' }}
+                            className={this.classes.controlLabels}
+                            style={{ marginLeft: '0px', marginBottom: '0px' }}
                         >
-                            Πήγαινε στην ημερομηνία...
+                            {messages.gotodate}
                         </Typography>
                     </Grid>
                     <Grid container justify="center" item xs={5}>
@@ -266,10 +267,8 @@ class Home extends Component {
                             <Grid item xs={5}>
                                 {this.renderLeftPage()}
                             </Grid>
-                            <Grid item xs={5}>
-                                <Paper elevation={5} className={this.classes.paper}>
-                                    {this.renderCalendar(this.props.curdayinfo)}
-                                </Paper>
+                            <Grid item xs={5} style={{ height: '300px' }}>
+                                {this.renderCalendar(this.props.curdayinfo)}
                             </Grid>
                         </Grid>
                     </div>

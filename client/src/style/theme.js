@@ -1,4 +1,4 @@
-import { createMuiTheme } from '@material-ui/core/styles';
+import { createMuiTheme, responsiveFontSizes } from '@material-ui/core/styles';
 import ANAOneiroparmEni82 from './ANAOneiroparmEni82.ttf';
 
 const oneiro = {
@@ -6,6 +6,7 @@ const oneiro = {
     fontStyle: 'normal',
     fontDisplay: 'swap',
     fontWeight: 400,
+
     src: `
     local('oneiro'),
     local('oneiro-regular'),
@@ -13,15 +14,16 @@ const oneiro = {
   `,
 };
 
-const theme = createMuiTheme({
+let theme = createMuiTheme({
     palette: {
-        primary: { 500: '#ff6666' },
+        primary: { 500: '#B22222' },
     },
     typography: {
         fontFamily: ['Roboto', 'oneiro'].join(','),
         h6: {
             fontFamily: 'oneiro',
             fontWeight: 400,
+            fontSize: '16px',
         },
     },
 
@@ -33,4 +35,16 @@ const theme = createMuiTheme({
         },
     },
 });
+theme = responsiveFontSizes(theme);
+
+// theme.typography.h6 = {
+//     fontSize: '1.2rem',
+//     '@media (min-width:600px)': {
+//         fontSize: '1.5rem',
+//     },
+//     [theme.breakpoints.up('md')]: {
+//         fontSize: '2.4rem',
+//     },
+// };
+
 export default theme;

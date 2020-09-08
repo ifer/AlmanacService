@@ -10,6 +10,8 @@ import Button from '@material-ui/core/Button';
 import { MenuItem } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 
+import messages from '../util/messages';
+
 const useStyles = (theme) => ({
     appBar: {
         width: `calc(100% - 0px)`,
@@ -46,13 +48,13 @@ class Header extends Component {
             case false:
                 return (
                     <Typography variant="subtitle1" className={this.classes.login}>
-                        Login with Google
+                        {messages.loginWithGoogle}
                     </Typography>
                 );
             default:
                 return (
                     <Typography variant="subtitle1" className={this.classes.login}>
-                        Logout
+                        {messages.logout}
                     </Typography>
                 );
         }
@@ -65,8 +67,8 @@ class Header extends Component {
                     <Toolbar>
                         <Box display="flex" flexGrow={1}>
                             <MenuItem className={this.classes.brandLogo} to={this.props.auth ? '/surveys' : '/'}>
-                                <Typography variant="h4" color="inherit">
-                                    Almanac
+                                <Typography variant="h5" color="inherit">
+                                    {messages.appname}
                                 </Typography>
                             </MenuItem>
                         </Box>

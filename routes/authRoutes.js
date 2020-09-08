@@ -23,7 +23,7 @@ module.exports = (app) => {
         passport.authenticate('google'), // authentication
         (req, res) => {
             // after auth, redirect to surveys
-            res.redirect('/surveys');
+            res.redirect('/');
         }
     );
 
