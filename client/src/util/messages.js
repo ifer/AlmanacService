@@ -5,8 +5,8 @@ const messages = {
     today: 'Σήμερα',
     gotodate: 'Πήγαινε στην ημερομηνία...',
     holiday: 'Εορτή..',
-    loginWithGoogle: 'Είσοδος μέσω Google',
-    logout: 'Έξοδος',
+    loginWithGoogle: 'Σύνδεση μέσω Google',
+    logout: 'Αποσύνδεση',
 };
 
 export default messages;

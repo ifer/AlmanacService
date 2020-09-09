@@ -25,6 +25,11 @@ const useStyles = (theme) => ({
         flexGrow: 1,
         textTransform: 'none',
     },
+    username: {
+        display: 'flex',
+        color: 'LemonChiffon',
+        marginRight: '10px',
+    },
     brandLogo: {
         color: 'white',
     },
@@ -33,7 +38,8 @@ const useStyles = (theme) => ({
 class Header extends Component {
     constructor(props) {
         super(props);
-        this.renderNavitem = this.renderNavitem.bind(this);
+        this.renderLogButton = this.renderLogButton.bind(this);
+        this.renderUsername = this.renderUsername.bind(this);
         this.classes = this.props.classes;
         // const { classes } = this.props;
     }
@@ -60,19 +66,55 @@ class Header extends Component {
         }
     }
 
+    renderLogButton() {
+        switch (this.props.auth) {
+            case null:
+                return;
+            case false:
+                return (
+                    <Button href="/auth/google">
+                        <Typography variant="subtitle1" className={this.classes.login}>
+                            {messages.loginWithGoogle}
+                        </Typography>
+                    </Button>
+                );
+            default:
+                return (
+                    <Button href="/api/logout">
+                        <Typography variant="subtitle1" className={this.classes.login}>
+                            {messages.logout}
+                        </Typography>
+                    </Button>
+                );
+        }
+    }
+
+    renderUsername() {
+        if (!this.props.auth) {
+            return;
+        } else {
+            return (
+                <Typography variant="subtitle2" className={this.classes.username}>
+                    {this.props.auth.displayname}
+                </Typography>
+            );
+        }
+    }
+
     render() {
         return (
             <div>
                 <AppBar color="primary" position="static">
                     <Toolbar>
                         <Box display="flex" flexGrow={1}>
-                            <MenuItem className={this.classes.brandLogo} to={this.props.auth ? '/surveys' : '/'}>
+                            <MenuItem className={this.classes.brandLogo} to={'/'}>
                                 <Typography variant="h5" color="inherit">
                                     {messages.appname}
                                 </Typography>
                             </MenuItem>
                         </Box>
-                        <Button href="/auth/google">{this.renderNavitem()}</Button>
+                        {this.renderUsername()}
+                        {this.renderLogButton()}
                     </Toolbar>
                 </AppBar>
             </div>
@@ -86,6 +128,7 @@ class Header extends Component {
 // Κατόπιν περνάμε την mapStateToProps ως παράμετρο στην connect, η οποία κάνει
 // διαθέσιμο το πεδίο auth στο component Header.
 function mapStateToProps(state) {
+    // console.log(state.auth);
     return { auth: state.auth };
 }
 //plugin styles as props (material-ui)

@@ -2,10 +2,14 @@ const path = require('path');
 
 // Global variables before any local 'require'
 global.appRoot = path.resolve(__dirname);
+global.database = {};
 
 const express = require('express');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
+
+const connect = require('camo').connect;
+const dbURI = `nedb://${appRoot}/db/users`;
 
 // The following files are executed without returing an object
 require('./models/User');
@@ -16,7 +20,9 @@ const authRoutes = require('./routes/authRoutes');
 const apiRoutes = require('./routes/apiRoutes');
 const keys = require('./config/keys');
 
-// console.log
+connect(dbURI).then((db) => {
+    database = db;
+});
 
 // In production, take the port number by the env variable PORT
 // In development, use 5000

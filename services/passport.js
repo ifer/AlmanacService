@@ -4,8 +4,6 @@ const keys = require('../config/keys');
 
 // Get User model class from mongoose
 const User = require('../models/User').User;
-const connect = require('camo').connect;
-const dbURI = `nedb://${appRoot}/db/users`;
 
 const contactsService = require('../services/contactsService');
 
@@ -20,10 +18,8 @@ passport.serializeUser((user, done) => {
 // We take an id and turn it to a User class instance
 passport.deserializeUser((id, done) => {
     // Find the user record in the database
-    connect(dbURI).then((db) => {
-        User.findOne({ _id: id }).then((user) => {
-            done(null, user);
-        });
+    User.findOne({ _id: id }).then((user) => {
+        done(null, user);
     });
 });
 
@@ -45,22 +41,20 @@ passport.use(
             // Function that is called after callback route is executed and google returns access token
             // Check if user already exists
             console.log(`accessToken: ${accessToken}`);
-            connect(dbURI).then((db) => {
-                User.findOne({ googleid: profile.id }).then((existingUser) => {
-                    if (!existingUser) {
-                        let newuser = User.create({
-                            googleid: profile.id,
-                            displayname: profile.displayName,
-                        });
-                        newuser.save().then((u) => {
-                            console.log(`User ${u.displayname} added`);
-                            done(null, newuser);
-                        });
-                    } else {
-                        console.log(`User ${existingUser.displayname} already exists`);
-                        done(null, existingUser);
-                    }
-                });
+            User.findOne({ googleid: profile.id }).then((existingUser) => {
+                if (!existingUser) {
+                    let newuser = User.create({
+                        googleid: profile.id,
+                        displayname: profile.displayName,
+                    });
+                    newuser.save().then((u) => {
+                        console.log(`User ${u.displayname} added`);
+                        done(null, newuser);
+                    });
+                } else {
+                    console.log(`User ${existingUser.displayname} already exists`);
+                    done(null, existingUser);
+                }
             });
 
             // let contacts;
