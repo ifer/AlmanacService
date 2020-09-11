@@ -11,6 +11,8 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import IconButton from '@material-ui/core/IconButton';
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
 import { DatePicker } from '@material-ui/pickers';
 // Package to tell @material-ui/pickers which date-time package to use (eg moment)
@@ -83,6 +85,7 @@ const useStyles = (theme) => ({
 
     controls: {
         alignItems: 'center',
+        marginTop: '15px',
     },
 
     controlLabels: {
@@ -112,9 +115,11 @@ class Home extends Component {
         this.handleKeyboardDateChange = this.handleKeyboardDateChange.bind(this);
         this.renderHolidays = this.renderHolidays.bind(this);
         this.renderLeftPage = this.renderLeftPage.bind(this);
+        this.handleFixedHolidayInput = this.handleFixedHolidayInput.bind(this);
     }
 
     componentDidMount() {
+        this.props.fetchFixedHolidays();
         this.props.changeDate('today');
     }
 
@@ -142,6 +147,15 @@ class Home extends Component {
 
         this.props.changeDate('gotoDate', date.format('DDMMYYYY'));
     }
+
+    handleFixedHolidayInput(event, value) {
+        if (value) {
+            console.log(value.holiday);
+            const datestr = value.daymon + this.props.curdayinfo.year;
+            this.props.changeDate('gotoDate', datestr);
+        }
+    }
+
     renderHolidays(dayHolidays) {
         return (
             <div>
@@ -250,6 +264,36 @@ class Home extends Component {
                         />
                     </Grid>
                 </Grid>
+                <Grid container spacing={2} className={this.classes.controls}>
+                    <Grid container justify="flex-start" item xs={7}>
+                        <Typography
+                            paragraph
+                            variant="h6"
+                            className={this.classes.controlLabels}
+                            style={{ marginLeft: '0px', marginBottom: '0px' }}
+                        >
+                            {messages.findholiday}
+                        </Typography>
+                    </Grid>
+                </Grid>
+                <Grid container justify="center" item xs={12} className={this.classes.controls}>
+                    <StyledAutocomplete
+                        id="combo-findfixedholiday"
+                        options={this.props.fixedHolidays}
+                        getOptionLabel={(option) => option.holiday}
+                        onChange={this.handleFixedHolidayInput}
+                        style={{ width: '100%', borderBottomWidth: 0 }}
+                        autoHighlight
+                        renderInput={(params) => (
+                            <TextField
+                                {...params}
+                                label="Ακίνητη εορτή"
+                                style={{ borderBottomWidth: 0 }}
+                                variant="outlined"
+                            />
+                        )}
+                    />
+                </Grid>
             </Paper>
         );
     }
@@ -277,7 +321,13 @@ class Home extends Component {
         );
     }
 }
+// .MuiAutocomplete-inputRoot
 
+const StyledAutocomplete = withStyles({
+    input: {
+        borderBottomWidth: 0,
+    },
+})(Autocomplete);
 /*
 <Typography paragraph variant="body1" color="inherit">
     {JSON.stringify(this.props.curdayinfo)}
@@ -294,7 +344,8 @@ function mapStateToProps(state) {
         curdayinfo = state.date;
     }
     // console.log(curdayinfo);
-    return { curdayinfo: curdayinfo };
+
+    return { curdayinfo: curdayinfo, fixedHolidays: state.fixedHolidays };
 }
 
 //plugin styles as props (material-ui)

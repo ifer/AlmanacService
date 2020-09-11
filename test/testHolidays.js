@@ -18,7 +18,9 @@ const util = require('../util/util.js');
 // testGetNamesByDate();
 
 // testSearchHolidayByName();
-testSelectFromSearchResults();
+// testSelectFromSearchResults();
+
+testFixedHolidaysToArray();
 
 function testGetNamesByDate() {
     var moment = require('moment');
@@ -222,4 +224,18 @@ function testMoonPhases() {
     console.log(mp);
 
     // console.log(getDayInfo('01/10/2020'));
+}
+
+function testFixedHolidaysToArray() {
+    fixedHolMap = require('../data/holidays').fixedHolMap;
+
+    let fharr = [];
+    fixedHolMap.forEach((value, key) => {
+        const obj = { daymon: key, holiday: value };
+        fharr.push(obj);
+    });
+
+    fharr.forEach((hol) => {
+        console.log(`daymon: ${hol.daymon}, holiday: ${hol.holiday}`);
+    });
 }

@@ -45,6 +45,17 @@ module.exports = (app) => {
         }
     });
 
+    app.get('/api/fixedHolidays', (req, res) => {
+        fixedHolMap = require('../data/holidays').fixedHolMap;
+
+        let fharr = [];
+        fixedHolMap.forEach((value, key) => {
+            const obj = { daymon: key, holiday: value };
+            fharr.push(obj);
+        });
+        res.send(fharr);
+    });
+
     // app.get(
     //     '/api/contacts', //our URL
     //     getContacts()

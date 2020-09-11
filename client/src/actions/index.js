@@ -2,6 +2,7 @@ import axios from 'axios';
 
 import { FETCH_USER } from './types';
 import { CHANGE_DATE } from './types';
+import { FETCH_FIXED_HOLIDAYS } from './types';
 // Επειδή η axios δουλεύει ασύγχρονα, η action creator 'ferchUser' δεν μπορεί
 // να επιστρέψει αμέσως ένα action object, σύμφωνα με τους κανόνες του Redux.
 // Αντι γι'αυτό, επιστρέφει μια function την οποία το Redux Θα εκτελέσει αμέσως
@@ -16,11 +17,20 @@ export const fetchUser = () => {
         // console.log('axios fetchuser res=' + JSON.stringify(res.data));
     };
 };
+
 export const changeDate = (where, basedate) => {
     return async (dispatch) => {
         // console.log(`changeDate called ${where}/${basedate}`);
         const res = await axios.get(`/api/goto/${where}/${basedate}`);
         dispatch({ type: CHANGE_DATE, payload: res.data });
         // console.log('axios changedate res=' + JSON.stringify(res.data));
+    };
+};
+
+export const fetchFixedHolidays = () => {
+    return async (dispatch) => {
+        const res = await axios.get('/api/fixedHolidays');
+        dispatch({ type: FETCH_FIXED_HOLIDAYS, payload: res.data });
+        // console.log('axios fetchFixedHolidays res=' + JSON.stringify(res.data));
     };
 };
