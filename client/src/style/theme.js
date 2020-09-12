@@ -33,6 +33,35 @@ let theme = createMuiTheme({
                 '@font-face': [oneiro],
             },
         },
+        MuiOutlinedInput: {
+            //'Autocomplete' component
+            root: {
+                '& $notchedOutline': {
+                    // borderColor: 'green',
+                },
+                '&:hover $notchedOutline': {
+                    // borderColor: 'red',
+                },
+                '&$focused $notchedOutline': {
+                    // borderColor: 'purple',
+                },
+                '&&&&& $input': {
+                    padding: '0px',
+                    borderBottom: 'none',
+                    boxShadow: 'none',
+                    height: '2em',
+                },
+            },
+        },
+        MuiAutocomplete: {
+            paper: {
+                // Dropdown list of 'Autocomplete' component
+                fontSize: '12px',
+            },
+            groupLabel: {
+                color: 'blue',
+            },
+        },
     },
 });
 theme = responsiveFontSizes(theme);

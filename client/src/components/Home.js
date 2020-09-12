@@ -115,11 +115,13 @@ class Home extends Component {
         this.handleKeyboardDateChange = this.handleKeyboardDateChange.bind(this);
         this.renderHolidays = this.renderHolidays.bind(this);
         this.renderLeftPage = this.renderLeftPage.bind(this);
-        this.handleFixedHolidayInput = this.handleFixedHolidayInput.bind(this);
+        // this.handleFixedHolidayInput = this.handleFixedHolidayInput.bind(this);
+        this.handleHolidayInput = this.handleHolidayInput.bind(this);
     }
 
     componentDidMount() {
-        this.props.fetchFixedHolidays();
+        // this.props.fetchFixedHolidays();
+        this.props.fetchAllHolidays();
         this.props.changeDate('today');
     }
 
@@ -139,7 +141,7 @@ class Home extends Component {
     }
 
     handleDateChange(date, value) {
-        console.log(`date=${date} value=${value} type=${typeof value}`);
+        // console.log(`date=${date} value=${value} type=${typeof value}`);
         // if (!moment(value, 'DD/MM/YYYY', true).isValid()) {
         //     console.log('date not valid');
         //     return;
@@ -148,14 +150,25 @@ class Home extends Component {
         this.props.changeDate('gotoDate', date.format('DDMMYYYY'));
     }
 
-    handleFixedHolidayInput(event, value) {
+    // handleFixedHolidayInput(event, value) {
+    //     if (value) {
+    //         console.log(value.holiday);
+    //         const datestr = value.daymon + this.props.curdayinfo.year;
+    //         this.props.changeDate('gotoDate', datestr);
+    //     }
+    // }
+
+    handleHolidayInput(event, value) {
         if (value) {
-            console.log(value.holiday);
-            const datestr = value.daymon + this.props.curdayinfo.year;
-            this.props.changeDate('gotoDate', datestr);
+            // Add a prefix for the api to recognize holiday type
+            const key = value.type === 'mobileholidays' ? 'M' + value.key : 'F' + value.key;
+
+            this.props.gotoDateOfHoliday(key, this.props.curdayinfo.year);
+            // console.log(value);
+            // const datestr = value.daymon + this.props.curdayinfo.year;
+            // this.props.changeDate('gotoDate', datestr);
         }
     }
-
     renderHolidays(dayHolidays) {
         return (
             <div>
@@ -230,7 +243,6 @@ class Home extends Component {
                         </IconButton>
                     </Grid>
                 </Grid>
-
                 <Grid container spacing={2} className={this.classes.controls}>
                     <Grid container justify="flex-start" item xs={7}>
                         <Typography
@@ -277,23 +289,25 @@ class Home extends Component {
                     </Grid>
                 </Grid>
                 <Grid container justify="center" item xs={12} className={this.classes.controls}>
-                    <StyledAutocomplete
-                        id="combo-findfixedholiday"
-                        options={this.props.fixedHolidays}
+                    <Autocomplete
+                        id="combo-findholiday"
+                        options={this.props.allHolidays}
+                        groupBy={(option) => getHolidayType(option.type)}
                         getOptionLabel={(option) => option.holiday}
-                        onChange={this.handleFixedHolidayInput}
-                        style={{ width: '100%', borderBottomWidth: 0 }}
+                        onChange={this.handleHolidayInput}
+                        style={{ width: '100%' }}
                         autoHighlight
+                        noOptionsText={messages.nooptions}
                         renderInput={(params) => (
                             <TextField
                                 {...params}
-                                label="Ακίνητη εορτή"
-                                style={{ borderBottomWidth: 0 }}
+                                label={messages.holiday}
                                 variant="outlined"
+                                style={{ fontSize: '8px' }}
                             />
                         )}
                     />
-                </Grid>
+                </Grid>{' '}
             </Paper>
         );
     }
@@ -302,12 +316,13 @@ class Home extends Component {
         if (!this.props.curdayinfo.dayOfMonth) {
             return <div />;
         }
+
         return (
             <div>
                 {/* tell @material-ui/pickers which date-time package to use */}
                 <MuiPickersUtilsProvider utils={MomentUtils} locale={'el'}>
                     <div className={this.classes.root}>
-                        <Grid container justify="center" spacing={3}>
+                        <Grid container justify="center" spacing={3} style={{ maxWidth: '1100px', minWidth: '1000px' }}>
                             <Grid item xs={5}>
                                 {this.renderLeftPage()}
                             </Grid>
@@ -321,18 +336,6 @@ class Home extends Component {
         );
     }
 }
-// .MuiAutocomplete-inputRoot
-
-const StyledAutocomplete = withStyles({
-    input: {
-        borderBottomWidth: 0,
-    },
-})(Autocomplete);
-/*
-<Typography paragraph variant="body1" color="inherit">
-    {JSON.stringify(this.props.curdayinfo)}
-</Typography>
-*/
 
 function mapStateToProps(state) {
     let curdayinfo = {};
@@ -345,7 +348,26 @@ function mapStateToProps(state) {
     }
     // console.log(curdayinfo);
 
-    return { curdayinfo: curdayinfo, fixedHolidays: state.fixedHolidays };
+    // if (state.holdate) {
+    //     curdayinfo = state.holdate;
+    //     state.holdate = null;
+    // }
+    return {
+        curdayinfo: curdayinfo,
+        allHolidays: state.allHolidays,
+        holdate: state.holdate,
+    };
+}
+
+function getHolidayType(keyword) {
+    switch (keyword) {
+        case 'mobileholidays':
+            return messages.mobileholidays;
+        case 'fixedholidays':
+            return messages.fixedholidays;
+        default:
+            return '';
+    }
 }
 
 //plugin styles as props (material-ui)

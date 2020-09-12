@@ -8,6 +8,9 @@ const messages = {
     holiday: 'Εορτή..',
     loginWithGoogle: 'Σύνδεση μέσω Google',
     logout: 'Αποσύνδεση',
+    nooptions: 'Δεν βρέθηκε η λέξη',
+    fixedholidays: 'Ακίνητες εορτές',
+    mobileholidays: 'Κινητές εορτές',
 };
 
 export default messages;

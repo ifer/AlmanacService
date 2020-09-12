@@ -20,7 +20,8 @@ const util = require('../util/util.js');
 // testSearchHolidayByName();
 // testSelectFromSearchResults();
 
-testFixedHolidaysToArray();
+// testFixedHolidaysToArray();
+testGetDateOfHoliday();
 
 function testGetNamesByDate() {
     var moment = require('moment');
@@ -45,6 +46,22 @@ function testGetNamesByDate() {
 
     console.log('all holiday names:');
     console.log(holidayService.getAllNamesByDate(moment('24/04/2020', 'DD/MM/YYYY'))); // ['ΕΛΙΣΑΒΕΤ', 'ΕΛΛΗ', 'ELISAVET', ... , 'ΖΩΗ', 'ZOI', 'ZOH', ..]
+}
+
+function testGetDateOfHoliday() {
+    let holidayService = require('../services/holidayService');
+
+    console.log('fixed holidays:');
+    console.log(holidayService.getDateOfHoliday('0701', 2020)); // 07/01/2020
+    console.log(holidayService.getDateOfHoliday('0612', 2020)); // 06/12/2020
+    console.log('St George:');
+    console.log(holidayService.getDateOfHoliday('2304', 2020)); // 23/04/2020
+    console.log(holidayService.getDateOfHoliday('2304', 2021)); // 03/05/2020
+    console.log('mobile holidays:');
+    console.log(holidayService.getDateOfHoliday(-48, 2020)); // 02/03/2020
+    console.log(holidayService.getDateOfHoliday(0, 2020)); // 19/04/2020
+    console.log(holidayService.getDateOfHoliday(50, 2020)); // 08/06/2020
+    console.log(holidayService.getDateOfHoliday(0, 2021)); // 02/05/2021
 }
 
 function testGetDayMonthOfHoliday() {

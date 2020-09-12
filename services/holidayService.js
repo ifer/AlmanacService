@@ -90,6 +90,27 @@ function getDateOfMobileHoliday(holidayName, year) {
     return undefined;
 }
 
+// Returns the date of any holiday if we know the key (daymon or offset) and the year
+function getDateOfHoliday(key, year) {
+    // We expect key to begin with 'M' or 'F' (mobile or fixed)
+    if (key.substring(0, 1) === 'M') {
+        // Mobile holiday
+        key = parseInt(key.substring(1));
+        // mobile holiday, key = offset
+        // console.log(`holidayService:: key=${key}, year=${year}`);
+        const easter = calendarService.getEasterByYear(year);
+        // console.log(`holidayService: Easter=${easter.format('DD/MM/YYYY')}`);
+        return easter.add(key, 'days');
+    } else {
+        //fixed holiday
+        key = key.substring(1);
+        // special handling for St George
+        if (key === '2304') {
+            return calendarService.getStGeorgeByYear(year);
+        }
+        return calendarService.gotoDate(key + year);
+    }
+}
 // Returns a Map with the results of search
 // where key is the holiday name and value the daymon or the offset
 function searchHolidayByName(holidayName, year) {
@@ -184,4 +205,5 @@ module.exports = {
     getAllHolidaysByDate,
     searchHolidayByName,
     selectFromSearchResults,
+    getDateOfHoliday,
 };

@@ -1,6 +1,7 @@
 const getContacts = require('../services/contactsService').getContacts;
 const getDayInfo = require('../services/dayinfo').getDayInfo;
 const calendarService = require('../services/calendarService');
+const holidayService = require('../services/holidayService');
 
 //Wrap all to an exported anonymous function
 //so that we can call it from index.js with app as an argument
@@ -54,6 +55,31 @@ module.exports = (app) => {
             fharr.push(obj);
         });
         res.send(fharr);
+    });
+
+    app.get('/api/allHolidays', (req, res) => {
+        fixedHolMap = require('../data/holidays').fixedHolMap;
+        mobileHolMap = require('../data/holidays').mobileHolMap;
+
+        let arr = [];
+        mobileHolMap.forEach((value, key) => {
+            const obj = { key: key, holiday: value, type: 'mobileholidays' };
+            arr.push(obj);
+        });
+        fixedHolMap.forEach((value, key) => {
+            const obj = { key: key, holiday: value, type: 'fixedholidays' };
+            arr.push(obj);
+        });
+        res.send(arr);
+    });
+
+    app.get('/api/findholiday/:key/:year', (req, res) => {
+        // console.log(`API: key=${req.params.key}, year=${req.params.year}`);
+        const date = holidayService.getDateOfHoliday(req.params.key, req.params.year);
+        // console.log(`DATE=${date.format('DD/MM/YYYY')}`);
+        dayinfo = getDayInfo(date.format('DD/MM/YYYY'));
+        // console.log(`dayinfo=${JSON.stringify(dayinfo)}`);
+        res.send(dayinfo);
     });
 
     // app.get(
