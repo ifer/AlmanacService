@@ -41,24 +41,32 @@ passport.use(
             // Function that is called after callback route is executed and google returns access token
             // Check if user already exists
             console.log(`accessToken: ${accessToken}`);
+            googleToken = accessToken;
+
             User.findOne({ googleid: profile.id }).then((existingUser) => {
                 if (!existingUser) {
                     let newuser = User.create({
                         googleid: profile.id,
                         displayname: profile.displayName,
+                        token: accessToken,
                     });
                     newuser.save().then((u) => {
                         console.log(`User ${u.displayname} added`);
                         done(null, newuser);
                     });
                 } else {
-                    console.log(`User ${existingUser.displayname} already exists`);
+                    existingUser.token = accessToken;
+                    existingUser.save().then((u) => {
+                        console.log(`User ${u.displayname} updated ${JSON.stringify(existingUser)}`);
+                        existingUser = u;
+                    });
+                    // console.log(`User ${existingUser.displayname} already exists`);
                     done(null, existingUser);
                 }
             });
 
             // let contacts;
-            //
+
             // contactsService
             //     .fetchContacts(accessToken)
             //     .then((c) => {

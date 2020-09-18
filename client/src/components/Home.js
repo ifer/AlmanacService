@@ -117,6 +117,7 @@ class Home extends Component {
         this.renderLeftPage = this.renderLeftPage.bind(this);
         // this.handleFixedHolidayInput = this.handleFixedHolidayInput.bind(this);
         this.handleHolidayInput = this.handleHolidayInput.bind(this);
+        this.getContacts = this.getContacts.bind(this);
     }
 
     componentDidMount() {
@@ -148,6 +149,11 @@ class Home extends Component {
         // }
 
         this.props.changeDate('gotoDate', date.format('DDMMYYYY'));
+    }
+
+    getContacts() {
+        this.props.fetchContacts();
+        console.log(this.props.contacts);
     }
 
     // handleFixedHolidayInput(event, value) {
@@ -307,7 +313,12 @@ class Home extends Component {
                             />
                         )}
                     />
-                </Grid>{' '}
+                </Grid>
+                <Button onClick={() => this.getContacts()}>
+                    <Typography paragraph variant="h6" className={this.classes.controlButtons}>
+                        Επαφές
+                    </Typography>
+                </Button>
             </Paper>
         );
     }
@@ -356,6 +367,7 @@ function mapStateToProps(state) {
         curdayinfo: curdayinfo,
         allHolidays: state.allHolidays,
         holdate: state.holdate,
+        contacts: state.contacts,
     };
 }
 
@@ -375,9 +387,3 @@ const styledHome = withStyles(useStyles)(Home);
 // With the statement below, actions will be passed to App as props
 export default connect(mapStateToProps, actions)(styledHome);
 // export default Home;
-
-/*
-<IconButton aria-label="today" onClick={() => this.gotoDate('today')}>
-    <ArrowDownwardIcon />
-</IconButton>
-*/

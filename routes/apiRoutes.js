@@ -1,7 +1,9 @@
-const getContacts = require('../services/contactsService').getContacts;
-const getDayInfo = require('../services/dayinfo').getDayInfo;
+const { fetchContacts } = require('../services/contactsService');
+const { getDayInfo } = require('../services/dayinfo');
 const calendarService = require('../services/calendarService');
 const holidayService = require('../services/holidayService');
+
+const requireLogin = require('../middlewares/requireLogin');
 
 //Wrap all to an exported anonymous function
 //so that we can call it from index.js with app as an argument
@@ -82,8 +84,32 @@ module.exports = (app) => {
         res.send(dayinfo);
     });
 
-    // app.get(
-    //     '/api/contacts', //our URL
-    //     getContacts()
-    // );
+    app.get('/api/contacts', requireLogin, async (req, res) => {
+        // console.log('TOKEN=' + googleToken);
+        console.log(`user=${JSON.stringify(req.user)}`);
+        fetchContacts(googleToken)
+            .then((c) => {
+                contacts = c;
+                contacts.forEach((item, i) => {
+                    console.log(`${JSON.stringify(item)}`);
+                });
+                console.log(`contacts number = ${contacts.length}`);
+            })
+            .catch((errmsg) => {
+                console.log('ERROR:' + errmsg);
+            });
+        // const contacts = null;
+        // try {
+        //     contacts = await fetchContacts(googleToken);
+        // } catch (err) {
+        //     res.status(422).send(err); // Send http code 422 in case of error
+        //     return;
+        // }
+        // res.send(contacts);
+    });
 };
+
+// async function getContacts() {
+//     const contacts = await fetchContacts();
+//     return contacts;
+// }

@@ -3,6 +3,7 @@ const path = require('path');
 // Global variables before any local 'require'
 global.appRoot = path.resolve(__dirname);
 global.database = {};
+global.googleToken = null;
 
 const express = require('express');
 const cookieSession = require('cookie-session');
