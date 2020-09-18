@@ -1,9 +1,12 @@
-const { fetchContacts } = require('../services/contactsService');
+const { fetchContacts, tokenRefresh } = require('../services/contactsService');
 const { getDayInfo } = require('../services/dayinfo');
+const refresh = require('passport-oauth2-refresh');
+
 const calendarService = require('../services/calendarService');
 const holidayService = require('../services/holidayService');
-
 const requireLogin = require('../middlewares/requireLogin');
+// Get User model class from camo
+const User = require('../models/User').User;
 
 //Wrap all to an exported anonymous function
 //so that we can call it from index.js with app as an argument
@@ -84,28 +87,60 @@ module.exports = (app) => {
         res.send(dayinfo);
     });
 
-    app.get('/api/contacts', requireLogin, async (req, res) => {
+    app.get('/api/contacts', requireLogin, (req, res) => {
         // console.log('TOKEN=' + googleToken);
-        console.log(`user=${JSON.stringify(req.user)}`);
-        fetchContacts(googleToken)
-            .then((c) => {
-                contacts = c;
-                contacts.forEach((item, i) => {
-                    console.log(`${JSON.stringify(item)}`);
-                });
-                console.log(`contacts number = ${contacts.length}`);
-            })
-            .catch((errmsg) => {
-                console.log('ERROR:' + errmsg);
-            });
-        // const contacts = null;
-        // try {
-        //     contacts = await fetchContacts(googleToken);
-        // } catch (err) {
-        //     res.status(422).send(err); // Send http code 422 in case of error
-        //     return;
-        // }
-        // res.send(contacts);
+        console.log(`token=${req.user.accessToken}`);
+        let retries = 2;
+
+        User.findOne({ googleid: req.user.googleid }).then(
+            (user) => {
+                const makeRequest = function () {
+                    retries--;
+                    if (!retries) {
+                        // Couldn't refresh the access token.
+                        console.log('1. Could not fetch contacts ');
+                        return res.status(401).send('Could not fetch contacts');
+                    }
+                    fetchContacts(user.accessToken, user.refreshToken)
+                        .then((contacts) => {
+                            contacts.forEach((item, i) => {
+                                console.log(`${JSON.stringify(item)}`);
+                            });
+                            console.log(`contacts number = ${contacts.length}`);
+                            res.send(contacts);
+                        })
+                        .catch((errmsg) => {
+                            console.log('errmsg=' + typeof errmsg);
+                            // if (errmsg.indexOf('401') >= 0) {
+                            //     // Access token expired.
+                            //     // Try to fetch a new one.
+                            //     refresh.requestNewAccessToken('google', user.refreshToken, function (err, accessToken) {
+                            //         if (err || !accessToken) {
+                            //             console.log('2. Could not fetch contacts ');
+                            //             return res.status(401).send('Could not fetch contacts');
+                            //         }
+                            //
+                            //         // Save the new accessToken for future use
+                            //         user.accessToken = accessToken;
+                            //         user.save().then((u) => {
+                            //             // Retry the request.
+                            //             makeRequest();
+                            //         });
+                            //     });
+                            // } else {
+                            //     console.log('3. Could not fetch contacts ');
+                            //     return res.status(401).send(errmsg);
+                            // }
+                        });
+                };
+                // Make the initial request.
+                makeRequest();
+            },
+            (error) => {
+                console.log('User ' + req.user.googleid + ' not found');
+                return res.status(401).send('User ' + req.user.googleid + ' not found: ' + error);
+            }
+        );
     });
 };
 

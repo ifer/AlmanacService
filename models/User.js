@@ -6,6 +6,8 @@ class User extends Document {
 
         this.googleid = String;
         this.displayname = String;
+        this.accessToken = String;
+        this.refreshToken = String;
     }
 
     static collectionName() {
