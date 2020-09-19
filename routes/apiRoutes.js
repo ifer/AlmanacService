@@ -94,7 +94,7 @@ module.exports = (app) => {
 
         User.findOne({ googleid: req.user.googleid }).then(
             (user) => {
-                console.log('User: ' + user.displayName + ' refresh:' + user.refreshToken);
+                console.log('User: ' + user.displayname + ' refresh:' + user.refreshToken);
                 const makeRequest = function () {
                     retries--;
                     if (!retries) {
@@ -104,9 +104,9 @@ module.exports = (app) => {
                     }
                     fetchContacts(user.accessToken, user.refreshToken)
                         .then((contacts) => {
-                            contacts.forEach((item, i) => {
-                                console.log(`${JSON.stringify(item)}`);
-                            });
+                            // contacts.forEach((item, i) => {
+                            //     console.log(`${JSON.stringify(item)}`);
+                            // });
                             console.log(`contacts number = ${contacts.length}`);
                             res.send(contacts);
                         })
@@ -121,7 +121,7 @@ module.exports = (app) => {
                                         console.log('2. Could not fetch contacts: ' + JSON.stringify(err));
                                         return res.status(401).send('Could not fetch contacts');
                                     }
-
+                                    console.log('Refresh: new access token: ' + accessToken);
                                     // Save the new accessToken for future use
                                     user.accessToken = accessToken;
                                     user.save().then((u) => {
