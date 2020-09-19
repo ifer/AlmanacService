@@ -22,6 +22,14 @@ const keys = require('./config/keys');
 
 connect(dbURI).then((db) => {
     database = db;
+
+    // const User = require('./models/User').User;
+    // User.deleteOne({ googleid: '108792367941895914037' }).then((m) => {
+    //     console.log('Deleted: ' + m);
+    // });
+    // User.deleteOne({ googleid: '108792367941895914037' }).then((m) => {
+    //     console.log('Deleted: ' + m);
+    // });
 });
 
 // In production, take the port number by the env variable PORT

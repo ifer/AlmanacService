@@ -1,0 +1,27 @@
+{
+  "name": "google-contacts",
+  "version": "0.1.5",
+  "description": "API wrapper for Google Contacts",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "node tests/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/olalonde/Google-Contacts.git"
+  },
+  "keywords": [
+    "google",
+    "contacts",
+    "api"
+  ],
+  "dependencies": {
+    "debug": "^2.2.0",
+    "lodash": "^4.5.1"
+  },
+  "author": "Ajnasz <ajnasz@ajnasz.hu>",
+  "license": "MIT"
+}

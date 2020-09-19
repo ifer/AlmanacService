@@ -38,7 +38,7 @@ const strategy = new GoogleStrategy(
     (accessToken, refreshToken, profile, done) => {
         // Function that is called after callback route is executed and google returns access token
         // Check if user already exists
-        console.log(`accessToken: ${accessToken}`);
+        console.log(`accessToken: ${accessToken}, refreshToken: ${refreshToken}`);
 
         User.findOne({ googleid: profile.id }).then((existingUser) => {
             if (!existingUser) {

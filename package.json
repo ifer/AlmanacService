@@ -15,7 +15,7 @@
         "concurrently": "^5.3.0",
         "cookie-session": "^1.4.0",
         "express": "^4.17.1",
-        "google-contacts": "file:../Google-Contacts",
+        "google-contacts": "file:./Google-Contacts",
         "googleapis": "^58.0.0",
         "line-reader": "^0.4.0",
         "moment": "^2.27.0",

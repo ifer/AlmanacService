@@ -94,6 +94,7 @@ module.exports = (app) => {
 
         User.findOne({ googleid: req.user.googleid }).then(
             (user) => {
+                console.log('User: ' + user.displayName + ' refresh:' + user.refreshToken);
                 const makeRequest = function () {
                     retries--;
                     if (!retries) {
@@ -109,28 +110,29 @@ module.exports = (app) => {
                             console.log(`contacts number = ${contacts.length}`);
                             res.send(contacts);
                         })
-                        .catch((errmsg) => {
-                            console.log('errmsg=' + typeof errmsg);
-                            // if (errmsg.indexOf('401') >= 0) {
-                            //     // Access token expired.
-                            //     // Try to fetch a new one.
-                            //     refresh.requestNewAccessToken('google', user.refreshToken, function (err, accessToken) {
-                            //         if (err || !accessToken) {
-                            //             console.log('2. Could not fetch contacts ');
-                            //             return res.status(401).send('Could not fetch contacts');
-                            //         }
-                            //
-                            //         // Save the new accessToken for future use
-                            //         user.accessToken = accessToken;
-                            //         user.save().then((u) => {
-                            //             // Retry the request.
-                            //             makeRequest();
-                            //         });
-                            //     });
-                            // } else {
-                            //     console.log('3. Could not fetch contacts ');
-                            //     return res.status(401).send(errmsg);
-                            // }
+                        .catch((err) => {
+                            // console.log('errmsg=' + JSON.stringify(errmsg));
+                            if (err.message.indexOf('401') >= 0) {
+                                console.log('Access token expired');
+                                // Access token expired.
+                                // Try to fetch a new one.
+                                refresh.requestNewAccessToken('google', user.refreshToken, function (err, accessToken) {
+                                    if (err || !accessToken) {
+                                        console.log('2. Could not fetch contacts: ' + JSON.stringify(err));
+                                        return res.status(401).send('Could not fetch contacts');
+                                    }
+
+                                    // Save the new accessToken for future use
+                                    user.accessToken = accessToken;
+                                    user.save().then((u) => {
+                                        // Retry the request.
+                                        makeRequest();
+                                    });
+                                });
+                            } else {
+                                console.log('3. Could not fetch contacts ');
+                                return res.status(401).send(errmsg);
+                            }
                         });
                 };
                 // Make the initial request.

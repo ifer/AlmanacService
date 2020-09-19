@@ -7,6 +7,8 @@ module.exports = (app) => {
     app.get(
         '/auth/google', //our URL
         passport.authenticate('google', {
+            accessType: 'offline', // necessary in order to receive Refresh Token
+            prompt: 'consent', // necessary in order to receive Refresh Token
             scope: [
                 'profile',
                 'email',

@@ -691,7 +691,7 @@ google-auth-library@^6.0.0:
     jws "^4.0.0"
     lru-cache "^6.0.0"
 
-"google-contacts@file:../Google-Contacts":
+"google-contacts@file:./Google-Contacts":
   version "0.1.5"
   dependencies:
     debug "^2.2.0"

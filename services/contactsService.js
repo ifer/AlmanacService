@@ -18,6 +18,7 @@ function fetchContacts(accessToken, refreshToken) {
                     resolve(filtered);
                 }
                 if (err) {
+                    // console.log('err=' + err.message);
                     reject(err);
                 }
             },
