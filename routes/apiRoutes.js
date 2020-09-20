@@ -130,8 +130,8 @@ module.exports = (app) => {
                                     });
                                 });
                             } else {
-                                console.log('3. Could not fetch contacts ');
-                                return res.status(401).send(errmsg);
+                                console.log('3. Could not fetch contacts :' + err.message);
+                                return res.status(401).send(err.message);
                             }
                         });
                 };

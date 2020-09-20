@@ -12,10 +12,15 @@ function fetchContacts(accessToken, refreshToken) {
         c.getContacts(
             (err, contacts) => {
                 if (contacts) {
-                    filtered = contacts.filter((contact) => {
+                    contactList = contacts.filter((contact) => {
                         return contact.name != '';
                     });
-                    resolve(filtered);
+                    contactList.sort(compareContacts);
+
+                    contactList.forEach((c) => {
+                        console.log(`${c.familyName} ${c.givenName} `);
+                    });
+                    resolve(contactList);
                 }
                 if (err) {
                     // console.log('err=' + err.message);
@@ -25,6 +30,16 @@ function fetchContacts(accessToken, refreshToken) {
             { thin: 'thin' }
         );
     });
+}
+
+function compareContacts(a, b) {
+    if (a.familyName < b.familyName) return -1;
+    else if (a.familyName > b.familyName) return 1;
+    else {
+        if (a.givenName < b.givenName) return -1;
+        else if (a.givenName > b.givenName) return 1;
+    }
+    return 0;
 }
 
 module.exports = { fetchContacts };

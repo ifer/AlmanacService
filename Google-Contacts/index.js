@@ -142,24 +142,30 @@ GoogleContacts.prototype.getContact = function (cb, params) {
 GoogleContacts.prototype._saveContactsFromFeed = function (feed) {
     var self = this;
     _.each(feed.entry, function (entry) {
-        var el, url;
-        if (self.params.thin) {
-            url = _.get(entry, 'id.$t', '');
-            // console.log(`${_.get(entry, 'title.$t')} :  ${JSON.stringify(_.get(entry, 'gd$email'))}`);
-            el = {
-                name: _.get(entry, 'title.$t'),
-                fullName: _.get(entry, 'gd$name.gd$fullName.$t'),
-                givenName: _.get(entry, 'gd$name.gd$givenName.$t'),
-                familyName: _.get(entry, 'gd$name.gd$familyName.$t'),
-                email: _.get(entry, 'gd$email.0.address'), // only save first email
-                emails: getEmailAddresses(entry),
-                phoneNumber: _.get(entry, 'gd$phoneNumber.0.uri', '').replace('tel:', ''),
-                id: url.substring(_.lastIndexOf(url, '/') + 1),
-            };
-        } else {
-            el = entry;
+        ingroup = _.get(entry, 'gContact$groupMembershipInfo');
+        if (ingroup) {
+            var el, url;
+            if (self.params.thin) {
+                url = _.get(entry, 'id.$t', '');
+                // console.log(`${_.get(entry, 'title.$t')} :  ${JSON.stringify(_.get(entry, 'gd$email'))}`);
+                el = {
+                    name: _.get(entry, 'title.$t'),
+                    fullName: _.get(entry, 'gd$name.gd$fullName.$t'),
+                    givenName: _.get(entry, 'gd$name.gd$givenName.$t'),
+                    familyName: _.get(entry, 'gd$name.gd$familyName.$t'),
+                    email: _.get(entry, 'gd$email.0.address'), // only save first email
+                    emails: getEmailAddresses(entry),
+                    phoneNumber: _.get(entry, 'gd$phoneNumber.0.uri', '').replace('tel:', ''),
+                    id: url.substring(_.lastIndexOf(url, '/') + 1),
+                };
+                // if (parseInt(el.id, 10) % 3 == 0) {
+                // console.log(JSON.stringify(entry));
+                // }
+            } else {
+                el = entry;
+            }
+            self.contacts.push(el);
         }
-        self.contacts.push(el);
     });
 };
 

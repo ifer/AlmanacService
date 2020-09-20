@@ -119,7 +119,6 @@ class Home extends Component {
         // this.handleFixedHolidayInput = this.handleFixedHolidayInput.bind(this);
         this.handleHolidayInput = this.handleHolidayInput.bind(this);
         this.getContacts = this.getContacts.bind(this);
-        this.checkContacts = this.checkContacts.bind(this);
     }
 
     componentDidMount() {
@@ -156,7 +155,7 @@ class Home extends Component {
     getContacts() {
         this.props.fetchContacts().then(() => {
             console.log(this.props.contacts);
-            const personList = this.checkContacts(this.props.contacts, this.props.curdayinfo.dayNames);
+            const personList = checkContacts(this.props.contacts, this.props.curdayinfo.dayNames);
             console.log(personList);
         });
     }
@@ -179,98 +178,6 @@ class Home extends Component {
             // const datestr = value.daymon + this.props.curdayinfo.year;
             // this.props.changeDate('gotoDate', datestr);
         }
-    }
-
-    checkContacts(contacts, daynames) {
-        let personList = [];
-
-        for (var i = 0; i < contacts.length; i++) {
-            let fullName = null;
-            var givenName = null;
-            let familyName = null;
-            let title = null;
-            let id = null;
-
-            if (contacts[i].gd$name == null) continue;
-
-            if (contacts[i].gd$name.gd$givenName != null) givenName = contacts[i].gd$name.gd$givenName.$t;
-
-            if (contacts[i].gd$name.gd$familyName != null) familyName = contacts[i].gd$name.gd$familyName.$t;
-            if (familyName == null) familyName = '';
-
-            if (givenName == null) {
-                if (contacts[i].gd$name.gd$fullName != null) {
-                    fullName = contacts[i].gd$name.gd$fullName.$t;
-                    let s = fullName.split(' ');
-                    if (s == null || s.length === 0) continue;
-                    if (s.length >= 2) {
-                        givenName = s[0];
-                        familyName = s[1];
-                    } else {
-                        givenName = s[0];
-                    }
-
-                    if (givenName == null) givenName = '';
-                } else {
-                    continue;
-                }
-            }
-
-            id = i;
-
-            let isCelebrant = false;
-            let gn = noGreekAccents(givenName).toUpperCase();
-            for (let j = 0; j < daynames.length; j++) {
-                let fn = noGreekAccents(givenName[j]).toUpperCase();
-                if (gn.startsWith(fn)) {
-                    isCelebrant = true;
-                    break;
-                }
-            }
-
-            if (!isCelebrant) continue;
-
-            let emails = '';
-            if (contacts[i].gd$email != null) {
-                for (let j = 0; j < contacts[i].gd$email.length; j++) {
-                    emails += contacts[i].gd$email[j].address;
-                    if (j < contacts[i].gd$email.length - 1) emails += ', ';
-                }
-            }
-
-            let phones = '';
-            if (contacts[i].gd$phoneNumber != null) {
-                for (let j = 0; j < contacts[i].gd$phoneNumber.length; j++) {
-                    phones += contacts[i].gd$phoneNumber[j].$t.replace(/ /g, '');
-                    if (j < contacts[i].gd$phoneNumber.length - 1) phones += ', ';
-                }
-            }
-
-            let person = {
-                id: i,
-                familyName: familyName,
-                givenName: givenName,
-                fullName: familyName + ' ' + givenName,
-                phones: phones,
-                emails: emails,
-                selected: false,
-            };
-
-            personList.push(person);
-        }
-
-        personList.sort(compareContacts);
-
-        return personList;
-
-        // if (this.personlist.length > 0) this.setState({ contactsFound: true });
-        // else this.setState({ contactsFound: false });
-        //
-        // //		for (let i=0; i<this.personlist.length; i++){
-        // //			console.log(this.personlist[i].name);
-        // //		}
-        //
-        // this.setState({ canRender: true });
     }
 
     renderHolidays(dayHolidays) {
@@ -485,43 +392,36 @@ function checkContacts(contacts, daynames) {
     let personList = [];
 
     for (var i = 0; i < contacts.length; i++) {
-        let fullName = null;
-        var givenName = null;
-        let familyName = null;
-        let title = null;
-        let id = null;
+        if (!contacts[i].name) continue;
 
-        if (contacts[i].gd$name == null) continue;
+        // if (contacts[i].givenName != null) givenName = contacts[i].gd$name.gd$givenName.$t;
 
-        if (contacts[i].gd$name.gd$givenName != null) givenName = contacts[i].gd$name.gd$givenName.$t;
+        // if (contacts[i].gd$name.gd$familyName != null) familyName = contacts[i].gd$name.gd$familyName.$t;
+        if (contacts[i].familyName == null) contacts[i].familyName = '';
 
-        if (contacts[i].gd$name.gd$familyName != null) familyName = contacts[i].gd$name.gd$familyName.$t;
-        if (familyName == null) familyName = '';
-
-        if (givenName == null) {
-            if (contacts[i].gd$name.gd$fullName != null) {
-                fullName = contacts[i].gd$name.gd$fullName.$t;
-                let s = fullName.split(' ');
+        if (contacts[i].givenName == null) {
+            if (contacts[i].fullName != null) {
+                let s = contacts[i].fullName.split(' ');
                 if (s == null || s.length === 0) continue;
                 if (s.length >= 2) {
-                    givenName = s[0];
-                    familyName = s[1];
+                    contacts[i].givenName = s[0];
+                    contacts[i].familyName = s[1];
                 } else {
-                    givenName = s[0];
+                    contacts[i].givenName = s[0];
                 }
 
-                if (givenName == null) givenName = '';
+                if (contacts[i].givenName == null) contacts[i].givenName = '';
             } else {
                 continue;
             }
         }
 
-        id = i;
+        // id = i;
 
         let isCelebrant = false;
-        let gn = noGreekAccents(givenName).toUpperCase();
+        let gn = noGreekAccents(contacts[i].givenName).toUpperCase();
         for (let j = 0; j < daynames.length; j++) {
-            let fn = noGreekAccents(givenName[j]).toUpperCase();
+            let fn = noGreekAccents(daynames[j]).toUpperCase();
             if (gn.startsWith(fn)) {
                 isCelebrant = true;
                 break;
@@ -531,27 +431,35 @@ function checkContacts(contacts, daynames) {
         if (!isCelebrant) continue;
 
         let emails = '';
-        if (contacts[i].gd$email != null) {
-            for (let j = 0; j < contacts[i].gd$email.length; j++) {
-                emails += contacts[i].gd$email[j].address;
-                if (j < contacts[i].gd$email.length - 1) emails += ', ';
+        // if (i === 78) {
+        //     console.log(contacts[i].fullName);
+        //     console.log(contacts[i].emails);
+        // }
+        if (contacts[i].emails.length >= 1) {
+            for (let j = 0; j < contacts[i].emails.length; j++) {
+                if (!contacts[i].emails[j]) continue;
+
+                emails += contacts[i].emails[j];
+
+                if (j < contacts[i].emails.length - 1) emails += ', ';
             }
         }
 
-        let phones = '';
-        if (contacts[i].gd$phoneNumber != null) {
-            for (let j = 0; j < contacts[i].gd$phoneNumber.length; j++) {
-                phones += contacts[i].gd$phoneNumber[j].$t.replace(/ /g, '');
-                if (j < contacts[i].gd$phoneNumber.length - 1) phones += ', ';
-            }
-        }
+        // let phones = '';
+        // if (contacts[i].phoneNumber != null) {
+        //     for (let j = 0; j < contacts[i].phoneNumber.length; j++) {
+        //         phones += contacts[i].phoneNumber[j].replace(/ /g, '');
+        //         if (j < contacts[i].phoneNumber.length - 1) phones += ', ';
+        //     }
+        // }
 
         let person = {
             id: i,
-            familyName: familyName,
-            givenName: givenName,
-            fullName: familyName + ' ' + givenName,
-            phones: phones,
+            familyName: contacts[i].familyName,
+            givenName: contacts[i].givenName,
+            fullName: contacts[i].familyName + ' ' + contacts[i].givenName,
+            phone: contacts[i].phoneNumber,
+            email: contacts[i].email || '',
             emails: emails,
             selected: false,
         };
@@ -559,7 +467,7 @@ function checkContacts(contacts, daynames) {
         personList.push(person);
     }
 
-    personList.sort(compareContacts);
+    // personList.sort(compareContacts);
 
     return personList;
 
@@ -573,15 +481,15 @@ function checkContacts(contacts, daynames) {
     // this.setState({ canRender: true });
 }
 
-function compareContacts(a, b) {
-    if (a.familyName < b.familyName) return -1;
-    else if (a.familyName > b.familyName) return 1;
-    else {
-        if (a.givenName < b.givenName) return -1;
-        else if (a.givenName > b.givenName) return 1;
-    }
-    return 0;
-}
+// function compareContacts(a, b) {
+//     if (a.familyName < b.familyName) return -1;
+//     else if (a.familyName > b.familyName) return 1;
+//     else {
+//         if (a.givenName < b.givenName) return -1;
+//         else if (a.givenName > b.givenName) return 1;
+//     }
+//     return 0;
+// }
 
 //plugin styles as props (material-ui)
 const styledHome = withStyles(useStyles)(Home);
