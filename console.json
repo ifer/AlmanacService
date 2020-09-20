@@ -26,19 +26,17 @@ $ concurrently "yarn run server" "yarn run client"
 [1] Note that the development build is not optimized.
 [1] To create a production build, use yarn build.
 [1] 
-[0] token=ya29.a0AfH6SMCh7dRxMlSZgCq0UPvHGPi6qE-EZJjFslmHKJSn7zRdrdDsBYS31q9vfRP8OIgzey6zlHiunZ0ssGactTBa86rbI4zx9zSFWJzxNS4W3SCOokkjZ2Cmaswp7RofMPbWLd6YFa_mEvgIlzm3ZE0MlFOpparUDcc
+[0] token=ya29.a0AfH6SMBkYl3ZjDVOjTSzRyUzG4LUHaOZ-uCRyzR47pH5djaUOAP56G-axMFgL2xPjEcx2VtOPR2KBRyxiExQnTq060FxopDqTjuWktoMdSwBOz85NJJbtUgh5_1_MlJl4DwsI-ZbX7KholtG5J92Dm6jgP3iuW8FEtE
 [0] User: Ioannis Fertakis refresh:1//03FL-HBs4g-JmCgYIARAAGAMSNwF-L9IrvQGf43MWX_jxg7tf5mfmMGqO77UMCHwm0V_jDG3LketkGbYJREBhmBMF7mocu9I3l7k
 [0] path=/m8/feeds/contacts/default/thin?alt=json&max-results=10000
+[0]  REKA 
+[0]  ΤΥΠΕΤ 
 [0] BAKONYI IVAN 
-[0] undefined REKA 
 [0] ΑΓΑΘΟΚΛΗΣ ΑΡΙΣΤΕΙΔΗΣ 
 [0] ΑΓΓΕΛΙΔΗ ΚΑΙΤΗ 
 [0] ΑΓΓΕΛΙΔΗΣ ΜΑΝΟΣ 
 [0] ΑΓΓΕΛΟΥ ΑΓΓΕΛΟΣ 
 [0] ΑΘΑΝΑΣΙΑΔΟΥ ΠΙΕΡΡΕΤΤΑ 
-[0] ΑΛΕΞΑΝΔΡΑ undefined 
-[0] undefined VODAFONE 
-[0] undefined ΑΥΘΑΙΡΕΤΟ 
 [0] ΑΛΕΞΑΝΔΡΟΠΟΥΛΟΥ ΚΛΕΟΠΑΤΡΑ 
 [0] ΑΛΜΠΑΝΗΣ ΝΙΚΟΣ 
 [0] ΑΜΠΕΛΑ ΝΤΙΝΑ 
@@ -79,9 +77,7 @@ $ concurrently "yarn run server" "yarn run client"
 [0] ΕΥΣΤΑΘΙΟΥ ΣΤΑΜΑΤΗΣ 
 [0] ΖΑΚΗΣ ΓΙΑΝΝΗΣ 
 [0] ΖΑΡΟΚΩΣΤΑΣ ΚΩΣΤΑΣ 
-[0] ΖΑΦΕΙΡΗΣ undefined 
 [0] ΖΟΥΜΗ ΔΑΝΑΗ 
-[0] ΘΕΜΗΣ undefined 
 [0] ΘΕΟΔΟΣΑΚΗΣ ΜΑΝΩΛΗΣ 
 [0] ΙΩΑΝΝΙΔΗΣ ΓΙΑΝΝΗΣ 
 [0] ΚΑΖΑΚΟΥ ΦΑΙΗ 
@@ -145,8 +141,6 @@ $ concurrently "yarn run server" "yarn run client"
 [0] ΜΠΟΥΜΗΣ ΚΩΣΤΑΣ 
 [0] ΝΙΚΟΛΑΪΔΗΣ ΓΙΑΝΝΗΣ 
 [0] ΝΟΤΑΡΑΣ ΓΕΡΑΣΙΜΟΣ 
-[0] Νίκος Οικονομίδης 
-[0] Νικήτας Καποτάς 
 [0] ΞΕΝΟΣ ΔΗΜΗΤΡΗΣ 
 [0] ΠΑΝΑΓΙΩΤΙΔΗΣ ΗΛΙΑΣ 
 [0] ΠΑΞΙΝΟΣ ΝΙΚΟΣ 
@@ -166,7 +160,6 @@ $ concurrently "yarn run server" "yarn run client"
 [0] ΡΟΒΑΤΣΟΣ ΧΡΗΣΤΟΣ 
 [0] ΡΟΒΑΤΣΟΥ ΜΑΡΙΑΝΝΑ 
 [0] ΡΟΚΑΣ ΑΡΓΥΡΗΣ 
-[0] Ρουσιάκης Αχιλλέας 
 [0] ΣΑΚΕΛΛΑΡΙΟΥ ΓΙΑΝΝΗΣ 
 [0] ΣΑΝΤΣΕΘ ΚΑΡΜΕΝ 
 [0] ΣΕΡΓΑΚΗ ΕΦΗ 
@@ -182,7 +175,6 @@ $ concurrently "yarn run server" "yarn run client"
 [0] ΤΕΡΖΑΚΗ ΡΆΝΙΑ 
 [0] ΤΕΡΖΗ - ΤΖΩΡΤΖΟΠΟΥΛΟΥ ΒΟΥΛΑ 
 [0] ΤΕΡΖΗΣ ΧΡΗΣΤΟΣ 
-[0] ΤΙΡΗΣ undefined 
 [0] ΤΡΙΑΝΤΗΣ ΣΤΑΘΗΣ 
 [0] ΤΡΙΚΑΛΙΩΤΗΣ ΘΑΝΑΣΗΣ 
 [0] ΤΣΕΛΟΥ ΕΥΑΓΓΕΛΙΑ 
@@ -204,7 +196,7 @@ $ concurrently "yarn run server" "yarn run client"
 [0] ΦΕΡΤΑΚΗΣ ΝΙΚΟΣ 
 [0] ΦΙΛΙΠΠΑΚΗ ΚΑΤΕΡΙΝΑ 
 [0] ΦΙΩΤΑΚΗ ΑΘΗΝΑ 
-[0] ΧΑΛΚΟΥΣΗ ΛΙΤΣΑ 
+[0] ΧΑΛΚΟΥΣΗ ΛΙ��ΣΑ 
 [0] ΧΑΜΗΛΑΚΗΣ ΧΡΙΣΤΟΔΟΥΛΟΣ 
 [0] ΧΑΝΟΣ ΝΑΣΟΣ 
 [0] ΧΑΤΖΗ ΝΤΙΑ 
@@ -214,8 +206,6 @@ $ concurrently "yarn run server" "yarn run client"
 [0] ΧΑΤΖΟΠΟΥΛΟΥ ΒΑΝΙΑ 
 [0] ΧΟΡΕΒΑΣ ΓΙΑΝΝΗΣ 
 [0] ΧΡΥΣΟΧΟΟΥ ΜΑΪΡΑ 
-[0] undefined ΣΠΙΤΙ 
-[0] undefined ΤΥΠΕΤ 
-[0] contacts number = 187
+[0] contacts number = 177
 [0] yarn run server exited with code SIGINT
 [1] yarn run client exited with code SIGINT

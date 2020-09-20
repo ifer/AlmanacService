@@ -151,8 +151,8 @@ GoogleContacts.prototype._saveContactsFromFeed = function (feed) {
                 el = {
                     name: _.get(entry, 'title.$t'),
                     fullName: _.get(entry, 'gd$name.gd$fullName.$t'),
-                    givenName: _.get(entry, 'gd$name.gd$givenName.$t'),
-                    familyName: _.get(entry, 'gd$name.gd$familyName.$t'),
+                    givenName: _.get(entry, 'gd$name.gd$givenName.$t') || '',
+                    familyName: _.get(entry, 'gd$name.gd$familyName.$t') || '',
                     email: _.get(entry, 'gd$email.0.address'), // only save first email
                     emails: getEmailAddresses(entry),
                     phoneNumber: _.get(entry, 'gd$phoneNumber.0.uri', '').replace('tel:', ''),

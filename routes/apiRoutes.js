@@ -90,7 +90,7 @@ module.exports = (app) => {
     app.get('/api/contacts', requireLogin, (req, res) => {
         // console.log('TOKEN=' + googleToken);
         console.log(`token=${req.user.accessToken}`);
-        let retries = 2;
+        let retries = 3;
 
         User.findOne({ googleid: req.user.googleid }).then(
             (user) => {
