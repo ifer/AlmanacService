@@ -142,6 +142,7 @@ GoogleContacts.prototype.getContact = function (cb, params) {
 GoogleContacts.prototype._saveContactsFromFeed = function (feed) {
     var self = this;
     _.each(feed.entry, function (entry) {
+        // The 'ingroup' filter exclude 'other contacts' (added automatically bi Google)
         ingroup = _.get(entry, 'gContact$groupMembershipInfo');
         if (ingroup) {
             var el, url;

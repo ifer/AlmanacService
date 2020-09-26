@@ -152,12 +152,21 @@ class Home extends Component {
         this.props.changeDate('gotoDate', date.format('DDMMYYYY'));
     }
 
-    getContacts() {
-        this.props.fetchContacts().then(() => {
-            console.log(this.props.contacts);
-            const personList = checkContacts(this.props.contacts, this.props.curdayinfo.dayNames);
-            console.log(personList);
-        });
+    async getContacts() {
+        await this.props.fetchContacts();
+        if (this.props.error) {
+            console.log(this.props.error);
+        }
+        //     this.props
+        //         .fetchContacts()
+        //         .then(() => {
+        //             console.log(this.props.contacts);
+        //             // const personList = checkContacts(this.props.contacts, this.props.curdayinfo.dayNames);
+        //             // console.log(personList);
+        //         })
+        //         .catch((err) => {
+        //             console.log(err);
+        //         });
     }
 
     // handleFixedHolidayInput(event, value) {
@@ -374,6 +383,7 @@ function mapStateToProps(state) {
         allHolidays: state.allHolidays,
         holdate: state.holdate,
         contacts: state.contacts,
+        error: state.error,
     };
 }
 

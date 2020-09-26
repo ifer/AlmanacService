@@ -5,10 +5,10 @@ const User = require('../models/User').User;
 
 function fetchContacts(accessToken, refreshToken) {
     return new Promise((resolve, reject) => {
+        // console.log('Getting contacts');
         const c = new GoogleContacts({
             token: accessToken,
         });
-
         c.getContacts(
             (err, contacts) => {
                 if (contacts) {
@@ -17,9 +17,9 @@ function fetchContacts(accessToken, refreshToken) {
                     });
                     contactList.sort(compareContacts);
 
-                    contactList.forEach((c) => {
-                        console.log(`${c.familyName} ${c.givenName} `);
-                    });
+                    // contactList.forEach((c) => {
+                    //     console.log(`${c.familyName} ${c.givenName} `);
+                    // });
                     resolve(contactList);
                 }
                 if (err) {

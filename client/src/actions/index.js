@@ -5,6 +5,7 @@ import { CHANGE_DATE } from './types';
 import { FETCH_ALL_HOLIDAYS } from './types';
 import { GOTO_DATE_OF_HOLIDAY } from './types';
 import { FETCH_CONTACTS } from './types';
+import { ERROR } from './types';
 
 // Επειδή η axios δουλεύει ασύγχρονα, η action creator 'ferchUser' δεν μπορεί
 // να επιστρέψει αμέσως ένα action object, σύμφωνα με τους κανόνες του Redux.
@@ -48,11 +49,14 @@ export const gotoDateOfHoliday = (key, year) => {
 
 export const fetchContacts = () => {
     return async (dispatch) => {
+        let res;
+        // debugger;
         try {
-            const res = await axios.get(`/api/contacts`);
+            res = await axios.get(`/api/contacts`);
             dispatch({ type: FETCH_CONTACTS, payload: res.data });
         } catch (err) {
-            console.log('ERROR FETCHING: ' + err);
+            console.log('ERROR FETCHING: ' + JSON.stringify(err.response.data.Error));
+            dispatch({ type: ERROR, error: err.response.data.Error });
         }
         // console.log('axios fetchAllHolidays res=' + JSON.stringify(res.data));
     };
