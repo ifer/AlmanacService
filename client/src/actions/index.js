@@ -7,36 +7,25 @@ import { GOTO_DATE_OF_HOLIDAY } from './types';
 import { FETCH_CONTACTS } from './types';
 import { ERROR } from './types';
 
-const handleErrorResponse = (error) => {
-    let errorResponse;
-    if (error.response && error.response.data) {
-        // I expect the API to handle error responses in valid format
-        errorResponse = error.response.data;
-        // JSON stringify if you need the json and use it later
-    } else if (error.request) {
-        // TO Handle the default error response for Network failure or 404 etc.,
-        errorResponse = error.request.message || error.request.statusText;
-    } else {
-        errorResponse = error.message;
-    }
-    throw new Error(errorResponse);
-};
+// axios.interceptors.response.use(
+//     (res) => res,
+//     (error) => {
+//         debugger;
+//         console.log('interceptors');
+//         console.log(error);
+//         throw new Error(error);
+//     }
+// );
 
 axios.interceptors.response.use(
     (res) => res,
-    (error) => {
-        let errorResponse;
-        if (error.response && error.response.data) {
-            // I expect the API to handle error responses in valid format
-            errorResponse = error.response.data;
-            // JSON stringify if you need the json and use it later
-        } else if (error.request) {
-            // TO Handle the default error response for Network failure or 404 etc.,
-            errorResponse = error.request.message || error.request.statusText;
-        } else {
-            errorResponse = error.message;
-        }
-        throw new Error(errorResponse);
+    (err) => {
+        // debugger;
+        // if (err.response.status === 411) {
+        const newerr = new Error(err.response.data.message);
+        throw newerr;
+        // }
+        // throw err;
     }
 );
 
@@ -66,7 +55,7 @@ export const changeDate = (where, basedate) => {
             const res = await axios.get(`/api/goto/${where}/${basedate}`);
             dispatch({ type: CHANGE_DATE, payload: res.data });
         } catch (err) {
-            console.log('ERROR CHANGING: ' + err);
+            // console.log('ERROR CHANGING: ' + err);
             dispatch({ type: ERROR, error: err });
         } // console.log('axios changedate res=' + JSON.stringify(res.data));
     };
@@ -104,8 +93,8 @@ export const fetchContacts = () => {
             res = await axios.get(`/api/contacts`);
             dispatch({ type: FETCH_CONTACTS, payload: res.data });
         } catch (err) {
-            console.log('ERROR FETCHING: ');
-            console.log(err);
+            // console.log('ERROR FETCHING: ');
+            // console.log(err);
             dispatch({ type: ERROR, error: err });
         }
         // console.log('axios fetchAllHolidays res=' + JSON.stringify(res.data));

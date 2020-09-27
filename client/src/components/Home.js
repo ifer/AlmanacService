@@ -155,7 +155,7 @@ class Home extends Component {
     async getContacts() {
         await this.props.fetchContacts();
         if (this.props.error) {
-            console.log(this.props.error);
+            console.log(this.props.error.message);
             return;
         }
         // console.log(this.props.contacts);

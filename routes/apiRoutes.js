@@ -8,6 +8,8 @@ const requireLogin = require('../middlewares/requireLogin');
 // Get User model class from camo
 const User = require('../models/User').User;
 
+const { AppError } = require('../helpers/error');
+
 //Wrap all to an exported anonymous function
 //so that we can call it from index.js with app as an argument
 module.exports = (app) => {
@@ -34,9 +36,9 @@ module.exports = (app) => {
             case 'nextMonth':
                 date = calendarService.nextMonth(req.params.basedate);
                 dayinfo = getDayInfo(date.format('DD/MM/YYYY'));
-                res.send(dayinfo);
+                return res.status(411).send(new AppError('411', 'No next month'));
+                // res.send(dayinfo);
                 return;
-            // return res.status(411).send({ error: 'ERROR_NO_NEXT_MONTH' });
             case 'prevMonth':
                 date = calendarService.prevMonth(req.params.basedate);
                 dayinfo = getDayInfo(date.format('DD/MM/YYYY'));
@@ -101,7 +103,7 @@ module.exports = (app) => {
                     if (!retries) {
                         // Couldn't refresh the access token.
                         // console.log('1. Could not fetch contacts ');
-                        return res.status(401).send(new Error('Could not fetch contacts (1)'));
+                        return res.status(401).send(new AppError(401, 'Could not fetch contacts (1)'));
                     }
                     fetchContacts(user.accessToken, user.refreshToken)
                         .then((contacts) => {
@@ -120,7 +122,7 @@ module.exports = (app) => {
                                 refresh.requestNewAccessToken('google', user.refreshToken, function (err, accessToken) {
                                     if (err || !accessToken) {
                                         // console.log('2. Could not fetch contacts: ' + JSON.stringify(err));
-                                        return res.status(401).send(new Error('Could not fetch contacts (2)'));
+                                        return res.status(401).send(new AppError(401, 'Could not fetch contacts (2)'));
                                     }
                                     console.log('Refresh: new access token: ' + accessToken);
                                     // Save the new accessToken for future use
@@ -132,7 +134,7 @@ module.exports = (app) => {
                                 });
                             } else {
                                 // console.log('3. Could not fetch contacts :' + err.message);
-                                return res.status(401).send(new Error(err.message + ' (3)'));
+                                return res.status(401).send(new AppError(401, err.message + ' (3)'));
                             }
                         });
                 };
@@ -141,7 +143,7 @@ module.exports = (app) => {
             },
             (error) => {
                 // console.log('User ' + req.user.googleid + ' not found');
-                return res.status(401).send(new Error('User ' + req.user.googleid + ' not found: ' + error));
+                return res.status(401).send(new AppError(401, 'User ' + req.user.googleid + ' not found: ' + error));
             }
         );
     });
