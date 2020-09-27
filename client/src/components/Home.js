@@ -156,17 +156,11 @@ class Home extends Component {
         await this.props.fetchContacts();
         if (this.props.error) {
             console.log(this.props.error);
+            return;
         }
-        //     this.props
-        //         .fetchContacts()
-        //         .then(() => {
-        //             console.log(this.props.contacts);
-        //             // const personList = checkContacts(this.props.contacts, this.props.curdayinfo.dayNames);
-        //             // console.log(personList);
-        //         })
-        //         .catch((err) => {
-        //             console.log(err);
-        //         });
+        // console.log(this.props.contacts);
+        const personList = checkContacts(this.props.contacts, this.props.curdayinfo.dayNames);
+        console.log(personList);
     }
 
     // handleFixedHolidayInput(event, value) {
@@ -341,7 +335,7 @@ class Home extends Component {
         if (!this.props.curdayinfo.dayOfMonth) {
             return <div />;
         }
-        console.log(this.props.curdayinfo);
+        // console.log(this.props.curdayinfo);
 
         return (
             <div>
@@ -378,6 +372,9 @@ function mapStateToProps(state) {
     //     curdayinfo = state.holdate;
     //     state.holdate = null;
     // }
+    console.log('mapStateToProps: ' + state.error);
+    // console.log(state);
+
     return {
         curdayinfo: curdayinfo,
         allHolidays: state.allHolidays,
