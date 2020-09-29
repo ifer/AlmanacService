@@ -9,25 +9,12 @@ import { ERROR } from './types';
 
 // axios.interceptors.response.use(
 //     (res) => res,
-//     (error) => {
-//         debugger;
-//         console.log('interceptors');
-//         console.log(error);
-//         throw new Error(error);
+//     (err) => {
+//         const message = err.response.data.message ? err.response.data.message : err.message;
+//         const newerr = new Error(message);
+//         throw newerr;
 //     }
 // );
-
-axios.interceptors.response.use(
-    (res) => res,
-    (err) => {
-        // debugger;
-        // if (err.response.status === 411) {
-        const newerr = new Error(err.response.data.message);
-        throw newerr;
-        // }
-        // throw err;
-    }
-);
 
 // Επειδή η axios δουλεύει ασύγχρονα, η action creator 'ferchUser' δεν μπορεί
 // να επιστρέψει αμέσως ένα action object, σύμφωνα με τους κανόνες του Redux.

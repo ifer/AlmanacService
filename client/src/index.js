@@ -9,6 +9,10 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import reduxThunk from 'redux-thunk';
 
+import axios from 'axios';
+
+import messages from './util/messages';
+
 // Εισαγωγή του component App που ελέγχει το UI της εφαρμογής
 import App from './components/App';
 
@@ -20,6 +24,26 @@ import reducers from './reducers';
 // Η createstore παίρνει ως παραμέτρους μια συνάρτηση reducer, το αρχικό state
 // της εφαρμογής και το applyMiddleWare - εδώ όλα άδεια
 const store = createStore(reducers, {}, applyMiddleware(reduxThunk));
+
+axios.interceptors.response.use(
+    (res) => res,
+    (err) => {
+        console.log('axios inreceptor: ' + JSON.stringify(err));
+        // debugger;
+        if (err.response.status === 504) {
+            const newerr = new Error(messages.error_no_connection);
+            throw newerr;
+        }
+
+        let message = err.response.data.message ? err.response.data.message : err.message;
+        console.log(message);
+        if (messages[message]) {
+            message = messages[message];
+        }
+        const newerr = new Error(message);
+        throw newerr;
+    }
+);
 
 // Ο Provider είναι το αντικείμενο που υλοποιεί την συνεργασία το react με το
 // redux. Είναι στην κορυφή της ιεραρχίας των αντικειμένων της εφαρμογής.

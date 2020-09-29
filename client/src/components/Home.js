@@ -332,26 +332,49 @@ class Home extends Component {
     }
 
     render() {
-        if (!this.props.curdayinfo.dayOfMonth) {
-            return <div />;
-        }
-        // console.log(this.props.curdayinfo);
+        const showError = () => {
+            if (this.props.error) {
+                return this.props.error.message;
+            } else {
+                return '';
+            }
+        };
 
         return (
             <div>
-                {/* tell @material-ui/pickers which date-time package to use */}
-                <MuiPickersUtilsProvider utils={MomentUtils} locale={'el'}>
-                    <div className={this.classes.root}>
-                        <Grid container justify="center" spacing={3} style={{ maxWidth: '1100px', minWidth: '1000px' }}>
-                            <Grid item xs={5}>
-                                {this.renderLeftPage()}
+                <Typography
+                    paragraph
+                    variant="body1"
+                    style={{
+                        minHeight: '40px',
+                        color: 'red',
+                        fontWeight: 'bold',
+                        fontSize: '16px',
+                        paddingTop: '15px',
+                    }}
+                >
+                    {showError()}
+                </Typography>
+
+                {this.props.curdayinfo.dayOfMonth && (
+                    <MuiPickersUtilsProvider utils={MomentUtils} locale={'el'}>
+                        <div className={this.classes.root}>
+                            <Grid
+                                container
+                                justify="center"
+                                spacing={3}
+                                style={{ maxWidth: '1100px', minWidth: '1000px' }}
+                            >
+                                <Grid item xs={5}>
+                                    {this.renderLeftPage()}
+                                </Grid>
+                                <Grid item xs={5} style={{ height: '300px' }}>
+                                    {this.renderCalendar(this.props.curdayinfo)}
+                                </Grid>
                             </Grid>
-                            <Grid item xs={5} style={{ height: '300px' }}>
-                                {this.renderCalendar(this.props.curdayinfo)}
-                            </Grid>
-                        </Grid>
-                    </div>
-                </MuiPickersUtilsProvider>
+                        </div>
+                    </MuiPickersUtilsProvider>
+                )}
             </div>
         );
     }
@@ -372,7 +395,7 @@ function mapStateToProps(state) {
     //     curdayinfo = state.holdate;
     //     state.holdate = null;
     // }
-    console.log('mapStateToProps: ' + state.error);
+    // console.log('mapStateToProps: ' + state.error);
     // console.log(state);
 
     return {

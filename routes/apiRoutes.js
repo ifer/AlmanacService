@@ -8,6 +8,8 @@ const requireLogin = require('../middlewares/requireLogin');
 // Get User model class from camo
 const User = require('../models/User').User;
 
+const { ERROR_COULD_NOT_REFRESH_TOKEN } = require('../helpers/constants');
+
 const { AppError } = require('../helpers/error');
 
 //Wrap all to an exported anonymous function
@@ -92,18 +94,18 @@ module.exports = (app) => {
 
     app.get('/api/contacts', requireLogin, (req, res) => {
         // console.log('TOKEN=' + googleToken);
-        console.log(`token=${req.user.accessToken}`);
+        // console.log(`token=${req.user.accessToken}`);
         let retries = 3;
 
         User.findOne({ googleid: req.user.googleid }).then(
             (user) => {
-                console.log('User: ' + user.displayname + ' refresh:' + user.refreshToken);
+                // console.log('User: ' + user.displayname + ' refresh:' + user.refreshToken);
                 const makeRequest = function () {
                     retries--;
                     if (!retries) {
                         // Couldn't refresh the access token.
                         // console.log('1. Could not fetch contacts ');
-                        return res.status(401).send(new AppError(401, 'Could not fetch contacts (1)'));
+                        return res.status(401).send(new AppError(401, ERROR_COULD_NOT_REFRESH_TOKEN));
                     }
                     fetchContacts(user.accessToken, user.refreshToken)
                         .then((contacts) => {
@@ -117,12 +119,13 @@ module.exports = (app) => {
                             // console.log('errmsg=' + JSON.stringify(errmsg));
                             if (err.message.indexOf('401') >= 0) {
                                 console.log('Access token expired');
+
                                 // Access token expired.
                                 // Try to fetch a new one.
                                 refresh.requestNewAccessToken('google', user.refreshToken, function (err, accessToken) {
                                     if (err || !accessToken) {
                                         // console.log('2. Could not fetch contacts: ' + JSON.stringify(err));
-                                        return res.status(401).send(new AppError(401, 'Could not fetch contacts (2)'));
+                                        return res.status(401).send(new AppError(401, ERROR_COULD_NOT_REFRESH_TOKEN));
                                     }
                                     console.log('Refresh: new access token: ' + accessToken);
                                     // Save the new accessToken for future use
@@ -133,8 +136,9 @@ module.exports = (app) => {
                                     });
                                 });
                             } else {
+                                // Other error
                                 // console.log('3. Could not fetch contacts :' + err.message);
-                                return res.status(401).send(new AppError(401, err.message + ' (3)'));
+                                return res.status(401).send(new AppError(401, err.message));
                             }
                         });
                 };
