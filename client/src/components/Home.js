@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 // To connect to Redux
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 // Import all action -creator functions
 import * as actions from '../actions';
 
@@ -17,6 +18,8 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import { DatePicker } from '@material-ui/pickers';
 // Package to tell @material-ui/pickers which date-time package to use (eg moment)
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import Snackbar from '@material-ui/core/Snackbar';
+import Alert from '@material-ui/lab/Alert';
 // pick a date util library
 import MomentUtils from '@date-io/moment';
 
@@ -119,12 +122,41 @@ class Home extends Component {
         // this.handleFixedHolidayInput = this.handleFixedHolidayInput.bind(this);
         this.handleHolidayInput = this.handleHolidayInput.bind(this);
         this.getContacts = this.getContacts.bind(this);
+        this.onCloseErrorMsg = this.onCloseErrorMsg.bind(this);
+
+        this.state = { errmsgOpen: false };
     }
 
     componentDidMount() {
         // this.props.fetchFixedHolidays();
         this.props.fetchAllHolidays();
         this.props.changeDate('today');
+        // console.log('componentDidMount');
+        // if (this.props.error) {
+        //     console.log('componentDidMount1');
+        //     this.setState({ errmsgOpen: true });
+        // }
+    }
+
+    componentDidUpdate(oldProps) {
+        console.log('oldProps');
+        console.log(oldProps.error);
+
+        const newProps = this.props;
+
+        console.log('newProps');
+        console.log(newProps.error);
+
+        if (!oldProps.error && newProps.error) {
+            if (newProps.error) {
+                console.log('Switching to true');
+                this.setState({ errmsgOpen: true });
+            }
+            // else {
+            //     this.setState({ errmsgOpen: false });
+            //     console.log('Switching to false');
+            // }
+        }
     }
 
     gotoDate(where) {
@@ -161,6 +193,11 @@ class Home extends Component {
         // console.log(this.props.contacts);
         const personList = checkContacts(this.props.contacts, this.props.curdayinfo.dayNames);
         console.log(personList);
+        if (personList.length > 0) {
+            this.props.openCelebrating(personList, this.props.history);
+        } else {
+            this.props.noCelebrating();
+        }
     }
 
     // handleFixedHolidayInput(event, value) {
@@ -181,6 +218,11 @@ class Home extends Component {
             // const datestr = value.daymon + this.props.curdayinfo.year;
             // this.props.changeDate('gotoDate', datestr);
         }
+    }
+
+    onCloseErrorMsg() {
+        console.log('Switching to false');
+        this.setState({ errmsgOpen: false });
     }
 
     renderHolidays(dayHolidays) {
@@ -332,6 +374,16 @@ class Home extends Component {
     }
 
     render() {
+        // const showError = () => {
+        //     if (this.props.error) {
+        //         console.log('ERROR');
+        //         return (
+        //
+        //         );
+        //     } else {
+        //         return <div />;
+        //     }
+        // };
         const showError = () => {
             if (this.props.error) {
                 return this.props.error.message;
@@ -342,19 +394,17 @@ class Home extends Component {
 
         return (
             <div>
-                <Typography
-                    paragraph
-                    variant="body1"
-                    style={{
-                        minHeight: '40px',
-                        color: 'red',
-                        fontWeight: 'bold',
-                        fontSize: '16px',
-                        paddingTop: '15px',
-                    }}
+                <Snackbar
+                    open={this.state.errmsgOpen}
+                    autoHideDuration={6000}
+                    onClose={this.onCloseErrorMsg}
+                    anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                    style={{ marginTop: '50px' }}
                 >
-                    {showError()}
-                </Typography>
+                    <Alert severity="warning" onClose={this.onCloseErrorMsg}>
+                        {showError()}
+                    </Alert>
+                </Snackbar>
 
                 {this.props.curdayinfo.dayOfMonth && (
                     <MuiPickersUtilsProvider utils={MomentUtils} locale={'el'}>
@@ -380,6 +430,22 @@ class Home extends Component {
     }
 }
 
+/*
+<Typography
+    paragraph
+    variant="body1"
+    style={{
+        minHeight: '40px',
+        color: 'red',
+        fontWeight: 'bold',
+        fontSize: '16px',
+        paddingTop: '15px',
+    }}
+>
+</Typography>
+
+*/
+
 function mapStateToProps(state) {
     let curdayinfo = {};
     if (!state.date) {
@@ -389,14 +455,11 @@ function mapStateToProps(state) {
         // curdayinfo = moment(state.date, 'DDMMYYYY');
         curdayinfo = state.date;
     }
-    // console.log(curdayinfo);
 
-    // if (state.holdate) {
-    //     curdayinfo = state.holdate;
-    //     state.holdate = null;
-    // }
-    // console.log('mapStateToProps: ' + state.error);
-    // console.log(state);
+    let showmsg = false;
+    if (state.error) {
+        showmsg = true;
+    }
 
     return {
         curdayinfo: curdayinfo,
@@ -404,6 +467,8 @@ function mapStateToProps(state) {
         holdate: state.holdate,
         contacts: state.contacts,
         error: state.error,
+        showNoCelebrating: state.noCelebrating,
+        errmsgOpen: showmsg,
     };
 }
 
@@ -522,7 +587,7 @@ function checkContacts(contacts, daynames) {
 // }
 
 //plugin styles as props (material-ui)
-const styledHome = withStyles(useStyles)(Home);
+const styledHome = withStyles(useStyles)(withRouter(Home));
 // With the statement below, actions will be passed to App as props
 export default connect(mapStateToProps, actions)(styledHome);
 // export default Home;

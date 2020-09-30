@@ -13,6 +13,7 @@ import * as actions from '../actions';
 
 import Header from './Header';
 import Home from './Home';
+import Celebrating from './Celebrating';
 
 // Package to tell @material-ui/pickers which date-time package to use (eg moment)
 // import { MuiPickersUtilsProvider } from '@material-ui/pickers';
@@ -21,8 +22,8 @@ import Home from './Home';
 
 // pseudo-components for testing:
 // const Header = () => <h2>Header</h2>;
-const Dashboard = () => <h2>Dashboard</h2>;
-const SurveyNew = () => <h2>SurveyNew</h2>;
+// const Dashboard = () => <h2>Dashboard</h2>;
+// const SurveyNew = () => <h2>SurveyNew</h2>;
 // const Landing = () => <h2>Landing</h2>;
 
 class App extends Component {
@@ -51,8 +52,7 @@ class App extends Component {
                             θα δείχνει και το Landing και σε όλα τα άλλα paths
                             που περιέχουν '/'. Το ίδιο και στο '/surveys'
                          */}
-                            <Route exact path="/surveys" component={Dashboard} />
-                            <Route path="/surveys/new" component={SurveyNew} />
+                            <Route exact path="/celebrating" component={Celebrating} />
                         </div>
                     </BrowserRouter>
                 </div>
