@@ -13,5 +13,5 @@ export default combineReducers({
     allHolidays: holidaysReducer,
     contacts: contactsReducer,
     celebrating: celebratingReducer,
-    error: errorReducer,
+    errorObj: errorReducer,
 });

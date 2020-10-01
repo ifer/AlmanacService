@@ -7,6 +7,7 @@ import { GOTO_DATE_OF_HOLIDAY } from './types';
 import { FETCH_CONTACTS } from './types';
 import { SHOW_CELEBRATING } from './types';
 import { ERROR } from './types';
+import { HIDE_ERROR } from './types';
 
 import messages from '../util/messages';
 
@@ -33,7 +34,8 @@ export const fetchUser = () => {
             dispatch({ type: FETCH_USER, payload: res.data, error: null });
             // console.log('axios fetchuser res=' + JSON.stringify(res.data));
         } catch (err) {
-            dispatch({ type: ERROR, error: err });
+            dispatch({ type: FETCH_USER, payload: null, error: err });
+            // dispatch({ type: ERROR, error: err });
         }
     };
 };
@@ -45,8 +47,7 @@ export const changeDate = (where, basedate) => {
             const res = await axios.get(`/api/goto/${where}/${basedate}`);
             dispatch({ type: CHANGE_DATE, payload: res.data, error: null });
         } catch (err) {
-            // console.log('ERROR CHANGING: ' + err);
-            dispatch({ type: ERROR, error: err });
+            dispatch({ type: CHANGE_DATE, payload: null, error: err });
         } // console.log('axios changedate res=' + JSON.stringify(res.data));
     };
 };
@@ -58,7 +59,7 @@ export const fetchAllHolidays = () => {
             dispatch({ type: FETCH_ALL_HOLIDAYS, payload: res.data, error: null });
             // console.log('axios fetchAllHolidays res=' + JSON.stringify(res.data));
         } catch (err) {
-            dispatch({ type: ERROR, error: err });
+            dispatch({ type: FETCH_ALL_HOLIDAYS, payload: null, error: err });
         }
     };
 };
@@ -70,7 +71,7 @@ export const gotoDateOfHoliday = (key, year) => {
             dispatch({ type: GOTO_DATE_OF_HOLIDAY, payload: res.data, error: null });
             // console.log('axios gotoDateOfHoliday res=' + JSON.stringify(res.data));
         } catch (err) {
-            dispatch({ type: ERROR, error: err });
+            dispatch({ type: GOTO_DATE_OF_HOLIDAY, payload: null, error: err });
         }
     };
 };
@@ -85,7 +86,8 @@ export const fetchContacts = () => {
         } catch (err) {
             // console.log('ERROR FETCHING: ');
             // console.log(err);
-            dispatch({ type: ERROR, error: err });
+            dispatch({ type: FETCH_CONTACTS, payload: null, error: err });
+            // dispatch({ type: ERROR, error: err });
         }
         // console.log('axios fetchAllHolidays res=' + JSON.stringify(res.data));
     };
@@ -93,8 +95,6 @@ export const fetchContacts = () => {
 
 export const openCelebrating = (personlist, history) => {
     return async (dispatch) => {
-        console.log('openCelebrating called');
-
         // Redirect user to celebrating page
         history.push('/celebrating');
 
@@ -104,6 +104,12 @@ export const openCelebrating = (personlist, history) => {
 
 export const noCelebrating = () => {
     return async (dispatch) => {
-        dispatch({ type: ERROR, error: { statusCode: '-1', message: messages.no_celebrating } });
+        dispatch({ type: ERROR, payload: null, error: { statusCode: '-1', message: messages.no_celebrating } });
+    };
+};
+
+export const hideError = () => {
+    return {
+        type: HIDE_ERROR,
     };
 };

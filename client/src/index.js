@@ -28,7 +28,7 @@ const store = createStore(reducers, {}, applyMiddleware(reduxThunk));
 axios.interceptors.response.use(
     (res) => res,
     (err) => {
-        console.log('axios inreceptor: ' + JSON.stringify(err));
+        // console.log('axios inreceptor: ' + JSON.stringify(err));
         // debugger;
         if (err.response.status === 504) {
             const newerr = new Error(messages.error_no_connection);
@@ -36,7 +36,7 @@ axios.interceptors.response.use(
         }
 
         let message = err.response.data.message ? err.response.data.message : err.message;
-        console.log(message);
+        // console.log(message);
         if (messages[message]) {
             message = messages[message];
         }
