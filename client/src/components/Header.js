@@ -7,7 +7,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import { MenuItem } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 import Box from '@material-ui/core/Box';
 
 import messages from '../util/messages';
@@ -107,11 +107,11 @@ class Header extends Component {
                 <AppBar color="primary" position="static">
                     <Toolbar>
                         <Box display="flex" flexGrow={1}>
-                            <MenuItem className={this.classes.brandLogo} to={'/'}>
+                            <Link className={this.classes.brandLogo} to={'/'}>
                                 <Typography variant="h5" color="inherit">
                                     {messages.appname}
                                 </Typography>
-                            </MenuItem>
+                            </Link>
                         </Box>
                         {this.renderUsername()}
                         {this.renderLogButton()}

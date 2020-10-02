@@ -12,6 +12,6 @@ export default combineReducers({
     date: dateReducer,
     allHolidays: holidaysReducer,
     contacts: contactsReducer,
-    celebrating: celebratingReducer,
+    celebratingList: celebratingReducer,
     errorObj: errorReducer,
 });

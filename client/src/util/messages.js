@@ -6,6 +6,7 @@ const messages = {
     gotodate: 'Πήγαινε στην ημερομηνία...',
     findholiday: 'Αναζήτηση...',
     holiday: 'Εορτή..',
+    celebrating: 'Εορτάζοντες...',
     loginWithGoogle: 'Σύνδεση μέσω Google',
     logout: 'Αποσύνδεση',
     nooptions: 'Δεν βρέθηκε η λέξη',

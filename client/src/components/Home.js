@@ -121,14 +121,15 @@ class Home extends Component {
         this.renderLeftPage = this.renderLeftPage.bind(this);
         // this.handleFixedHolidayInput = this.handleFixedHolidayInput.bind(this);
         this.handleHolidayInput = this.handleHolidayInput.bind(this);
-        this.getContacts = this.getContacts.bind(this);
+        this.getCelebrating = this.getCelebrating.bind(this);
         this.onCloseErrorMsg = this.onCloseErrorMsg.bind(this);
     }
 
     componentDidMount() {
         // this.props.fetchFixedHolidays();
         this.props.fetchAllHolidays();
-        this.props.changeDate('today');
+        // this.props.changeDate('today');
+        this.props.changeDate('gotoDate', '07012021');
     }
 
     gotoDate(where) {
@@ -150,7 +151,7 @@ class Home extends Component {
         this.props.changeDate('gotoDate', date.format('DDMMYYYY'));
     }
 
-    async getContacts() {
+    async getCelebrating() {
         await this.props.fetchContacts();
         if (this.props.error) {
             // console.log(this.props.error.message);
@@ -322,11 +323,13 @@ class Home extends Component {
                         )}
                     />
                 </Grid>
-                <Button onClick={() => this.getContacts()}>
-                    <Typography paragraph variant="h6" className={this.classes.controlButtons}>
-                        Επαφές
-                    </Typography>
-                </Button>
+                <Grid container item xs={12} className={this.classes.controls}>
+                    <Button onClick={() => this.getCelebrating()}>
+                        <Typography paragraph variant="h6" className={this.classes.controlButtons}>
+                            {messages.celebrating}
+                        </Typography>
+                    </Button>
+                </Grid>
             </Paper>
         );
     }
