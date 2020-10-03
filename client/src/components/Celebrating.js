@@ -7,7 +7,14 @@ import { withRouter } from 'react-router-dom';
 import * as actions from '../actions';
 
 import Grid from '@material-ui/core/Grid';
-import { DataGrid } from '@material-ui/data-grid';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+import Checkbox from '@material-ui/core/Checkbox';
 
 import { withStyles } from '@material-ui/core/styles';
 
@@ -15,6 +22,9 @@ const useStyles = (theme) => ({
     root: {
         flexGrow: 1,
         marginTop: '40px',
+    },
+    table: {
+        minWidth: 600,
     },
 });
 
@@ -30,11 +40,59 @@ class Celebrating extends Component {
         this.classes = this.props.classes;
 
         this.renderTable = this.renderTable.bind(this);
+        this.handleClick = this.handleClick.bind(this);
+        this.isSelected = this.isSelected.bind(this);
+        this.handleSelectAllClick = this.handleSelectAllClick.bind(this);
+        this.state = { selected: [] };
+
+        this.selected = [];
+        this.rows = [];
+        // if (this.props.celebratingList) {
+        //     let id = 0;
+        //     this.rows = this.props.celebratingList.map((person) => {
+        //         return {
+        //             id: ++id,
+        //             fullName: person.fullName,
+        //             email: person.email,
+        //             phone: person.phone,
+        //         };
+        //     });
+        // }
+    }
+
+    handleClick(event, id) {
+        const selectedIndex = this.selected.indexOf(id);
+        if (selectedIndex === -1) {
+            this.selected.push(id);
+        } else {
+            this.selected.splice(selectedIndex, 1);
+        }
+        this.setState({ selected: this.selected });
+        console.log(this.selected);
+    }
+
+    handleSelectAllClick(event) {
+        debugger;
+
+        if (event.target.checked) {
+            this.selected = this.rows.map((row) => {
+                return row.id;
+            });
+        } else {
+            this.selected = [];
+        }
+        this.setState({ selected: this.selected });
+        console.log(this.selected);
+    }
+
+    isSelected(id) {
+        return this.selected.indexOf(id) !== -1;
     }
 
     renderTable() {
         let id = 0;
-        const rows = this.props.celebratingList.map((person) => {
+
+        this.rows = this.props.celebratingList.map((person) => {
             return {
                 id: ++id,
                 fullName: person.fullName,
@@ -42,10 +100,46 @@ class Celebrating extends Component {
                 phone: person.phone,
             };
         });
+        const rows = this.rows;
         return (
-            <div style={{ height: 400, width: '100%' }}>
-                <DataGrid rows={rows} columns={columns} pageSize={5} checkboxSelection />
-            </div>
+            <TableContainer component={Paper}>
+                <Table className={this.classes.table} selectable="true" size="small" aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell padding="checkbox">
+                                <Checkbox checked={false} onChange={this.handleSelectAllClick} />
+                            </TableCell>
+                            <TableCell>Ονοματεπώνυμο</TableCell>
+                            <TableCell>Email</TableCell>
+                            <TableCell>Τηλέφωνο</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {rows.map((row) => {
+                            const isSelected = this.isSelected(row.id);
+                            return (
+                                <TableRow
+                                    hover
+                                    role="checkbox"
+                                    tabIndex={-1}
+                                    key={row.id}
+                                    selected={isSelected}
+                                    onClick={(event) => this.handleClick(event, row.id)}
+                                >
+                                    <TableCell padding="checkbox">
+                                        <Checkbox checked={isSelected} />
+                                    </TableCell>
+                                    <TableCell component="th" scope="row">
+                                        {row.fullName}
+                                    </TableCell>
+                                    <TableCell>{row.email}</TableCell>
+                                    <TableCell>{row.phone}</TableCell>
+                                </TableRow>
+                            );
+                        })}
+                    </TableBody>
+                </Table>
+            </TableContainer>
         );
     }
 
@@ -83,3 +177,8 @@ const styledCelebrating = withStyles(useStyles)(Celebrating);
 // the history object and to pass it to the action creator.
 export default connect(mapStateToProps, actions)(withRouter(styledCelebrating));
 // export default Home;
+
+// <Checkbox
+//     checked={rows.length > 0 && this.selected.length === rows.length}
+//     onChange={this.handleSelectAllClick}
+// />
