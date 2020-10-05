@@ -159,7 +159,7 @@ class Home extends Component {
         }
         // console.log(this.props.contacts);
         const personList = checkContacts(this.props.contacts, this.props.curdayinfo.dayNames);
-        console.log(personList);
+        // console.log(personList);
         if (personList.length > 0) {
             this.props.openCelebrating(personList, this.props.history);
         } else {

@@ -16,13 +16,15 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
 import { TablePagination } from '@material-ui/core';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import IconButton from '@material-ui/core/IconButton';
 
 import { withStyles } from '@material-ui/core/styles';
 
 const useStyles = (theme) => ({
     root: {
         flexGrow: 1,
-        marginTop: '40px',
+        marginTop: '20px',
     },
     table: {
         minWidth: 600,
@@ -43,6 +45,7 @@ class Celebrating extends Component {
         this.handleSelectAllClick = this.handleSelectAllClick.bind(this);
         this.handleChangePage = this.handleChangePage.bind(this);
         this.handleChangeRowsPerPage = this.handleChangeRowsPerPage.bind(this);
+        this.handleBackButton = this.handleBackButton.bind(this);
 
         this.state = { rows: [], selected: [], page: 0, rowsPerPage: 10 };
 
@@ -101,6 +104,10 @@ class Celebrating extends Component {
 
     handleChangeRowsPerPage(event) {
         this.setState({ rowsPerPage: parseInt(event.target.value), page: 0 });
+    }
+
+    handleBackButton() {
+        this.props.history.push('/');
     }
 
     renderTable() {
@@ -186,6 +193,10 @@ class Celebrating extends Component {
         return (
             <div>
                 <div className={this.classes.root}>
+                    <IconButton size="medium">
+                        <ArrowBackIcon style={{ color: 'blue' }} onClick={this.handleBackButton} />
+                    </IconButton>
+
                     <Grid container justify="center" spacing={3} style={{ maxWidth: '1100px', minWidth: '1000px' }}>
                         <Grid item xs={12}>
                             {this.renderTable()}
