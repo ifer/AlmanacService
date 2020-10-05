@@ -95,10 +95,9 @@ export const fetchContacts = () => {
 
 export const openCelebrating = (personlist, history) => {
     return async (dispatch) => {
+        dispatch({ type: SHOW_CELEBRATING, payload: personlist, error: null });
         // Redirect user to celebrating page
         history.push('/celebrating');
-
-        dispatch({ type: SHOW_CELEBRATING, payload: personlist, error: null });
     };
 };
 

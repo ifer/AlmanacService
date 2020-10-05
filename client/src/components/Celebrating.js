@@ -27,6 +27,9 @@ const useStyles = (theme) => ({
     table: {
         minWidth: 600,
     },
+    container: {
+        maxHeight: 350,
+    },
 });
 
 class Celebrating extends Component {
@@ -41,11 +44,26 @@ class Celebrating extends Component {
         this.handleChangePage = this.handleChangePage.bind(this);
         this.handleChangeRowsPerPage = this.handleChangeRowsPerPage.bind(this);
 
-        this.state = { selected: [], page: 0, rowsPerPage: 10 };
+        this.state = { rows: [], selected: [], page: 0, rowsPerPage: 10 };
 
         this.selected = [];
-        this.rows = [];
+        // this.rows = [];
         this.allSelected = false;
+    }
+
+    componentWillMount() {
+        let id = 0;
+        if (!this.props.celebratingList) return;
+
+        let rows = this.props.celebratingList.map((person) => {
+            return {
+                id: ++id,
+                fullName: person.fullName,
+                email: person.email,
+                phone: person.phone,
+            };
+        });
+        this.setState({ rows: rows });
     }
 
     handleClick(event, id) {
@@ -56,12 +74,12 @@ class Celebrating extends Component {
             this.selected.splice(selectedIndex, 1);
         }
         this.setState({ selected: this.selected });
-        console.log(this.selected);
+        // console.log(this.selected);
     }
 
     handleSelectAllClick(event) {
         if (!this.allSelected) {
-            this.selected = this.rows.map((row) => {
+            this.selected = this.state.rows.map((row) => {
                 return row.id;
             });
             this.allSelected = true;
@@ -70,7 +88,7 @@ class Celebrating extends Component {
             this.allSelected = false;
         }
         this.setState({ selected: this.selected });
-        console.log(this.selected);
+        // console.log(this.selected);
     }
 
     isSelected(id) {
@@ -82,31 +100,15 @@ class Celebrating extends Component {
     }
 
     handleChangeRowsPerPage(event) {
-        this.setState({ rowsPerPage: parseInt(event.target.value) || 10, page: 0 });
+        this.setState({ rowsPerPage: parseInt(event.target.value), page: 0 });
     }
 
     renderTable() {
-        let id = 0;
-
-        this.rows = this.props.celebratingList
-            .slice(
-                this.state.page * this.state.rowsPerPage,
-                this.state.page * this.state.rowsPerPage + this.state.rowsPerPage
-            )
-            .map((person) => {
-                return {
-                    id: ++id,
-                    fullName: person.fullName,
-                    email: person.email,
-                    phone: person.phone,
-                };
-            });
-
         const emptyRows =
             this.state.rowsPerPage -
-            Math.min(this.state.rowsPerPage, this.rows.length - this.state.page * this.state.rowsPerPage);
+            Math.min(this.state.rowsPerPage, this.state.rows.length - this.state.page * this.state.rowsPerPage);
+        console.log(`emptyRows=${emptyRows}`);
 
-        // const rows = this.rows;
         return (
             <div>
                 <TableContainer component={Paper}>
@@ -125,34 +127,46 @@ class Celebrating extends Component {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {this.rows.map((row) => {
-                                const isSelected = this.isSelected(row.id);
-                                return (
-                                    <TableRow
-                                        hover
-                                        role="checkbox"
-                                        tabIndex={-1}
-                                        key={row.id}
-                                        selected={isSelected}
-                                        onClick={(event) => this.handleClick(event, row.id)}
-                                    >
-                                        <TableCell padding="checkbox">
-                                            <Checkbox checked={isSelected} />
-                                        </TableCell>
-                                        <TableCell component="th" scope="row">
-                                            {row.fullName}
-                                        </TableCell>
-                                        <TableCell>{row.email}</TableCell>
-                                        <TableCell>{row.phone}</TableCell>
-                                    </TableRow>
-                                );
-                            })}
+                            {this.state.rows
+                                .slice(
+                                    this.state.page * this.state.rowsPerPage,
+                                    this.state.page * this.state.rowsPerPage + this.state.rowsPerPage
+                                )
+                                .map((row) => {
+                                    const isSelected = this.isSelected(row.id);
+                                    return (
+                                        <TableRow
+                                            hover
+                                            role="checkbox"
+                                            tabIndex={-1}
+                                            key={row.id}
+                                            selected={isSelected}
+                                            onClick={(event) => this.handleClick(event, row.id)}
+                                        >
+                                            <TableCell padding="checkbox">
+                                                <Checkbox checked={isSelected} />
+                                            </TableCell>
+                                            <TableCell component="th" scope="row">
+                                                {row.fullName}
+                                            </TableCell>
+                                            <TableCell>{row.email}</TableCell>
+                                            <TableCell>{row.phone}</TableCell>
+                                        </TableRow>
+                                    );
+                                })}
+
+                            {emptyRows > 0 && (
+                                <TableRow style={{ height: 33 * emptyRows }}>
+                                    <TableCell colSpan={6} />
+                                </TableRow>
+                            )}
                         </TableBody>
                     </Table>
                 </TableContainer>
+
                 <TablePagination
                     component="div"
-                    count={this.rows.length}
+                    count={this.state.rows.length}
                     rowsPerPage={this.state.rowsPerPage}
                     page={this.state.page}
                     onChangePage={this.handleChangePage}
@@ -162,12 +176,6 @@ class Celebrating extends Component {
             </div>
         );
     }
-
-    // {emptyRows > 0 && (
-    //     <TableRow style={{ height: 33 * emptyRows }}>
-    //         <TableCell colSpan={6} />
-    //     </TableRow>
-    // )}
 
     render() {
         // console.log(this.props.celebratingList);
