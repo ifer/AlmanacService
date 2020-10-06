@@ -14,12 +14,15 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 import Checkbox from '@material-ui/core/Checkbox';
 import { TablePagination } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import IconButton from '@material-ui/core/IconButton';
 
 import { withStyles } from '@material-ui/core/styles';
+
+import messages from '../util/messages';
 
 const useStyles = (theme) => ({
     root: {
@@ -31,6 +34,15 @@ const useStyles = (theme) => ({
     },
     container: {
         maxHeight: 350,
+    },
+    tableTitle: {
+        color: 'darkred',
+        fontWeight: 'bold',
+        textAlign: 'center',
+        fontSize: '18px',
+    },
+    tableLabel: {
+        fontWeight: 'bold',
     },
 });
 
@@ -111,13 +123,18 @@ class Celebrating extends Component {
     }
 
     renderTable() {
+        const today = `${this.props.curdayinfo.dayOfMonth} ${this.props.curdayinfo.month}  ${this.props.curdayinfo.year}`;
+
         const emptyRows =
             this.state.rowsPerPage -
             Math.min(this.state.rowsPerPage, this.state.rows.length - this.state.page * this.state.rowsPerPage);
-        console.log(`emptyRows=${emptyRows}`);
+        // console.log(`emptyRows=${emptyRows}`);
 
         return (
             <div>
+                <Typography paragraph variant="h5" className={this.classes.tableTitle}>
+                    {`${messages.celebrating_table_title} ${today}`}
+                </Typography>
                 <TableContainer component={Paper}>
                     <Table className={this.classes.table} selectable="true" size="small" aria-label="simple table">
                         <TableHead>
@@ -128,9 +145,9 @@ class Celebrating extends Component {
                                         onClick={(event) => this.handleSelectAllClick(event)}
                                     />
                                 </TableCell>
-                                <TableCell>Ονοματεπώνυμο</TableCell>
-                                <TableCell>Email</TableCell>
-                                <TableCell>Τηλέφωνο</TableCell>
+                                <TableCell className={this.classes.tableLabel}>{messages.label_fullname}</TableCell>
+                                <TableCell className={this.classes.tableLabel}>{messages.label_email}</TableCell>
+                                <TableCell className={this.classes.tableLabel}>{messages.label_phone}</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -170,7 +187,6 @@ class Celebrating extends Component {
                         </TableBody>
                     </Table>
                 </TableContainer>
-
                 <TablePagination
                     component="div"
                     count={this.state.rows.length}
@@ -179,10 +195,23 @@ class Celebrating extends Component {
                     onChangePage={this.handleChangePage}
                     onChangeRowsPerPage={this.handleChangeRowsPerPage}
                     rowsPerPageOptions={[5, 10, 25]}
+                    labelDisplayedRows={({ from, to, count }) =>
+                        `${messages.label_rows} ${from}-${to} ${messages.label_rows_count} ${count}`
+                    }
+                    labelRowsPerPage={messages.label_rows_per_page}
                 />
             </div>
         );
     }
+
+    /*
+    labelDisplayedRows={
+        (messages.labelDisplayedRows_from,
+        messages.labelDisplayedRows_to,
+        messages.labelDisplayedRows_count,
+        messages.labelDisplayedRows_page)
+    }
+    */
 
     render() {
         // console.log(this.props.celebratingList);
@@ -193,8 +222,8 @@ class Celebrating extends Component {
         return (
             <div>
                 <div className={this.classes.root}>
-                    <IconButton size="medium">
-                        <ArrowBackIcon style={{ color: 'blue' }} onClick={this.handleBackButton} />
+                    <IconButton size="medium" onClick={this.handleBackButton}>
+                        <ArrowBackIcon style={{ color: 'blue' }} />
                     </IconButton>
 
                     <Grid container justify="center" spacing={3} style={{ maxWidth: '1100px', minWidth: '1000px' }}>
@@ -210,8 +239,10 @@ class Celebrating extends Component {
 }
 
 function mapStateToProps(state) {
+    // console.log(state);
     return {
         celebratingList: state.celebratingList,
+        curdayinfo: state.date,
     };
 }
 

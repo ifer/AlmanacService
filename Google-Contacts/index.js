@@ -149,6 +149,26 @@ GoogleContacts.prototype._saveContactsFromFeed = function (feed) {
             if (self.params.thin) {
                 url = _.get(entry, 'id.$t', '');
                 // console.log(`${_.get(entry, 'title.$t')} :  ${JSON.stringify(_.get(entry, 'gd$email'))}`);
+                // console.log(_.get(entry, 'title.$t') + ' ' + _.get(entry, 'gd$name.gd$fullName.$t'));
+
+                // Select the primary phone, if exists
+                const phones = _.get(entry, 'gd$phoneNumber', '');
+                let primaryPhone;
+                if (phones.length === 1) {
+                    primaryPhone = phones[0].$t;
+                } else {
+                    for (let i = 0; i < phones.length; i++) {
+                        // console.log(JSON.stringify(phones[i]));
+                        if (phones[i].primary && phones[i].$t) {
+                            primaryPhone = phones[i].$t;
+                        }
+                    }
+                }
+                if (!primaryPhone && phones.length > 0) {
+                    // console.log(JSON.stringify(phones));
+                    primaryPhone = phones[0].$t;
+                }
+
                 el = {
                     name: _.get(entry, 'title.$t'),
                     fullName: _.get(entry, 'gd$name.gd$fullName.$t'),
@@ -156,11 +176,12 @@ GoogleContacts.prototype._saveContactsFromFeed = function (feed) {
                     familyName: _.get(entry, 'gd$name.gd$familyName.$t') || '',
                     email: _.get(entry, 'gd$email.0.address'), // only save first email
                     emails: getEmailAddresses(entry),
-                    phoneNumber: _.get(entry, 'gd$phoneNumber.0.uri', '').replace('tel:', ''),
+                    phoneNumber: primaryPhone,
+                    // phoneNumber: _.get(entry, 'gd$phoneNumber.0.uri', '').replace('tel:', ''),
                     id: url.substring(_.lastIndexOf(url, '/') + 1),
                 };
                 // if (parseInt(el.id, 10) % 3 == 0) {
-                // console.log(JSON.stringify(entry));
+                // console.log(el.fullName + ' primaryPhone=' + primaryPhone);
                 // }
             } else {
                 el = entry;

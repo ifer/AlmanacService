@@ -16,6 +16,13 @@ const messages = {
     error_no_connection: 'Πρόβλημα στην επικοινωνία με τον server!',
     error_you_must_login: 'Πρέπει να συνδεθείτε στο Google για την λειτουργία αυτή',
     no_celebrating: 'Δεν υπάρχουν εορτάζοντες την ημέρα αυτή',
+    label_rows: 'Γραμμές',
+    label_rows_count: 'από σύνολο',
+    label_rows_per_page: 'Γραμμές ανά σελίδα:',
+    celebrating_table_title: 'Εορτάζοντες',
+    label_fullname: 'Ονοματεπώνυμο',
+    label_email: 'Email',
+    label_phone: 'Τηλέφωνο',
 };
 
 export default messages;
