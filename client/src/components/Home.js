@@ -128,16 +128,17 @@ class Home extends Component {
     componentDidMount() {
         // this.props.fetchFixedHolidays();
         this.props.fetchAllHolidays();
-        if (this.props.curdayinfo) {
-            this.props.changeDate('gotoDate', this.props.curdayinfo.datestr);
-        } else {
-            // this.props.changeDate('today');
-            this.props.changeDate('gotoDate', '07012021');
-        }
 
-        // this.props.changeDate('today');
+        // Dev only
+        this.props.changeDate('gotoDate', '07012021');
 
-        // this.props.changeDate('gotoDate', '07012021');
+        // PROD
+        // if (this.props.curdayinfo) {
+        //     this.props.changeDate('gotoDate', this.props.curdayinfo.datestr);
+        // } else {
+        //     // this.props.changeDate('today');
+        //     this.props.changeDate('gotoDate', '07012021');
+        // }
     }
 
     gotoDate(where) {
@@ -361,7 +362,7 @@ class Home extends Component {
                     severity={'error'}
                 />
 
-                {this.props.curdayinfo.dayOfMonth && (
+                {this.props.curdayinfo.dayOfMonth && this.props.allHolidays && (
                     <MuiPickersUtilsProvider utils={MomentUtils} locale={'el'}>
                         <div className={this.classes.root}>
                             <Grid

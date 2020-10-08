@@ -19,6 +19,8 @@ import Checkbox from '@material-ui/core/Checkbox';
 import { TablePagination } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import IconButton from '@material-ui/core/IconButton';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 
 import { withStyles } from '@material-ui/core/styles';
 
@@ -28,6 +30,10 @@ const useStyles = (theme) => ({
     root: {
         flexGrow: 1,
         marginTop: '20px',
+        '& .MuiTextField-root': {
+            margin: theme.spacing(1),
+            width: '25ch',
+        },
     },
     table: {
         minWidth: 600,
@@ -44,6 +50,9 @@ const useStyles = (theme) => ({
     tableLabel: {
         fontWeight: 'bold',
     },
+    input1: {
+        height: 50,
+    },
 });
 
 class Celebrating extends Component {
@@ -58,8 +67,9 @@ class Celebrating extends Component {
         this.handleChangePage = this.handleChangePage.bind(this);
         this.handleChangeRowsPerPage = this.handleChangeRowsPerPage.bind(this);
         this.handleBackButton = this.handleBackButton.bind(this);
+        this.renderEmailForm = this.renderEmailForm.bind(this);
 
-        this.state = { rows: [], selected: [], page: 0, rowsPerPage: 10 };
+        this.state = { rows: [], selected: [], page: 0, rowsPerPage: 10, subject: '', body: '' };
 
         this.selected = [];
         // this.rows = [];
@@ -127,6 +137,12 @@ class Celebrating extends Component {
     handleBackButton() {
         this.props.history.push('/');
     }
+    change = (e) => {
+        // this.props.onChange({ [e.target.name]: e.target.value });
+        this.setState({
+            [e.target.name]: e.target.value,
+        });
+    };
 
     renderTable() {
         const today = `${this.props.curdayinfo.dayOfMonth} ${this.props.curdayinfo.month}  ${this.props.curdayinfo.year}`;
@@ -211,7 +227,53 @@ class Celebrating extends Component {
         );
     }
 
+    renderEmailForm() {
+        return (
+            <form>
+                <TextField
+                    id="email-subject"
+                    label="Θέμα"
+                    variant="outlined"
+                    style={{ width: '600px', marginTop: '20px' }}
+                    inputProps={{
+                        style: {
+                            height: '2em',
+                            width: '600px',
+                        },
+                    }}
+                />
+
+                <TextField
+                    id="email-body"
+                    label="Κείμενο"
+                    variant="outlined"
+                    multiline
+                    rows={20}
+                    style={{ width: '600px', marginTop: '20px' }}
+                    inputProps={{
+                        style: {
+                            height: '20em',
+                        },
+                    }}
+                />
+                <br />
+                <Button variant="contained" color="primary" style={{ marginTop: '20px' }}>
+                    Υποβολή
+                </Button>
+            </form>
+        );
+    }
+
     /*
+    <Button label="Submit" onClick={(e) => this.Submit(e)} primary />
+    <TextField
+        error
+        id="subject_text"
+        label="Κείμενο"
+        value={this.state.subject}
+        helperText="Υποχρεωτικό πεδίο"
+        variant="outlined"
+    />
     labelDisplayedRows={
         (messages.labelDisplayedRows_from,
         messages.labelDisplayedRows_to,
@@ -237,13 +299,20 @@ class Celebrating extends Component {
                         <Grid item xs={12}>
                             {this.renderTable()}
                         </Grid>
-                        <Grid item xs={5} style={{ height: '300px' }}></Grid>
+                        Form
+                        <Grid item xs={12}>
+                            {this.renderEmailForm()}
+                        </Grid>
                     </Grid>
                 </div>
             </div>
         );
     }
 }
+/*
+{this.renderEmailForm()}
+
+*/
 
 function mapStateToProps(state) {
     // console.log(state);

@@ -65,7 +65,7 @@ let theme = createMuiTheme({
         },
         MuiFormLabel: {
             root: {
-                lineHeight: 0.5, // To center vertically default text inside textbox
+                lineHeight: 0.5, // To center vertically placeholder inside textbox
             },
         },
     },
