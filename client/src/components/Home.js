@@ -318,7 +318,7 @@ class Home extends Component {
                         groupBy={(option) => getHolidayType(option.type)}
                         getOptionLabel={(option) => option.holiday}
                         onChange={this.handleHolidayInput}
-                        style={{ width: '100%' }}
+                        style={{ width: '100%', height: '50px' }}
                         autoHighlight
                         noOptionsText={messages.nooptions}
                         renderInput={(params) => (

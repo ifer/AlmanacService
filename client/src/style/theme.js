@@ -47,9 +47,10 @@ let theme = createMuiTheme({
                 },
                 '&&&&& $input': {
                     padding: '0px',
+                    paddingTop: '5px',
                     borderBottom: 'none',
                     boxShadow: 'none',
-                    height: '2em',
+                    height: '1em',
                 },
             },
         },
@@ -60,6 +61,11 @@ let theme = createMuiTheme({
             },
             groupLabel: {
                 color: 'blue',
+            },
+        },
+        MuiFormLabel: {
+            root: {
+                lineHeight: 0.5, // To center vertically default text inside textbox
             },
         },
     },

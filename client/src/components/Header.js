@@ -15,7 +15,7 @@ import messages from '../util/messages';
 const useStyles = (theme) => ({
     appBar: {
         width: `calc(100% - 0px)`,
-        marginLeft: '10px',
+        // marginLeft: '10px',
     },
     menuButton: {
         marginRight: theme.spacing(2),
@@ -103,7 +103,7 @@ class Header extends Component {
 
     render() {
         return (
-            <div>
+            <div style={{ maxWidth: '1100px', minWidth: '1000px' }}>
                 <AppBar color="primary" position="static">
                     <Toolbar>
                         <Box display="flex" flexGrow={1}>
