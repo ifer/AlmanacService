@@ -81,10 +81,13 @@ class Celebrating extends Component {
         this.setState({ rows: rows });
     }
 
-    handleClick(event, id) {
-        const selectedIndex = this.selected.indexOf(id);
+    handleClick(event, row) {
+        if (!row.email) {
+            return;
+        }
+        const selectedIndex = this.selected.indexOf(row.id);
         if (selectedIndex === -1) {
-            this.selected.push(id);
+            this.selected.push(row.id);
         } else {
             this.selected.splice(selectedIndex, 1);
         }
@@ -94,7 +97,10 @@ class Celebrating extends Component {
 
     handleSelectAllClick(event) {
         if (!this.allSelected) {
-            this.selected = this.state.rows.map((row) => {
+            const havingEmail = this.state.rows.filter((row) => {
+                return row.email;
+            });
+            this.selected = havingEmail.map((row) => {
                 return row.id;
             });
             this.allSelected = true;
@@ -158,6 +164,7 @@ class Celebrating extends Component {
                                 )
                                 .map((row) => {
                                     const isSelected = this.isSelected(row.id);
+                                    const isDisabled = row.email ? false : true;
                                     return (
                                         <TableRow
                                             hover
@@ -165,10 +172,10 @@ class Celebrating extends Component {
                                             tabIndex={-1}
                                             key={row.id}
                                             selected={isSelected}
-                                            onClick={(event) => this.handleClick(event, row.id)}
+                                            onClick={(event) => this.handleClick(event, row)}
                                         >
                                             <TableCell padding="checkbox">
-                                                <Checkbox checked={isSelected} />
+                                                <Checkbox checked={isSelected} disabled={isDisabled} />
                                             </TableCell>
                                             <TableCell component="th" scope="row">
                                                 {row.fullName}
