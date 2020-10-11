@@ -3,8 +3,10 @@ import React, { Component } from 'react';
 // To connect to Redux
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { Field, reduxForm } from 'redux-form';
+
 // Import all action -creator functions
-import * as actions from '../actions';
+import * as actions from '../../actions';
 
 import Grid from '@material-ui/core/Grid';
 import Table from '@material-ui/core/Table';
@@ -25,7 +27,9 @@ import Button from '@material-ui/core/Button';
 
 import { withStyles } from '@material-ui/core/styles';
 
-import messages from '../util/messages';
+import messages from '../../util/messages';
+import ShowNotification from '../ShowNotification';
+import validateEmails from '../../util/validateEmails';
 
 const useStyles = (theme) => ({
     root: {
@@ -54,9 +58,17 @@ const useStyles = (theme) => ({
     input1: {
         height: 50,
     },
+    controlLabels: {
+        color: 'darkred',
+        textTransform: 'none',
+    },
+    controlButtons: {
+        color: 'darkred',
+        textTransform: 'none',
+    },
 });
 
-class Celebrating extends Component {
+class CelebList extends Component {
     constructor(props) {
         super(props);
         this.classes = this.props.classes;
@@ -68,22 +80,17 @@ class Celebrating extends Component {
         this.handleChangePage = this.handleChangePage.bind(this);
         this.handleChangeRowsPerPage = this.handleChangeRowsPerPage.bind(this);
         this.handleBackButton = this.handleBackButton.bind(this);
-        this.renderEmailForm = this.renderEmailForm.bind(this);
-        this.handleChangeText = this.handleChangeText.bind(this);
-        this.validateEmailForm = this.validateEmailForm.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.validate = this.validate.bind(this);
+        this.submitRecipients = this.submitRecipients.bind(this);
+        this.hideError = this.hideError.bind(this);
 
         this.state = {
             rows: [],
             selected: [],
             page: 0,
             rowsPerPage: 10,
-            subject: '',
-            body: '',
-            errorSubject: false,
-            errorMessageSubject: '',
-            errorBody: false,
-            errorMessageBody: '',
+            error: false,
+            errormsg: '',
         };
 
         this.selected = [];
@@ -153,37 +160,31 @@ class Celebrating extends Component {
         this.props.history.push('/');
     }
 
-    handleChangeText(event) {
-        this.setState({
-            [event.target.name]: event.target.value,
+    validate() {
+        let recipients = '';
+        this.state.rows.forEach((person) => {
+            if (this.isSelected(person.id)) {
+                recipients += person.email + ',';
+            }
         });
+        const errors = {}; // If this object remains empty, that means there are no errors
+        errors.recipients = validateEmails(recipients || '');
+
+        if (errors.recipients.length > 0) {
+            this.setState({ error: true, errormsg: 'Οι εξής διευθύνσεις είναι άκυρες: ' + errors.recipients });
+            return false;
+        }
+        // console.log(errors.recipients);
     }
 
-    handleSubmit() {
-        console.log('submited');
-        console.log(this.state);
-        // if (!this.validateMessage()) {
-        //     return;
-        // }
+    hideError() {
+        this.setState({ error: false, errormsg: '' });
     }
 
-    validateEmailForm() {
-        let error = false;
-        if (!this.state.subject) {
-            this.setState({ errorSubject: true, errorMessageSubject: 'Υποχρεωτικό πεδίο' });
-            error = true;
-        } else {
-            this.setState({ errorSubject: false, errorMessageSubject: '' });
-        }
-
-        if (!this.state.body) {
-            this.setState({ errorBody: true, errorMessageBody: 'Υποχρεωτικό πεδίο' });
-            error = true;
-        } else {
-            this.setState({ errorBody: false, errorMessageBody: '' });
-        }
-
-        return !error;
+    submitRecipients() {
+        console.log('submitRecipients');
+        if (this.validate() == false) return;
+        this.props.handleSubmit();
     }
 
     renderTable() {
@@ -269,80 +270,21 @@ class Celebrating extends Component {
         );
     }
 
-    renderEmailForm() {
-        return (
-            <form onSubmit={this.handleSubmit}>
-                <TextField
-                    id="email-subject"
-                    name="subject"
-                    label="Θέμα"
-                    variant="outlined"
-                    style={{ width: '600px', marginTop: '20px' }}
-                    inputProps={{
-                        style: {
-                            height: '2em',
-                            width: '600px',
-                            paddingLeft: '1em',
-                        },
-                    }}
-                    value={this.state.subject}
-                    onChange={this.handleChangeText}
-                    onBlur={this.validateEmailForm}
-                    helperText={this.errorMessageSubject}
-                />
-
-                <TextField
-                    id="email-body"
-                    name="body"
-                    label="Κείμενο"
-                    variant="outlined"
-                    multiline
-                    rows={10}
-                    style={{ width: '600px', marginTop: '20px' }}
-                    inputProps={{
-                        style: {
-                            height: '10em',
-                        },
-                    }}
-                    value={this.state.body}
-                    onChange={this.handleChangeText}
-                    onBlur={this.validateEmailForm}
-                    helperText={this.errorMessageSubject}
-                />
-                <br />
-                <Button onClick={this.handleSubmit} variant="contained" color="primary" style={{ marginTop: '20px' }}>
-                    Υποβολή
-                </Button>
-            </form>
-        );
-    }
-
-    /*
-    <Button label="Submit" onClick={(e) => this.Submit(e)} primary />
-    <TextField
-        error
-        id="subject_text"
-        label="Κείμενο"
-        value={this.state.subject}
-        helperText="Υποχρεωτικό πεδίο"
-        variant="outlined"
-    />
-    labelDisplayedRows={
-        (messages.labelDisplayedRows_from,
-        messages.labelDisplayedRows_to,
-        messages.labelDisplayedRows_count,
-        messages.labelDisplayedRows_page)
-    }
-    */
-
     render() {
-        console.log(`Subject=${this.state.subject} body=${this.state.body}`);
+        // console.log(`Subject=${this.state.subject} body=${this.state.body}`);
         if (!this.props.celebratingList) {
             return <div />;
         }
 
         return (
             <div>
+                <ShowNotification
+                    open={this.state.error}
+                    text={this.state.errormsg}
+                    onClose={this.hideError}
+                    severity={'error'}
+                />
+
                 <div className={this.classes.root}>
                     <IconButton size="medium" onClick={this.handleBackButton}>
                         <ArrowBackIcon style={{ color: 'blue' }} />
@@ -352,9 +294,35 @@ class Celebrating extends Component {
                         <Grid item xs={12}>
                             {this.renderTable()}
                         </Grid>
-                        Form
-                        <Grid item xs={12}>
-                            {this.renderEmailForm()}
+                    </Grid>
+
+                    <Grid container item xs={12} spacing={5} style={{ marginTop: '30px' }}>
+                        <Grid container xs={8} item justify="flex-start">
+                            <Typography variant="subtitle1" gutterBottom style={{ color: 'darkblue' }}>
+                                Επιλέξτε τα πρόσωπα στα οποία θέλετε να στείλετε email και πατήστε 'Επόμενο'
+                            </Typography>
+                        </Grid>
+                        <Grid container xs={4} item justify="flex-end">
+                            <form>
+                                <Button
+                                    onClick={this.handleBackButton}
+                                    variant="outlined"
+                                    color="default"
+                                    style={{ marginRight: '50px' }}
+                                    className={this.classes.controlButtons}
+                                >
+                                    Άκυρο
+                                </Button>
+                                <Button
+                                    onClick={this.submitRecipients}
+                                    variant="outlined"
+                                    color="primary"
+                                    className={this.classes.controlButtons}
+                                    disabled={this.selected.length === 0}
+                                >
+                                    Επόμενο
+                                </Button>
+                            </form>
                         </Grid>
                     </Grid>
                 </div>
@@ -376,9 +344,14 @@ function mapStateToProps(state) {
 }
 
 //plugin styles as props (material-ui)
-const styledCelebrating = withStyles(useStyles)(Celebrating);
+const styledCelebList = withStyles(useStyles)(CelebList);
 // With the statement below, actions will be passed to App as props
 // We wrap SurveyFormReview into withRouter in order to make available
 // the history object and to pass it to the action creator.
-export default connect(mapStateToProps, actions)(withRouter(styledCelebrating));
-// export default Home;
+const connectedCelebList = connect(mapStateToProps, actions)(withRouter(styledCelebList));
+
+export default reduxForm({
+    form: 'wizard', // <------ same form name
+    destroyOnUnmount: false, // <------ preserve form data
+    forceUnregisterOnUnmount: true, // <------ unregister fields on unmount
+})(connectedCelebList);

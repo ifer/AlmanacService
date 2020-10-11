@@ -8,11 +8,11 @@ const ShowNotification = ({ open, text, severity, onClose }) => {
             <Snackbar
                 open={open}
                 autoHideDuration={6000}
-                onClose={onClose}
+                onClose={onClose || null}
                 anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
                 style={{ marginTop: '50px' }}
             >
-                <Alert severity={severity} onClose={onClose}>
+                <Alert severity={severity} onClose={onClose || null}>
                     {text}
                 </Alert>
             </Snackbar>

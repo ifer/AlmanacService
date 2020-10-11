@@ -13,7 +13,7 @@ import * as actions from '../actions';
 
 import Header from './Header';
 import Home from './Home';
-import Celebrating from './Celebrating';
+import CelebWizard from './celebrating/celebWizard';
 
 // Package to tell @material-ui/pickers which date-time package to use (eg moment)
 // import { MuiPickersUtilsProvider } from '@material-ui/pickers';
@@ -52,7 +52,7 @@ class App extends Component {
                             θα δείχνει και το Landing και σε όλα τα άλλα paths
                             που περιέχουν '/'. Το ίδιο και στο '/surveys'
                          */}
-                            <Route exact path="/celebrating" component={Celebrating} />
+                            <Route exact path="/celebrating" component={CelebWizard} />
                         </div>
                     </BrowserRouter>
                 </div>
