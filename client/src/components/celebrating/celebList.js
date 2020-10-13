@@ -6,7 +6,9 @@ import { withRouter } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form';
 
 // Import all action -creator functions
-import * as actions from '../../actions';
+// import * as actions from '../../actions';
+import { getRecipients } from '../../actions';
+import { GET_RECIPIENTS } from '../../actions/types';
 
 import Grid from '@material-ui/core/Grid';
 import Table from '@material-ui/core/Table';
@@ -23,6 +25,7 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import IconButton from '@material-ui/core/IconButton';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Box from '@material-ui/core/Box';
 // import * as Yup from 'yup';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -160,13 +163,13 @@ class CelebList extends Component {
         this.props.history.push('/');
     }
 
-    validate() {
-        let recipients = '';
-        this.state.rows.forEach((person) => {
-            if (this.isSelected(person.id)) {
-                recipients += person.email + ',';
-            }
-        });
+    validate(recipients) {
+        // let recipients = '';
+        // this.state.rows.forEach((person) => {
+        //     if (this.isSelected(person.id)) {
+        //         recipients += person.email + ',';
+        //     }
+        // });
         const errors = {}; // If this object remains empty, that means there are no errors
         errors.recipients = validateEmails(recipients || '');
 
@@ -182,8 +185,15 @@ class CelebList extends Component {
     }
 
     submitRecipients() {
+        let recipients = '';
+        this.state.rows.forEach((person) => {
+            if (this.isSelected(person.id)) {
+                recipients += person.email + ',';
+            }
+        });
         console.log('submitRecipients');
-        if (this.validate() == false) return;
+        if (this.validate(recipients) == false) return;
+        this.props.getRecipients(recipients);
         this.props.handleSubmit();
     }
 
@@ -297,12 +307,12 @@ class CelebList extends Component {
                     </Grid>
 
                     <Grid container item xs={12} spacing={5} style={{ marginTop: '30px' }}>
-                        <Grid container xs={8} item justify="flex-start">
+                        <Grid container item xs={8} justify="flex-end">
                             <Typography variant="subtitle1" gutterBottom style={{ color: 'darkblue' }}>
                                 Επιλέξτε τα πρόσωπα στα οποία θέλετε να στείλετε email και πατήστε 'Επόμενο'
                             </Typography>
                         </Grid>
-                        <Grid container xs={4} item justify="flex-end">
+                        <Grid xs={4} container item justify="flex-end">
                             <form>
                                 <Button
                                     onClick={this.handleBackButton}
@@ -348,7 +358,7 @@ const styledCelebList = withStyles(useStyles)(CelebList);
 // With the statement below, actions will be passed to App as props
 // We wrap SurveyFormReview into withRouter in order to make available
 // the history object and to pass it to the action creator.
-const connectedCelebList = connect(mapStateToProps, actions)(withRouter(styledCelebList));
+const connectedCelebList = connect(mapStateToProps, { getRecipients })(withRouter(styledCelebList));
 
 export default reduxForm({
     form: 'wizard', // <------ same form name

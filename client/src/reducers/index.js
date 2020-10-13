@@ -7,6 +7,7 @@ import holidaysReducer from './holidaysReducer';
 import contactsReducer from './contactsReducer';
 import celebratingReducer from './celebratingReducer';
 import errorReducer from './errorReducer';
+import recipientsReducer from './recipientsReducer';
 
 export default combineReducers({
     auth: authReducer,
@@ -16,4 +17,5 @@ export default combineReducers({
     celebratingList: celebratingReducer,
     errorObj: errorReducer,
     form: formReducer,
+    recipients: recipientsReducer,
 });
