@@ -8,7 +8,6 @@ import { Field, reduxForm } from 'redux-form';
 // Import all action -creator functions
 // import * as actions from '../../actions';
 import { getRecipients } from '../../actions';
-import { GET_RECIPIENTS } from '../../actions/types';
 
 import Grid from '@material-ui/core/Grid';
 import Table from '@material-ui/core/Table';

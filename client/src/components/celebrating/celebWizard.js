@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import CelebList from './celebList';
-import CelebEmail from './celebEmail';
+import CelebEmailForm from './celebEmailForm';
 import CelebReview from './celebReview';
 
 class CelebWizard extends Component {
@@ -28,7 +28,7 @@ class CelebWizard extends Component {
         return (
             <div>
                 {page === 1 && <CelebList onSubmit={this.nextPage} />}
-                {page === 2 && <CelebEmail previousPage={this.previousPage} onSubmit={this.nextPage} />}
+                {page === 2 && <CelebEmailForm previousPage={this.previousPage} onSubmit={this.nextPage} />}
                 {page === 3 && <CelebReview previousPage={this.previousPage} onSubmit={onSubmit} />}
             </div>
         );

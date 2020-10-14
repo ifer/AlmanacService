@@ -115,8 +115,8 @@ export const hideError = () => {
 };
 
 export const getRecipients = (recipients) => {
-    console.log('dispatch:' + recipients);
+    // console.log('dispatch:' + recipients);
     return (dispatch) => {
-        dispatch({ type: 'GET_RECIPIENTS', payload: recipients });
+        dispatch({ type: GET_RECIPIENTS, payload: recipients });
     };
 };
