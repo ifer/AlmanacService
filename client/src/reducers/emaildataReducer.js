@@ -1,8 +1,8 @@
-import { SET_RECIPIENTS } from '../actions/types';
+import { SET_EMAILDATA } from '../actions/types';
 
 export default function (state = '', action) {
     switch (action.type) {
-        case SET_RECIPIENTS:
+        case SET_EMAILDATA:
             // console.log('reducer:' + action.payload);
 
             return action.payload;

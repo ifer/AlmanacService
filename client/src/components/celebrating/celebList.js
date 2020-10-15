@@ -3,11 +3,11 @@ import React, { Component } from 'react';
 // To connect to Redux
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { Field, reduxForm } from 'redux-form';
+import { reduxForm } from 'redux-form';
 
 // Import all action -creator functions
 // import * as actions from '../../actions';
-import { getRecipients } from '../../actions';
+import { setRecipients } from '../../actions';
 
 import Grid from '@material-ui/core/Grid';
 import Table from '@material-ui/core/Table';
@@ -22,9 +22,9 @@ import Checkbox from '@material-ui/core/Checkbox';
 import { TablePagination } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import IconButton from '@material-ui/core/IconButton';
-import TextField from '@material-ui/core/TextField';
+// import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import Box from '@material-ui/core/Box';
+// import Box from '@material-ui/core/Box';
 // import * as Yup from 'yup';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -162,7 +162,7 @@ class CelebList extends Component {
         this.props.history.push('/');
     }
 
-    validate(recipients) {
+    validate(emails) {
         // let recipients = '';
         // this.state.rows.forEach((person) => {
         //     if (this.isSelected(person.id)) {
@@ -170,10 +170,10 @@ class CelebList extends Component {
         //     }
         // });
         const errors = {}; // If this object remains empty, that means there are no errors
-        errors.recipients = validateEmails(recipients || '');
+        errors.emails = validateEmails(emails || '');
 
-        if (errors.recipients.length > 0) {
-            this.setState({ error: true, errormsg: 'Οι εξής διευθύνσεις είναι άκυρες: ' + errors.recipients });
+        if (errors.emails.length > 0) {
+            this.setState({ error: true, errormsg: 'Οι εξής διευθύνσεις είναι άκυρες: ' + errors.emails });
             return false;
         }
         // console.log(errors.recipients);
@@ -185,14 +185,16 @@ class CelebList extends Component {
 
     submitRecipients() {
         let recipients = '';
+        let emails = '';
         this.state.rows.forEach((person) => {
             if (this.isSelected(person.id)) {
-                recipients += person.email + ',';
+                recipients += person.fullName + ' (' + person.email + '),';
+                emails += person.email + ',';
             }
         });
-        console.log('submitRecipients');
-        if (this.validate(recipients) == false) return;
-        this.props.getRecipients(recipients);
+        // console.log('submitRecipients');
+        if (this.validate(emails) === false) return;
+        this.props.setRecipients(recipients);
         this.props.handleSubmit();
     }
 
@@ -357,7 +359,7 @@ const styledCelebList = withStyles(useStyles)(CelebList);
 // With the statement below, actions will be passed to App as props
 // We wrap SurveyFormReview into withRouter in order to make available
 // the history object and to pass it to the action creator.
-const connectedCelebList = connect(mapStateToProps, { getRecipients })(withRouter(styledCelebList));
+const connectedCelebList = connect(mapStateToProps, { setRecipients })(withRouter(styledCelebList));
 
 export default reduxForm({
     form: 'wizard', // <------ same form name

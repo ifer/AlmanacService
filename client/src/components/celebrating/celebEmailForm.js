@@ -6,8 +6,10 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
-import CelebList from './celebList';
-import CelebReview from './celebReview';
+// import CelebList from './celebList';
+// import CelebReview from './celebReview';
+
+import { setEmailData } from '../../actions';
 import { withStyles } from '@material-ui/core/styles';
 
 const useStyles = (theme) => ({
@@ -29,13 +31,32 @@ class CelebEmailForm extends Component {
     constructor(props) {
         super(props);
         this.classes = this.props.classes;
+
+        this.state = { subject: '', body: '' };
+
+        this.submitEmailData = this.submitEmailData.bind(this);
+        this.handleChangeText = this.handleChangeText.bind(this);
     }
 
     componentDidMount() {
         // console.log(`CelebEmail: ${this.props.recipients}`);
     }
 
+    handleChangeText(event) {
+        this.setState({
+            [event.target.name]: event.target.value,
+        });
+    }
+
+    submitEmailData() {
+        if (validate({ subject: this.state.subject, body: this.state.body }) === false) return;
+
+        this.props.setEmailData({ subject: this.state.subject, body: this.state.body });
+        this.props.handleSubmit();
+    }
+
     render() {
+        console.log('subject:' + this.state.subject + ', body: ' + this.state.body);
         return (
             // console.log(`Recipients: ${this.props.recipients}`);
             <form onSubmit={this.props.handleSubmit} style={{ marginTop: '30px' }}>
@@ -44,6 +65,7 @@ class CelebEmailForm extends Component {
                         name="subject"
                         component={renderTextField}
                         label="Θέμα"
+                        onChange={this.handleChangeText}
                         inputProps={{
                             style: {
                                 height: '2em',
@@ -56,6 +78,7 @@ class CelebEmailForm extends Component {
                         name="body"
                         component={renderTextField}
                         label="Κείμενο"
+                        onChange={this.handleChangeText}
                         multiline
                         rows={10}
                         inputProps={{
@@ -82,7 +105,7 @@ class CelebEmailForm extends Component {
                                 Προηγούμενο
                             </Button>
                             <Button
-                                onClick={this.submitRecipients}
+                                onClick={this.submitEmailData}
                                 variant="outlined"
                                 color="primary"
                                 className={this.classes.controlButtons}
@@ -142,4 +165,4 @@ export default reduxForm({
     destroyOnUnmount: false, // <------ preserve form data
     forceUnregisterOnUnmount: true, // <------ unregister fields on unmount
     // validate
-})(connect(mapStateToProps, null)(styledCelebEmailForm));
+})(connect(mapStateToProps, { setEmailData })(styledCelebEmailForm));

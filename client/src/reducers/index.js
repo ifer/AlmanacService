@@ -8,6 +8,7 @@ import contactsReducer from './contactsReducer';
 import celebratingReducer from './celebratingReducer';
 import errorReducer from './errorReducer';
 import recipientsReducer from './recipientsReducer';
+import emaildataReducer from './emaildataReducer';
 
 export default combineReducers({
     auth: authReducer,
@@ -18,4 +19,5 @@ export default combineReducers({
     errorObj: errorReducer,
     form: formReducer,
     recipients: recipientsReducer,
+    emaildata: emaildataReducer,
 });

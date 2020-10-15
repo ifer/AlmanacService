@@ -6,7 +6,8 @@ import { FETCH_ALL_HOLIDAYS } from './types';
 import { GOTO_DATE_OF_HOLIDAY } from './types';
 import { FETCH_CONTACTS } from './types';
 import { SHOW_CELEBRATING } from './types';
-import { GET_RECIPIENTS } from './types';
+import { SET_RECIPIENTS } from './types';
+import { SET_EMAILDATA } from './types';
 import { ERROR } from './types';
 import { HIDE_ERROR } from './types';
 
@@ -114,9 +115,16 @@ export const hideError = () => {
     };
 };
 
-export const getRecipients = (recipients) => {
+export const setRecipients = (recipients) => {
     // console.log('dispatch:' + recipients);
     return (dispatch) => {
-        dispatch({ type: GET_RECIPIENTS, payload: recipients });
+        dispatch({ type: SET_RECIPIENTS, payload: recipients });
+    };
+};
+
+export const setEmailData = (emaildata) => {
+    // console.log('dispatch:' + emaildata);
+    return (dispatch) => {
+        dispatch({ type: SET_EMAILDATA, payload: emaildata });
     };
 };
