@@ -32,15 +32,16 @@ class CelebEmailForm extends Component {
         super(props);
         this.classes = this.props.classes;
 
-        this.state = { subject: '', body: '' };
+        this.state = {
+            subject: this.props.initialValues.subject || '',
+            body: this.props.initialValues.body || '',
+        };
 
         this.submitEmailData = this.submitEmailData.bind(this);
         this.handleChangeText = this.handleChangeText.bind(this);
     }
 
-    componentDidMount() {
-        // console.log(`CelebEmail: ${this.props.recipients}`);
-    }
+    componentDidMount() {}
 
     handleChangeText(event) {
         this.setState({
@@ -162,6 +163,12 @@ const styledCelebEmailForm = withStyles(useStyles)(CelebEmailForm);
 export default reduxForm({
     form: 'wizard', // <------ same form name
     validate: validate,
+    initialValues: {
+        subject: 'Θέμα θέμα θέμα θέμα θέμα θέμα θέμα θέμα θέμα θέμα θέμα',
+        body:
+            'Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο ',
+    },
+
     destroyOnUnmount: false, // <------ preserve form data
     forceUnregisterOnUnmount: true, // <------ unregister fields on unmount
     // validate
