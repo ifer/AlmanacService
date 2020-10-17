@@ -5,11 +5,13 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-
+import Paper from '@material-ui/core/Paper';
+import Box from '@material-ui/core/Box';
 // import CelebList from './celebList';
 // import CelebReview from './celebReview';
 
 import { setEmailData } from '../../actions';
+import messages from '../../util/messages';
 import { withStyles } from '@material-ui/core/styles';
 
 const useStyles = (theme) => ({
@@ -24,6 +26,13 @@ const useStyles = (theme) => ({
     controlButtons: {
         color: 'darkred',
         textTransform: 'none',
+    },
+    pageTitle: {
+        color: 'darkblue',
+        fontWeight: 'bold',
+        textAlign: 'center',
+        fontSize: '18px',
+        marginTop: '20px',
     },
 });
 
@@ -55,44 +64,62 @@ class CelebEmailForm extends Component {
         this.props.setEmailData({ subject: this.state.subject, body: this.state.body });
         this.props.handleSubmit();
     }
-
+    /*
+     */
     render() {
-        console.log('subject:' + this.state.subject + ', body: ' + this.state.body);
+        // console.log('subject:' + this.state.subject + ', body: ' + this.state.body);
         return (
-            // console.log(`Recipients: ${this.props.recipients}`);
-            <form onSubmit={this.props.handleSubmit} style={{ marginTop: '30px' }}>
-                <div>
-                    <Field
-                        name="subject"
-                        component={renderTextField}
-                        label="Θέμα"
-                        onChange={this.handleChangeText}
-                        inputProps={{
-                            style: {
-                                height: '2em',
-                                width: '600px',
-                                paddingLeft: '1em',
-                            },
-                        }}
-                    />
-                    <Field
-                        name="body"
-                        component={renderTextField}
-                        label="Κείμενο"
-                        onChange={this.handleChangeText}
-                        multiline
-                        rows={10}
-                        inputProps={{
-                            style: {
-                                height: '10em',
-                            },
-                        }}
-                    />
+            <div>
+                <Typography paragraph variant="h5" className={this.classes.pageTitle}>
+                    {messages.email_message_title}
+                </Typography>
 
+                <Paper
+                    elevation={2}
+                    style={{
+                        minHeight: '400px',
+                        background: 'white',
+                        paddingLeft: '10px',
+                        paddingTop: '30px',
+                        paddingBottom: '30px',
+                    }}
+                >
+                    <Grid container direction="column" justify="center" alignItems="center">
+                        <form onSubmit={this.props.handleSubmit} style={{ width: '600px' }}>
+                            <Field
+                                name="subject"
+                                component={renderTextField}
+                                label="Θέμα"
+                                onChange={this.handleChangeText}
+                                inputProps={{
+                                    style: {
+                                        height: '2em',
+                                        width: '600px',
+                                        paddingLeft: '1em',
+                                    },
+                                }}
+                            />
+                            <Field
+                                name="body"
+                                component={renderTextField}
+                                label="Κείμενο"
+                                onChange={this.handleChangeText}
+                                multiline
+                                rows={10}
+                                inputProps={{
+                                    style: {
+                                        height: '15em',
+                                    },
+                                }}
+                            />
+                        </form>
+                    </Grid>
+                </Paper>
+                <form>
                     <Grid container item xs={12} spacing={5} style={{ marginTop: '30px' }}>
                         <Grid container item xs={8} justify="flex-end">
                             <Typography variant="subtitle1" gutterBottom style={{ color: 'darkblue' }}>
-                                Συμπληρώστε το θέμα και το κείμενο του μηνύματος και πατήστε 'Επόμενο'
+                                {messages.email_message_guide}
                             </Typography>
                         </Grid>
                         <Grid xs={4} container item justify="flex-end">
@@ -103,7 +130,7 @@ class CelebEmailForm extends Component {
                                 style={{ marginRight: '50px' }}
                                 className={this.classes.controlButtons}
                             >
-                                Προηγούμενο
+                                {messages.prev_step}
                             </Button>
                             <Button
                                 onClick={this.submitEmailData}
@@ -111,12 +138,12 @@ class CelebEmailForm extends Component {
                                 color="primary"
                                 className={this.classes.controlButtons}
                             >
-                                Επόμενο
+                                {messages.next_step}
                             </Button>
                         </Grid>
                     </Grid>
-                </div>
-            </form>
+                </form>
+            </div>
         );
     }
 }
@@ -166,7 +193,7 @@ export default reduxForm({
     initialValues: {
         subject: 'Θέμα θέμα θέμα θέμα θέμα θέμα θέμα θέμα θέμα θέμα θέμα',
         body:
-            'Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο Κείμενο ',
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
     },
 
     destroyOnUnmount: false, // <------ preserve form data

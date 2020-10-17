@@ -26,6 +26,7 @@ const useStyles = (theme) => ({
         color: 'black',
         paddingLeft: '10px',
     },
+    pageTitle: {},
 });
 
 class CelebReview extends Component {
@@ -59,7 +60,11 @@ class CelebReview extends Component {
                     {this.props.emaildata.subject}
                 </Typography>
                 <div>Κείμενο:</div>
-                <Typography paragraph variant="subtitle1">
+                <Typography
+                    paragraph
+                    variant="subtitle1"
+                    style={{ maxHeight: '200px', overflow: 'hidden', overflowY: 'auto' }}
+                >
                     {this.props.emaildata.body}
                 </Typography>
             </Paper>
@@ -73,7 +78,10 @@ class CelebReview extends Component {
         // console.log('recipients: ' + this.props.recipients);
         return (
             <div className={this.classes.root}>
-                <Grid container justify="center" spacing={3}>
+                <Typography paragraph variant="h5" className={this.classes.tableTitle}>
+                    {'Επαλήθευση στοιχείων'}
+                </Typography>
+                <Grid container justify="center" spacing={3} style={{ maxWidth: '1100px' }}>
                     <Grid item xs={5}>
                         {this.renderRecipients()}
                     </Grid>

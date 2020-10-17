@@ -48,11 +48,17 @@ const useStyles = (theme) => ({
     container: {
         maxHeight: 350,
     },
+    pageTitle: {
+        color: 'darkblue',
+        fontWeight: 'bold',
+        textAlign: 'center',
+        fontSize: '18px',
+    },
     tableTitle: {
         color: 'darkred',
         fontWeight: 'bold',
         textAlign: 'center',
-        fontSize: '18px',
+        fontSize: '14px',
     },
     tableLabel: {
         fontWeight: 'bold',
@@ -209,7 +215,7 @@ class CelebList extends Component {
         return (
             <div>
                 <Typography paragraph variant="h5" className={this.classes.tableTitle}>
-                    {`${messages.celebrating_table_title} ${today}`}
+                    {`${messages.celebrating_title} ${today}`}
                 </Typography>
                 <TableContainer component={Paper}>
                     <Table className={this.classes.table} selectable="true" size="small" aria-label="simple table">
@@ -297,10 +303,9 @@ class CelebList extends Component {
                 />
 
                 <div className={this.classes.root}>
-                    <IconButton size="medium" onClick={this.handleBackButton}>
-                        <ArrowBackIcon style={{ color: 'blue' }} />
-                    </IconButton>
-
+                    <Typography paragraph variant="h5" className={this.classes.pageTitle}>
+                        {`${messages.recipients_selection}`}
+                    </Typography>
                     <Grid container justify="center" spacing={3} style={{ maxWidth: '1100px', minWidth: '1000px' }}>
                         <Grid item xs={12}>
                             {this.renderTable()}
@@ -310,7 +315,7 @@ class CelebList extends Component {
                     <Grid container item xs={12} spacing={5} style={{ marginTop: '30px' }}>
                         <Grid container item xs={8} justify="flex-end">
                             <Typography variant="subtitle1" gutterBottom style={{ color: 'darkblue' }}>
-                                Επιλέξτε τα πρόσωπα στα οποία θέλετε να στείλετε email και πατήστε 'Επόμενο'
+                                {messages.recipients_selection_guide}
                             </Typography>
                         </Grid>
                         <Grid xs={4} container item justify="flex-end">
@@ -322,7 +327,7 @@ class CelebList extends Component {
                                     style={{ marginRight: '50px' }}
                                     className={this.classes.controlButtons}
                                 >
-                                    Άκυρο
+                                    {messages.cancel}
                                 </Button>
                                 <Button
                                     onClick={this.submitRecipients}
@@ -331,7 +336,7 @@ class CelebList extends Component {
                                     className={this.classes.controlButtons}
                                     disabled={this.selected.length === 0}
                                 >
-                                    Επόμενο
+                                    {messages.next_step}
                                 </Button>
                             </form>
                         </Grid>
@@ -342,8 +347,9 @@ class CelebList extends Component {
     }
 }
 /*
-{this.renderEmailForm()}
-
+<IconButton size="medium" onClick={this.handleBackButton}>
+    <ArrowBackIcon style={{ color: 'blue' }} />
+</IconButton>
 */
 
 function mapStateToProps(state) {
