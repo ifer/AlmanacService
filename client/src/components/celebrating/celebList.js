@@ -57,7 +57,7 @@ const useStyles = (theme) => ({
     tableTitle: {
         color: 'darkred',
         fontWeight: 'bold',
-        textAlign: 'center',
+        textAlign: 'left',
         fontSize: '14px',
     },
     tableLabel: {

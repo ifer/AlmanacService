@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import CelebList from './celebList';
 import CelebEmailForm from './celebEmailForm';
 import CelebReview from './celebReview';
+
+import * as actions from '../../actions';
 
 class CelebWizard extends Component {
     constructor(props) {
@@ -13,7 +16,18 @@ class CelebWizard extends Component {
         this.state = {
             page: 1,
         };
+
+        this.emailFormSubmitted = this.emailFormSubmitted.bind(this);
     }
+
+    recipientsSubmitted() {}
+
+    emailFormSubmitted(emaildata, arg2, arg3, arg4) {
+        // debugger;
+        this.props.setEmailData({ subject: emaildata.subject, body: emaildata.body });
+        this.setState({ page: this.state.page + 1 });
+    }
+
     nextPage() {
         this.setState({ page: this.state.page + 1 });
     }
@@ -28,7 +42,7 @@ class CelebWizard extends Component {
         return (
             <div>
                 {page === 1 && <CelebList onSubmit={this.nextPage} />}
-                {page === 2 && <CelebEmailForm previousPage={this.previousPage} onSubmit={this.nextPage} />}
+                {page === 2 && <CelebEmailForm previousPage={this.previousPage} onSubmit={this.emailFormSubmitted} />}
                 {page === 3 && <CelebReview previousPage={this.previousPage} onSubmit={onSubmit} />}
             </div>
         );
@@ -39,4 +53,12 @@ class CelebWizard extends Component {
 //     onSubmit: PropTypes.func.isRequired,
 // };
 
-export default CelebWizard;
+function mapStateToProps(state) {
+    // console.log(state);
+    return {
+        recipients: state.recipients,
+    };
+}
+
+// export default CelebWizard;
+export default connect(mapStateToProps, actions)(CelebWizard);

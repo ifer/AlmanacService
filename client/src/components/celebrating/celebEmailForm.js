@@ -6,7 +6,7 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
-import Box from '@material-ui/core/Box';
+
 // import CelebList from './celebList';
 // import CelebReview from './celebReview';
 
@@ -46,24 +46,24 @@ class CelebEmailForm extends Component {
             body: this.props.initialValues.body || '',
         };
 
-        this.submitEmailData = this.submitEmailData.bind(this);
-        this.handleChangeText = this.handleChangeText.bind(this);
+        // this.submitEmailData = this.submitEmailData.bind(this);
+        // this.handleChangeText = this.handleChangeText.bind(this);
     }
 
     componentDidMount() {}
 
-    handleChangeText(event) {
-        this.setState({
-            [event.target.name]: event.target.value,
-        });
-    }
+    // handleChangeText(event) {
+    //     this.setState({
+    //         [event.target.name]: event.target.value,
+    //     });
+    // }
 
-    submitEmailData() {
-        if (validate({ subject: this.state.subject, body: this.state.body }) === false) return;
-
-        this.props.setEmailData({ subject: this.state.subject, body: this.state.body });
-        this.props.handleSubmit();
-    }
+    // submitEmailData() {
+    //     if (validate({ subject: this.state.subject, body: this.state.body }) === false) return;
+    //
+    //     this.props.setEmailData({ subject: this.state.subject, body: this.state.body });
+    //     this.props.handleSubmit();
+    // }
     /*
      */
     render() {
@@ -115,14 +115,14 @@ class CelebEmailForm extends Component {
                         </form>
                     </Grid>
                 </Paper>
-                <form>
-                    <Grid container item xs={12} spacing={5} style={{ marginTop: '30px' }}>
-                        <Grid container item xs={8} justify="flex-end">
-                            <Typography variant="subtitle1" gutterBottom style={{ color: 'darkblue' }}>
-                                {messages.email_message_guide}
-                            </Typography>
-                        </Grid>
-                        <Grid xs={4} container item justify="flex-end">
+                <Grid container item xs={12} spacing={5} style={{ marginTop: '30px' }}>
+                    <Grid container item xs={8} justify="flex-end">
+                        <Typography variant="subtitle1" gutterBottom style={{ color: 'darkblue' }}>
+                            {messages.email_message_guide}
+                        </Typography>
+                    </Grid>
+                    <Grid xs={4} container item justify="flex-end">
+                        <form onSubmit={this.props.handleSubmit}>
                             <Button
                                 onClick={this.props.previousPage}
                                 variant="outlined"
@@ -133,16 +133,16 @@ class CelebEmailForm extends Component {
                                 {messages.prev_step}
                             </Button>
                             <Button
-                                onClick={this.submitEmailData}
+                                type="submit"
                                 variant="outlined"
                                 color="primary"
                                 className={this.classes.controlButtons}
                             >
                                 {messages.next_step}
                             </Button>
-                        </Grid>
+                        </form>
                     </Grid>
-                </form>
+                </Grid>
             </div>
         );
     }
@@ -191,9 +191,8 @@ export default reduxForm({
     form: 'wizard', // <------ same form name
     validate: validate,
     initialValues: {
-        subject: 'Θέμα θέμα θέμα θέμα θέμα θέμα θέμα θέμα θέμα θέμα θέμα',
-        body:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+        subject: '',
+        body: '',
     },
 
     destroyOnUnmount: false, // <------ preserve form data

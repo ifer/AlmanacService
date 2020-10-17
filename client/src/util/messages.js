@@ -4,9 +4,9 @@ const messages = {
     next: 'Επόμενη',
     today: 'Σήμερα',
     gotodate: 'Πήγαινε στην ημερομηνία...',
-    findholiday: 'Αναζήτηση...',
+    findholiday: 'Αναζήτηση εορτής...',
     holiday: 'Εορτή..',
-    celebrating: 'Εορτάζοντες...',
+    celebrating: 'Δείτε τους εορτάζοντες και στείλτε τους μήνυμα...',
     loginWithGoogle: 'Σύνδεση μέσω Google',
     logout: 'Αποσύνδεση',
     nooptions: 'Δεν βρέθηκε η λέξη',
@@ -20,17 +20,25 @@ const messages = {
     label_rows_count: 'από σύνολο',
     label_rows_per_page: 'Γραμμές ανά σελίδα:',
     recipients_selection: 'Επιλογή παραληπτών μηνύματος',
-    recipients_selection_guide: "Επιλέξτε τα πρόσωπα στα οποία θέλετε να στείλετε email και πατήστε 'Επόμενο'",
+    recipients_selection_guide:
+        "Επιλέξτε τα πρόσωπα στα οποία θέλετε να στείλετε email και πατήστε 'Επόμενο' ή πατήστε 'Άκυρο' για επιστροφή στην αρχική σελίδα ",
     celebrating_title: 'Εορτάζοντες',
     next_step: 'Επόμενο',
     prev_step: 'Προηγούμενο',
     cancel: 'Άκυρο',
     email_message_title: 'Σύνταξη μηνύματος',
-    email_message_guide: "Συμπληρώστε το θέμα και το κείμενο του μηνύματος και πατήστε 'Επόμενο'",
+    email_message_guide:
+        "Συμπληρώστε το θέμα και το κείμενο του μηνύματος και πατήστε 'Επόμενο' ή πατήστε 'Προηγούμενο' για επεξεργασία παραληπτών",
     send_email: 'Αποστολή μηνύματος τώρα!',
     label_fullname: 'Ονοματεπώνυμο',
     label_email: 'Email',
     label_phone: 'Τηλέφωνο',
+    email_recipients: 'Παραλήπτες μηνύματος',
+    email_data: 'Στοιχεία μηνύματος',
+    email_subject: 'Θέμα',
+    email_body: 'Κείμενο',
+    review_guide:
+        "Βεβαιωθείτε ότι οι παραλήπτες και τα στοιχεία του μηνύματος είναι σωστά και πατήστε 'Αποστολή μηνύματος', \n αλλιώς πατήστε 'Πίσω' για διορθώσεις",
 };
 
 export default messages;
