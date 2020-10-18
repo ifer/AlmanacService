@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+
+import { reduxForm } from 'redux-form';
 
 import CelebList from './celebList';
 import CelebEmailForm from './celebEmailForm';
@@ -13,6 +16,8 @@ class CelebWizard extends Component {
         super(props);
         this.nextPage = this.nextPage.bind(this);
         this.previousPage = this.previousPage.bind(this);
+        this.wizardCancelled = this.wizardCancelled.bind(this);
+
         this.state = {
             page: 1,
         };
@@ -20,7 +25,11 @@ class CelebWizard extends Component {
         this.emailFormSubmitted = this.emailFormSubmitted.bind(this);
     }
 
-    recipientsSubmitted() {}
+    wizardCancelled() {
+        this.props.setCelebSelected([]);
+        this.props.setEmailData(null);
+        this.props.history.push('/');
+    }
 
     emailFormSubmitted(emaildata, arg2, arg3, arg4) {
         // debugger;
@@ -41,7 +50,7 @@ class CelebWizard extends Component {
         const { page } = this.state;
         return (
             <div>
-                {page === 1 && <CelebList onSubmit={this.nextPage} />}
+                {page === 1 && <CelebList cancel={this.wizardCancelled} onSubmit={this.nextPage} />}
                 {page === 2 && <CelebEmailForm previousPage={this.previousPage} onSubmit={this.emailFormSubmitted} />}
                 {page === 3 && <CelebReview previousPage={this.previousPage} onSubmit={onSubmit} />}
             </div>
@@ -60,5 +69,15 @@ function mapStateToProps(state) {
     };
 }
 
-// export default CelebWizard;
-export default connect(mapStateToProps, actions)(CelebWizard);
+// export default connect(mapStateToProps, actions)(withRouter(CelebWizard));
+
+// We are using here reduxForm for one reason only: so that if the user presses cancel
+// in the CelebList screen or BACK on the browser, all form fields are cleared.
+// This is necessary because in  SurveyForm component, we are using the setting
+// "destroyOnUnmount: false" so that the form keeps its values when user leaves
+// SurveyForm and goes to SurveyFormReview.
+// In this component we are not using this setting (the default is true) and so
+// the form is being cleared when unmounted.
+export default reduxForm({
+    form: 'wizard',
+})(connect(mapStateToProps, actions)(withRouter(CelebWizard)));

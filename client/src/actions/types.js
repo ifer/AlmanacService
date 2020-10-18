@@ -6,5 +6,6 @@ export const FETCH_CONTACTS = 'fetch_contacts';
 export const SHOW_CELEBRATING = 'show_celebrating';
 export const SET_RECIPIENTS = 'get_recipients';
 export const SET_EMAILDATA = 'get_emaildata';
+export const CELEB_SELECTED = 'celeb_selected';
 export const ERROR = 'error';
 export const HIDE_ERROR = 'hide_error';

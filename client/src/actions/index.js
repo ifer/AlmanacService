@@ -10,6 +10,7 @@ import { SET_RECIPIENTS } from './types';
 import { SET_EMAILDATA } from './types';
 import { ERROR } from './types';
 import { HIDE_ERROR } from './types';
+import { CELEB_SELECTED } from './types';
 
 import messages from '../util/messages';
 
@@ -126,5 +127,12 @@ export const setEmailData = (emaildata) => {
     // console.log('dispatch:' + emaildata);
     return (dispatch) => {
         dispatch({ type: SET_EMAILDATA, payload: emaildata });
+    };
+};
+
+export const setCelebSelected = (selected) => {
+    // console.log('dispatch:' + recipients);
+    return (dispatch) => {
+        dispatch({ type: CELEB_SELECTED, payload: selected });
     };
 };

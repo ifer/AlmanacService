@@ -5,10 +5,6 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { reduxForm } from 'redux-form';
 
-// Import all action -creator functions
-// import * as actions from '../../actions';
-import { setRecipients } from '../../actions';
-
 import Grid from '@material-ui/core/Grid';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -20,8 +16,6 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Checkbox from '@material-ui/core/Checkbox';
 import { TablePagination } from '@material-ui/core';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import IconButton from '@material-ui/core/IconButton';
 // import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 // import Box from '@material-ui/core/Box';
@@ -32,6 +26,9 @@ import { withStyles } from '@material-ui/core/styles';
 import messages from '../../util/messages';
 import ShowNotification from '../ShowNotification';
 import validateEmails from '../../util/validateEmails';
+
+// Import action functions
+import { setRecipients, setCelebSelected } from '../../actions';
 
 const useStyles = (theme) => ({
     root: {
@@ -104,6 +101,8 @@ class CelebList extends Component {
         this.selected = [];
         // this.rows = [];
         this.allSelected = false;
+
+        // history.listen((loc, action) => {if (action === 'POP')}
     }
 
     componentDidMount() {
@@ -119,6 +118,15 @@ class CelebList extends Component {
             };
         });
         this.setState({ rows: rows });
+        this.selected = this.props.selected || [];
+    }
+
+    componentWillUnmount() {
+        // Browser BACK button pressed
+        window.onpopstate = (e) => {
+            // this.props.setCelebSelected([]);
+            this.props.cancel();
+        };
     }
 
     handleClick(event, row) {
@@ -132,6 +140,7 @@ class CelebList extends Component {
             this.selected.splice(selectedIndex, 1);
         }
         this.setState({ selected: this.selected });
+        this.props.setCelebSelected(this.selected);
         // console.log(this.selected);
     }
 
@@ -149,6 +158,7 @@ class CelebList extends Component {
             this.allSelected = false;
         }
         this.setState({ selected: this.selected });
+        this.props.setCelebSelected(this.selected);
         // console.log(this.selected);
     }
 
@@ -321,7 +331,7 @@ class CelebList extends Component {
                         <Grid xs={4} container item justify="flex-end">
                             <form>
                                 <Button
-                                    onClick={this.handleBackButton}
+                                    onClick={this.props.cancel}
                                     variant="outlined"
                                     color="default"
                                     style={{ marginRight: '50px' }}
@@ -357,6 +367,7 @@ function mapStateToProps(state) {
     return {
         celebratingList: state.celebratingList,
         curdayinfo: state.date,
+        selected: state.celebSelected,
     };
 }
 
@@ -365,7 +376,7 @@ const styledCelebList = withStyles(useStyles)(CelebList);
 // With the statement below, actions will be passed to App as props
 // We wrap SurveyFormReview into withRouter in order to make available
 // the history object and to pass it to the action creator.
-const connectedCelebList = connect(mapStateToProps, { setRecipients })(withRouter(styledCelebList));
+const connectedCelebList = connect(mapStateToProps, { setRecipients, setCelebSelected })(withRouter(styledCelebList));
 
 export default reduxForm({
     form: 'wizard', // <------ same form name

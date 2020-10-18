@@ -9,6 +9,7 @@ import celebratingReducer from './celebratingReducer';
 import errorReducer from './errorReducer';
 import recipientsReducer from './recipientsReducer';
 import emaildataReducer from './emaildataReducer';
+import celebSelectedReducer from './celebSelectedReducer';
 
 export default combineReducers({
     auth: authReducer,
@@ -20,4 +21,5 @@ export default combineReducers({
     form: formReducer,
     recipients: recipientsReducer,
     emaildata: emaildataReducer,
+    celebSelected: celebSelectedReducer,
 });

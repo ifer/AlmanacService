@@ -129,6 +129,10 @@ class Home extends Component {
         // this.props.fetchFixedHolidays();
         this.props.fetchAllHolidays();
 
+        // Clear celebrating wizard "memory"
+        this.props.setCelebSelected([]);
+        this.props.setEmailData(null);
+
         // Dev only
         this.props.changeDate('gotoDate', '07012021');
 
