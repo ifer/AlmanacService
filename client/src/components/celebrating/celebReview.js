@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-
+import { reduxForm } from 'redux-form';
 import List from '@material-ui/core/List';
 // import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -83,15 +83,24 @@ class CelebReview extends Component {
                         {messages.email_recipients}
                     </Typography>
                     <List component="nav" className={this.classes.recipList}>
-                        {this.props.recipients.split(',').map((recipient) => {
-                            return <ListItemText key={recipient} primary={recipient} />;
+                        {this.props.recipients.map((recipient) => {
+                            return (
+                                <ListItemText
+                                    key={recipient.email}
+                                    primary={recipient.name + ' (' + recipient.email + ')'}
+                                />
+                            );
                         })}
                     </List>
                 </Paper>
             </div>
         );
     }
-
+    /*
+{this.props.recipients.split(',').map((recipient) => {
+    return <ListItemText key={recipient} primary={recipient} />;
+})}
+*/
     renderEmaildata() {
         return (
             <Paper elevation={2} className={this.classes.section}>
@@ -135,7 +144,7 @@ class CelebReview extends Component {
                         </Typography>
                     </Grid>
                     <Grid xs={5} container item justify="flex-end">
-                        <form>
+                        <form onSubmit={this.props.handleSubmit}>
                             <Button
                                 onClick={this.props.previousPage}
                                 variant="outlined"
@@ -145,7 +154,12 @@ class CelebReview extends Component {
                             >
                                 {messages.prev_step}
                             </Button>
-                            <Button variant="outlined" color="primary" className={this.classes.sendEmailButton}>
+                            <Button
+                                type="submit"
+                                variant="outlined"
+                                color="primary"
+                                className={this.classes.sendEmailButton}
+                            >
                                 {messages.send_email}
                             </Button>
                         </form>
@@ -165,4 +179,12 @@ function mapStateToProps(state) {
 }
 
 const styledCelebReview = withStyles(useStyles)(CelebReview);
-export default connect(mapStateToProps, null)(withRouter(styledCelebReview));
+
+export default reduxForm({
+    form: 'wizard', // <------ same form name
+    destroyOnUnmount: false, // <------ preserve form data
+    forceUnregisterOnUnmount: true, // <------ unregister fields on unmount
+    // validate
+})(connect(mapStateToProps, null)(withRouter(styledCelebReview)));
+
+// export default connect(mapStateToProps, null)(withRouter(styledCelebReview));

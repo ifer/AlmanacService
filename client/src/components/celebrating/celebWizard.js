@@ -17,6 +17,7 @@ class CelebWizard extends Component {
         this.nextPage = this.nextPage.bind(this);
         this.previousPage = this.previousPage.bind(this);
         this.wizardCancelled = this.wizardCancelled.bind(this);
+        this.sendEmail = this.sendEmail.bind(this);
 
         this.state = {
             page: 1,
@@ -37,6 +38,15 @@ class CelebWizard extends Component {
         this.setState({ page: this.state.page + 1 });
     }
 
+    sendEmail() {
+        console.log('Sending email  ... ');
+        console.log(this.props.recipients);
+        console.log(this.props.emaildata.subject + '  ' + this.props.emaildata.body);
+        this.props.setCelebSelected([]);
+        this.props.setEmailData(null);
+        this.props.history.push('/');
+    }
+
     nextPage() {
         this.setState({ page: this.state.page + 1 });
     }
@@ -46,13 +56,13 @@ class CelebWizard extends Component {
     }
 
     render() {
-        const { onSubmit } = this.props;
+        // const { onSubmit } = this.props;
         const { page } = this.state;
         return (
             <div>
                 {page === 1 && <CelebList cancel={this.wizardCancelled} onSubmit={this.nextPage} />}
                 {page === 2 && <CelebEmailForm previousPage={this.previousPage} onSubmit={this.emailFormSubmitted} />}
-                {page === 3 && <CelebReview previousPage={this.previousPage} onSubmit={onSubmit} />}
+                {page === 3 && <CelebReview previousPage={this.previousPage} onSubmit={this.sendEmail} />}
             </div>
         );
     }
@@ -66,6 +76,7 @@ function mapStateToProps(state) {
     // console.log(state);
     return {
         recipients: state.recipients,
+        emaildata: state.emaildata,
     };
 }
 

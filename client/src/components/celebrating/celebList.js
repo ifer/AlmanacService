@@ -200,11 +200,12 @@ class CelebList extends Component {
     }
 
     submitRecipients() {
-        let recipients = '';
+        let recipients = [];
         let emails = '';
         this.state.rows.forEach((person) => {
             if (this.isSelected(person.id)) {
-                recipients += person.fullName + ' (' + person.email + '),';
+                recipients.push({ name: person.fullName, email: person.email });
+                // recipients += person.fullName + ' (' + person.email + '),';
                 emails += person.email + ',';
             }
         });

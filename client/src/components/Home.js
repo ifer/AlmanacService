@@ -456,6 +456,7 @@ function checkContacts(contacts, daynames) {
         // id = i;
 
         let isCelebrant = false;
+        // console.log(contacts[i].familyName + ' ' + contacts[i].givenName);
         let gn = noGreekAccents(contacts[i].givenName).toUpperCase();
         for (let j = 0; j < daynames.length; j++) {
             let fn = noGreekAccents(daynames[j]).toUpperCase();

@@ -70,6 +70,13 @@ GoogleContacts.prototype._get = function (params, cb) {
 
             res.on('data', function (chunk) {
                 debug('got ' + chunk.length + ' bytes');
+                // let s = chunk.toString('utf-8');
+                // if (s.indexOf('\uFFFD') >= 0) {
+                //     // console.log(chunk);
+                //     // console.log('Special character: ' + s);
+                //     s = s.replace(/\uFFFD/, ' ');
+                // }
+                // data += s;
                 data += chunk.toString('utf-8');
             });
 
@@ -141,8 +148,10 @@ GoogleContacts.prototype.getContact = function (cb, params) {
 
 GoogleContacts.prototype._saveContactsFromFeed = function (feed) {
     var self = this;
+    // console.log(JSON.stringify(feed));
+
     _.each(feed.entry, function (entry) {
-        // The 'ingroup' filter exclude 'other contacts' (added automatically bi Google)
+        // The 'ingroup' filter exclude 'other contacts' (added automatically by Google)
         ingroup = _.get(entry, 'gContact$groupMembershipInfo');
         if (ingroup) {
             var el, url;
@@ -180,6 +189,10 @@ GoogleContacts.prototype._saveContactsFromFeed = function (feed) {
                     // phoneNumber: _.get(entry, 'gd$phoneNumber.0.uri', '').replace('tel:', ''),
                     id: url.substring(_.lastIndexOf(url, '/') + 1),
                 };
+                el.givenName = fixSpecialCharacter(el.givenName, el.fullName, 'givenName');
+                el.familyName = fixSpecialCharacter(el.familyName, el.fullName, 'familyName');
+
+                // console.log(el.familyName + ' ' + el.givenName);
                 // if (parseInt(el.id, 10) % 3 == 0) {
                 // console.log(el.fullName + ' primaryPhone=' + primaryPhone);
                 // }
@@ -190,6 +203,25 @@ GoogleContacts.prototype._saveContactsFromFeed = function (feed) {
         }
     });
 };
+
+// Workaround to try to fix unicode special characters received for some reason
+function fixSpecialCharacter(name, fullName, type) {
+    if (name.indexOf('\uFFFD') < 0) {
+        return name;
+    }
+
+    const s = fullName.split(' ');
+    if (s.length != 2) {
+        return name;
+    }
+    if (type === 'givenName') {
+        // console.log('Replacing  ' + name + ' with ' + s[0]);
+        return s[0];
+    } else {
+        // console.log('Replacing  ' + name + ' with ' + s[1]);
+        return s[1];
+    }
+}
 
 // _.get(entry, 'gd$email').map(function (email) {
 //     return email.address;
