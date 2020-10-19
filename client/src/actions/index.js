@@ -106,7 +106,11 @@ export const openCelebrating = (personlist, history) => {
 
 export const noCelebrating = () => {
     return async (dispatch) => {
-        dispatch({ type: ERROR, payload: null, error: { statusCode: '-1', message: messages.no_celebrating } });
+        dispatch({
+            type: ERROR,
+            payload: null,
+            error: { statusCode: '-1', message: messages.no_celebrating, severity: 'info' },
+        });
     };
 };
 

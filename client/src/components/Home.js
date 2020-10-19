@@ -356,6 +356,14 @@ class Home extends Component {
                 return '';
             }
         };
+        const errorSeverity = () => {
+            // debugger;
+            if (this.props.error) {
+                return this.props.error.severity || 'error';
+            } else {
+                return 'error';
+            }
+        };
 
         return (
             <div>
@@ -363,7 +371,7 @@ class Home extends Component {
                     open={this.props.isOpen}
                     text={errorText()}
                     onClose={this.onCloseErrorMsg}
-                    severity={'error'}
+                    severity={errorSeverity()}
                 />
 
                 {this.props.curdayinfo.dayOfMonth && this.props.allHolidays && (
