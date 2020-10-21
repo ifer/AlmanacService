@@ -2,7 +2,7 @@ const nodemailer = require('nodemailer');
 
 const keys = require('../config/keys');
 
-function sendEmail(emaildata, accessToken, callback) {
+function sendEmail(message, accessToken, callback) {
     let transport = nodemailer.createTransport({
         host: keys.email.host,
         port: keys.email.port,
@@ -18,15 +18,15 @@ function sendEmail(emaildata, accessToken, callback) {
     console.log(
         `host=${keys.email.host} port=${keys.email.port} user=${keys.email.auth.user} pass=${keys.email.auth.pass} accessToken=${accessToken}`
     );
-    console.log(JSON.stringify(emaildata));
+    console.log('sendEmail: message=' + JSON.stringify(message));
     // process.exit(1);
 
-    const message = {
-        from: emaildata.sender, // Sender address
-        to: emaildata.recipients, // List of recipients
-        subject: emaildata.subject, // Subject line
-        text: emaildata.body, // Plain text body
-    };
+    // const message = {
+    //     from: emaildata.sender, // Sender address
+    //     to: emaildata.recipients, // List of recipients
+    //     subject: emaildata.subject, // Subject line
+    //     text: emaildata.body, // Plain text body
+    // };
 
     transport.sendMail(message, callback);
 

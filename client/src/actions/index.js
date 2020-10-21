@@ -11,6 +11,7 @@ import { SET_EMAILDATA } from './types';
 import { ERROR } from './types';
 import { HIDE_ERROR } from './types';
 import { CELEB_SELECTED } from './types';
+import { SEND_EMAIL } from './types';
 
 import messages from '../util/messages';
 
@@ -93,6 +94,20 @@ export const fetchContacts = () => {
             // dispatch({ type: ERROR, error: err });
         }
         // console.log('axios fetchAllHolidays res=' + JSON.stringify(res.data));
+    };
+};
+
+export const sendEmail = (emaildata) => {
+    return async (dispatch) => {
+        let res;
+        console.log('sendEmail called');
+        try {
+            res = await axios.post('/api/sendemail', emaildata);
+            dispatch({ type: SEND_EMAIL, payload: res.data });
+            console.log('axios res=' + JSON.stringify(res));
+        } catch (err) {
+            dispatch({ type: SEND_EMAIL, payload: null, error: err });
+        }
     };
 };
 

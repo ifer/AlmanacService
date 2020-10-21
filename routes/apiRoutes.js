@@ -5,6 +5,7 @@ const refresh = require('passport-oauth2-refresh');
 const calendarService = require('../services/calendarService');
 const holidayService = require('../services/holidayService');
 const requireLogin = require('../middlewares/requireLogin');
+const emailService = require('../services/emailService');
 // Get User model class from camo
 const User = require('../models/User').User;
 
@@ -144,6 +145,34 @@ module.exports = (app) => {
                 };
                 // Make the initial request.
                 makeRequest();
+            },
+            (error) => {
+                // console.log('User ' + req.user.googleid + ' not found');
+                return res.status(401).send(new AppError(401, 'User ' + req.user.googleid + ' not found: ' + error));
+            }
+        );
+    });
+
+    app.post('/api/sendemail', requireLogin, (req, res) => {
+        const message = req.body;
+
+        // debugger;
+        console.log(message);
+        let retries = 3;
+
+        User.findOne({ googleid: req.user.googleid }).then(
+            (user) => {
+                // console.log('User: ' + user.displayname + ' refresh:' + user.refreshToken);
+                emailService.sendEmail(message, undefined, (err, info) => {
+                    if (err) {
+                        console.log('ERROR:');
+                        console.log(err);
+                    }
+                    if (info) {
+                        console.log('SUCCESS:');
+                        console.log(info);
+                    }
+                });
             },
             (error) => {
                 // console.log('User ' + req.user.googleid + ' not found');

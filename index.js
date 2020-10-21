@@ -8,6 +8,8 @@ const express = require('express');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
 
+const bodyParser = require('body-parser');
+
 const connect = require('camo').connect;
 const dbURI = `nedb://${appRoot}/db/users`;
 
@@ -23,10 +25,17 @@ const keys = require('./config/keys');
 connect(dbURI).then((db) => {
     database = db;
 
+    // console.log('Deleting: ');
     // const User = require('./models/User').User;
-    // User.deleteOne({ googleid: '108792367941895914037' }).then((m) => {
+    // // User.findOne({ googleid: '108792367941895914037' }).then((user) => {
+    // //     user.delete();
+    // //     console.log('Deleted: ' + user.displayname);
+    // // });
+    // User.deleteMany({ displayname: 'Ioannis Fertakis' }).then((m) => {
     //     console.log('Deleted: ' + m);
     // });
+
+    // process.exit(0);
     // User.deleteOne({ googleid: '108792367941895914037' }).then((m) => {
     //     console.log('Deleted: ' + m);
     // });
@@ -41,6 +50,8 @@ const app = express();
 // app.use (..) function iniializes different 'middlewares'.
 // Middlewares are functions that have access to the request object (req), the response object (res),
 // and the next middleware function in the application’s request-response cycle
+
+app.use(bodyParser());
 
 // Tell Express to use cookies.
 // Config cookieSession setting cookies maxAge and encryption keys

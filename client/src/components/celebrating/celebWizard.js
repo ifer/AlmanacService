@@ -32,7 +32,7 @@ class CelebWizard extends Component {
         this.props.history.push('/');
     }
 
-    emailFormSubmitted(emaildata, arg2, arg3, arg4) {
+    emailFormSubmitted(emaildata) {
         // debugger;
         this.props.setEmailData({ subject: emaildata.subject, body: emaildata.body });
         this.setState({ page: this.state.page + 1 });
@@ -42,6 +42,24 @@ class CelebWizard extends Component {
         console.log('Sending email  ... ');
         console.log(this.props.recipients);
         console.log(this.props.emaildata.subject + '  ' + this.props.emaildata.body);
+
+        let recipients = '';
+        this.props.recipients.forEach((recip) => {
+            recipients += recip.email + ',';
+        });
+
+        console.log('recipients=' + recipients);
+
+        const message = {
+            from: this.props.auth.email,
+            to: recipients,
+            subject: this.props.emaildata.subject,
+            text: this.props.emaildata.body,
+        };
+
+        // debugger;
+        this.props.sendEmail(message);
+
         this.props.setCelebSelected([]);
         this.props.setEmailData(null);
         this.props.history.push('/');
@@ -77,6 +95,7 @@ function mapStateToProps(state) {
     return {
         recipients: state.recipients,
         emaildata: state.emaildata,
+        auth: state.auth,
     };
 }
 

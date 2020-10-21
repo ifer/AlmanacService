@@ -5,6 +5,7 @@ class User extends Document {
         super();
 
         this.googleid = String;
+        this.email = String;
         this.displayname = String;
         this.accessToken = String;
         this.refreshToken = String;
