@@ -8,7 +8,7 @@
         "server": "nodemon index.js --ignore './client/'",
         "debug": "nodemon --inspect index.js --ignore './client/'",
         "client": "yarn --cwd client run start",
-        "dev": "concurrently \"yarn run server\" \"yarn run client\""
+        "dev": "NODE_EXTRA_CA_CERTS=\"$(mkcert -CAROOT)/rootCA.pem\" concurrently \"yarn run server\" \"yarn run client\""
     },
     "dependencies": {
         "@material-ui/data-grid": "^4.0.0-alpha.6",
@@ -18,7 +18,7 @@
         "cookie-session": "^1.4.0",
         "express": "^4.17.1",
         "google-contacts": "file:./Google-Contacts",
-        "googleapis": "^58.0.0",
+        "googleapis": "^61.0.0",
         "line-reader": "^0.4.0",
         "moment": "^2.27.0",
         "nedb": "^1.8.0",
@@ -34,6 +34,7 @@
         "yup": "^0.29.3"
     },
     "comments": {
+        "dev": "NODE_EXTRA_CA_CERTS needed for proper function of SSL with certs created by mkcert utility",
         "server": "--ignore './client/' needed for a proxy problem (ECONNREFUSED to localhost:5000)"
     }
 }

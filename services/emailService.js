@@ -1,41 +1,42 @@
 const nodemailer = require('nodemailer');
+const { google } = require('googleapis');
 
 const keys = require('../config/keys');
 
-function sendEmail(message, accessToken, callback) {
-    let transport = nodemailer.createTransport({
-        host: keys.email.host,
-        port: keys.email.port,
-        secure: keys.email.secure,
+const OAuth2 = google.auth.OAuth2;
+
+function sendEmail(message, refreshToken, callback) {
+    const oauth2Client = new OAuth2(
+        keys.googleClientID,
+        keys.googleClientSecret, // Client Secret
+        'https://developers.google.com/oauthplayground' // Redirect URL
+    );
+
+    oauth2Client.setCredentials({
+        refresh_token: refreshToken,
+    });
+    const accessToken = oauth2Client.getAccessToken();
+
+    const smtpTransport = nodemailer.createTransport({
+        service: 'gmail',
         auth: {
-            type: keys.email.type || undefined,
-            user: keys.email.auth.user || emaildata.sender,
-            pass: keys.email.auth.pass || undefined,
-            accessToken: accessToken || undefined,
+            type: 'OAuth2',
+            user: message.from,
+            clientId: keys.googleClientID,
+            clientSecret: keys.googleClientSecret,
+            refreshToken: refreshToken,
+            accessToken: accessToken,
+        },
+        tls: {
+            rejectUnauthorized: false,
         },
     });
 
-    console.log(
-        `host=${keys.email.host} port=${keys.email.port} user=${keys.email.auth.user} pass=${keys.email.auth.pass} accessToken=${accessToken}`
-    );
-    console.log('sendEmail: message=' + JSON.stringify(message));
-    // process.exit(1);
+    smtpTransport.sendMail(message, callback);
 
-    // const message = {
-    //     from: emaildata.sender, // Sender address
-    //     to: emaildata.recipients, // List of recipients
-    //     subject: emaildata.subject, // Subject line
-    //     text: emaildata.body, // Plain text body
-    // };
-
-    transport.sendMail(message, callback);
-
-    // transport.sendMail(message, function (err, info) {
-    //     if (err) {
-    //         console.log(err);
-    //     } else {
-    //         console.log(info);
-    //     }
+    // smtpTransport.sendMail(message, (error, response) => {
+    //     error ? console.log('smtpTransport' + error) : console.log('smtpTransport' + response);
+    //     smtpTransport.close();
     // });
 }
 

@@ -7,10 +7,11 @@ global.database = {};
 const express = require('express');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
-
 const bodyParser = require('body-parser');
-
 const connect = require('camo').connect;
+const fs = require('fs');
+const https = require('https');
+
 const dbURI = `nedb://${appRoot}/db/users`;
 
 // The following files are executed without returing an object
@@ -18,9 +19,15 @@ require('./models/User');
 require('./services/passport');
 // Order matters to the above statements!
 
+// process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
 const authRoutes = require('./routes/authRoutes');
 const apiRoutes = require('./routes/apiRoutes');
 const keys = require('./config/keys');
+
+// // const rootCACertificate = keys.sslCARootCertificate;
+// process.env.NODE_EXTRA_CA_CERTS = keys.sslCARootCertificate;
+// console.log('process.env.NODE_EXTRA_CA_CERTS=' + process.env.NODE_EXTRA_CA_CERTS);
 
 connect(dbURI).then((db) => {
     database = db;
@@ -44,6 +51,7 @@ connect(dbURI).then((db) => {
 // In production, take the port number by the env variable PORT
 // In development, use 5000
 const PORT = process.env.PORT || 5000;
+const SSLPORT = process.env.SSLPORT || 5001;
 
 const app = express();
 
@@ -83,9 +91,29 @@ if (process.env.NODE_ENV === 'production') {
     app.get('/*', (req, res) => {
         res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
     });
+} else {
+    // In development mode, get rid of error DEPTH_ZERO_SELF_SIGNED_CERT
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 }
 
-app.listen(PORT);
+// app.listen(PORT);
+
+// Certificate
+const privateKey = fs.readFileSync(keys.sslPrivateKey, 'utf8');
+const certificate = fs.readFileSync(keys.sslCertificate, 'utf8');
+// const ca = fs.readFileSync(config.sslChain, 'utf8');
+
+const credentials = {
+    key: privateKey,
+    cert: certificate,
+    // ca: ca
+    rejectUnauthorized: false,
+};
+
+const httpsServer = https.createServer(credentials, app);
+httpsServer.listen(SSLPORT, () => {
+    console.log(`HTTPS server started on port ${SSLPORT}`);
+});
 
 // Only for modules than run directly (e.g. for testing)
 // All other modules will inherit this global variable

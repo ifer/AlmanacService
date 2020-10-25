@@ -14,6 +14,7 @@ module.exports = (app) => {
                 'email',
                 'https://www.googleapis.com/auth/contacts.readonly',
                 'https://www.googleapis.com/auth/userinfo.email',
+                'https://www.googleapis.com/auth/gmail.send',
             ], // access to user info
         })
     );

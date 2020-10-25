@@ -158,28 +158,80 @@ module.exports = (app) => {
 
         // debugger;
         console.log(message);
-        let retries = 3;
 
-        User.findOne({ googleid: req.user.googleid }).then(
-            (user) => {
-                // console.log('User: ' + user.displayname + ' refresh:' + user.refreshToken);
-                emailService.sendEmail(message, undefined, (err, info) => {
-                    if (err) {
-                        console.log('ERROR:');
-                        console.log(err);
-                    }
-                    if (info) {
-                        console.log('SUCCESS:');
-                        console.log(info);
-                    }
-                });
-            },
-            (error) => {
-                // console.log('User ' + req.user.googleid + ' not found');
-                return res.status(401).send(new AppError(401, 'User ' + req.user.googleid + ' not found: ' + error));
-            }
-        );
+        User.findOne({ googleid: req.user.googleid }).then((user) => {
+            emailService.sendEmail(message, user.refreshToken, (err, info) => {
+                if (err) {
+                    console.log(err);
+                }
+                if (info) {
+                    console.log('SUCCESS:');
+                    console.log(info);
+                }
+            }),
+                (error) => {
+                    // console.log('User ' + req.user.googleid + ' not found');
+                    return res
+                        .status(401)
+                        .send(new AppError(401, 'User ' + req.user.googleid + ' not found: ' + error));
+                };
+        });
     });
+
+    // app.post('/api/sendemail', requireLogin, (req, res) => {
+    //     const message = req.body;
+    //
+    //     // debugger;
+    //     console.log(message);
+    //     let retries = 3;
+    //
+    //     User.findOne({ googleid: req.user.googleid }).then(
+    //         (user) => {
+    //             console.log('User: ' + user.displayname + ' refresh:' + user.refreshToken);
+    //             const makeRequest = function () {
+    //                 retries--;
+    //                 if (!retries) {
+    //                     // Couldn't refresh the access token.
+    //                     console.log('1. Could not send email ');
+    //                     return res.status(401).send(new AppError(401, ERROR_COULD_NOT_REFRESH_TOKEN));
+    //                 }
+    //
+    //                 emailService.sendEmail(message, (err, info) => {
+    //                     if (err) {
+    //                         // console.log(err);
+    //                         // res.send(new AppError(-1, err));
+    //                         console.log('Access token expired');
+    //
+    //                         // Access token expired.
+    //                         // Try to fetch a new one.
+    //                         refresh.requestNewAccessToken('google', user.refreshToken, function (err, accessToken) {
+    //                             if (err || !accessToken) {
+    //                                 console.log('2. Could not send email: ' + JSON.stringify(err));
+    //                                 return res.status(401).send(new AppError(401, ERROR_COULD_NOT_REFRESH_TOKEN));
+    //                             }
+    //                             console.log('Refresh: new access token: ' + accessToken);
+    //                             // Save the new accessToken for future use
+    //                             user.accessToken = accessToken;
+    //                             user.save().then((u) => {
+    //                                 // Retry the request.
+    //                                 makeRequest();
+    //                             });
+    //                         });
+    //                     }
+    //                     if (info) {
+    //                         console.log('SUCCESS:');
+    //                         console.log(info);
+    //                     }
+    //                 });
+    //             };
+    //             makeRequest();
+    //         },
+    //         (error) => {
+    //             // console.log('User ' + req.user.googleid + ' not found');
+    //             return res.status(401).send(new AppError(401, 'User ' + req.user.googleid + ' not found: ' + error));
+    //         }
+    //     );
+    // });
 };
 
 // async function getContacts() {
