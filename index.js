@@ -25,10 +25,6 @@ const authRoutes = require('./routes/authRoutes');
 const apiRoutes = require('./routes/apiRoutes');
 const keys = require('./config/keys');
 
-// // const rootCACertificate = keys.sslCARootCertificate;
-// process.env.NODE_EXTRA_CA_CERTS = keys.sslCARootCertificate;
-// console.log('process.env.NODE_EXTRA_CA_CERTS=' + process.env.NODE_EXTRA_CA_CERTS);
-
 connect(dbURI).then((db) => {
     database = db;
 

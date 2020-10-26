@@ -160,7 +160,7 @@ module.exports = (app) => {
         console.log(message);
 
         User.findOne({ googleid: req.user.googleid }).then((user) => {
-            emailService.sendEmail(message, user.refreshToken, (err, info) => {
+            emailService.sendEmail(message, user.accessToken, user.refreshToken, (err, info) => {
                 if (err) {
                     console.log(err);
                 }
