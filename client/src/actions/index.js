@@ -9,7 +9,7 @@ import { SHOW_CELEBRATING } from './types';
 import { SET_RECIPIENTS } from './types';
 import { SET_EMAILDATA } from './types';
 import { ERROR } from './types';
-import { HIDE_ERROR } from './types';
+import { HIDE_NOTIF } from './types';
 import { CELEB_SELECTED } from './types';
 import { SEND_EMAIL } from './types';
 
@@ -100,11 +100,9 @@ export const fetchContacts = () => {
 export const sendEmail = (emaildata) => {
     return async (dispatch) => {
         let res;
-        console.log('sendEmail called');
         try {
             res = await axios.post('/api/sendemail', emaildata);
-            dispatch({ type: SEND_EMAIL, payload: res.data });
-            console.log('axios res=' + JSON.stringify(res));
+            dispatch({ type: SEND_EMAIL, payload: null, error: res.data });
         } catch (err) {
             dispatch({ type: SEND_EMAIL, payload: null, error: err });
         }
@@ -129,9 +127,9 @@ export const noCelebrating = () => {
     };
 };
 
-export const hideError = () => {
+export const hideNotif = () => {
     return {
-        type: HIDE_ERROR,
+        type: HIDE_NOTIF,
     };
 };
 

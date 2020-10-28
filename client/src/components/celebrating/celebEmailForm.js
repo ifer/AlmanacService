@@ -34,6 +34,17 @@ const useStyles = (theme) => ({
         fontSize: '18px',
         marginTop: '20px',
     },
+    buttonSection: {
+        background: 'SeaShell',
+        border: '1px solid lightgrey',
+        marginTop: '30px',
+        // paddingTop: '8px',
+        // paddingBottom: '8px',
+        // paddingLeft: '12px',
+        // paddingRight: '12px',
+        maxWidth: '1100px',
+        minWidth: '1000px',
+    },
 });
 
 class CelebEmailForm extends Component {
@@ -50,22 +61,6 @@ class CelebEmailForm extends Component {
         // this.handleChangeText = this.handleChangeText.bind(this);
     }
 
-    componentDidMount() {}
-
-    // handleChangeText(event) {
-    //     this.setState({
-    //         [event.target.name]: event.target.value,
-    //     });
-    // }
-
-    // submitEmailData() {
-    //     if (validate({ subject: this.state.subject, body: this.state.body }) === false) return;
-    //
-    //     this.props.setEmailData({ subject: this.state.subject, body: this.state.body });
-    //     this.props.handleSubmit();
-    // }
-    /*
-     */
     render() {
         // console.log('subject:' + this.state.subject + ', body: ' + this.state.body);
         return (
@@ -77,7 +72,7 @@ class CelebEmailForm extends Component {
                 <Paper
                     elevation={2}
                     style={{
-                        minHeight: '400px',
+                        minHeight: '500px',
                         background: 'white',
                         paddingLeft: '10px',
                         paddingTop: '30px',
@@ -105,23 +100,23 @@ class CelebEmailForm extends Component {
                                 label="Κείμενο"
                                 onChange={this.handleChangeText}
                                 multiline
-                                rows={10}
+                                rows={15}
                                 inputProps={{
                                     style: {
-                                        height: '15em',
+                                        height: '20em',
                                     },
                                 }}
                             />
                         </form>
                     </Grid>
                 </Paper>
-                <Grid container item xs={12} spacing={5} style={{ marginTop: '30px' }}>
-                    <Grid container item xs={8} justify="flex-end">
+                <Grid container item xs={12} spacing={3} className={this.classes.buttonSection}>
+                    <Grid container item xs={8} justify="flex-end" alignItems="center">
                         <Typography variant="subtitle1" gutterBottom style={{ color: 'darkblue' }}>
                             {messages.email_message_guide}
                         </Typography>
                     </Grid>
-                    <Grid xs={4} container item justify="flex-end">
+                    <Grid xs={4} container item justify="flex-end" alignItems="center">
                         <form onSubmit={this.props.handleSubmit}>
                             <Button
                                 onClick={this.props.previousPage}
@@ -169,10 +164,10 @@ function validate(values) {
     const errors = {}; // If this object remains empty, that means there are no errors
 
     if (!values['subject']) {
-        errors['subject'] = 'Παρακαλώ γράψτε το θέμα του μηνύματος';
+        errors['subject'] = messages.email_subject_mandatory;
     }
     if (!values['body']) {
-        errors['body'] = 'Παρακαλώ γράψτε το κείμενο του μηνύματος';
+        errors['body'] = messages.email_body_mandatory;
     }
 
     return errors;

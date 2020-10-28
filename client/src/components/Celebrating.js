@@ -336,7 +336,7 @@ class Celebrating extends Component {
     */
 
     render() {
-        console.log(`Subject=${this.state.subject} body=${this.state.body}`);
+        // console.log(`Subject=${this.state.subject} body=${this.state.body}`);
         if (!this.props.celebratingList) {
             return <div />;
         }

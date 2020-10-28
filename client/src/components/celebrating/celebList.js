@@ -71,6 +71,17 @@ const useStyles = (theme) => ({
         color: 'darkred',
         textTransform: 'none',
     },
+    buttonSection: {
+        background: 'SeaShell',
+        border: '1px solid lightgrey',
+        marginTop: '30px',
+        // paddingTop: '8px',
+        // paddingBottom: '8px',
+        // paddingLeft: '12px',
+        // paddingRight: '12px',
+        maxWidth: '1100px',
+        minWidth: '1000px',
+    },
 });
 
 class CelebList extends Component {
@@ -189,7 +200,7 @@ class CelebList extends Component {
         errors.emails = validateEmails(emails || '');
 
         if (errors.emails.length > 0) {
-            this.setState({ error: true, errormsg: 'Οι εξής διευθύνσεις είναι άκυρες: ' + errors.emails });
+            this.setState({ error: true, errormsg: messages.email_invalid_addresses + errors.emails });
             return false;
         }
         // console.log(errors.recipients);
@@ -323,13 +334,13 @@ class CelebList extends Component {
                         </Grid>
                     </Grid>
 
-                    <Grid container item xs={12} spacing={5} style={{ marginTop: '30px' }}>
-                        <Grid container item xs={8} justify="flex-end">
+                    <Grid container item xs={12} spacing={3} className={this.classes.buttonSection}>
+                        <Grid container item xs={8} justify="flex-end" alignItems="center">
                             <Typography variant="subtitle1" gutterBottom style={{ color: 'darkblue' }}>
                                 {messages.recipients_selection_guide}
                             </Typography>
                         </Grid>
-                        <Grid xs={4} container item justify="flex-end">
+                        <Grid xs={4} container item justify="flex-end" alignItems="center">
                             <form>
                                 <Button
                                     onClick={this.props.cancel}

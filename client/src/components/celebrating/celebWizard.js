@@ -39,16 +39,16 @@ class CelebWizard extends Component {
     }
 
     sendEmail() {
-        console.log('Sending email  ... ');
-        console.log(this.props.recipients);
-        console.log(this.props.emaildata.subject + '  ' + this.props.emaildata.body);
+        // console.log('Sending email  ... ');
+        // console.log(this.props.recipients);
+        // console.log(this.props.emaildata.subject + '  ' + this.props.emaildata.body);
 
         let recipients = '';
         this.props.recipients.forEach((recip) => {
             recipients += recip.email + ',';
         });
 
-        console.log('recipients=' + recipients);
+        // console.log('recipients=' + recipients);
 
         const message = {
             from: this.props.auth.email,

@@ -87,9 +87,6 @@ if (process.env.NODE_ENV === 'production') {
     app.get('/*', (req, res) => {
         res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
     });
-} else {
-    // In development mode, get rid of error DEPTH_ZERO_SELF_SIGNED_CERT
-    process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 }
 
 // app.listen(PORT);

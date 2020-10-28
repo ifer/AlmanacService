@@ -54,7 +54,7 @@ const useStyles = (theme) => ({
         fontWeight: 'bold',
         textAlign: 'center',
         fontSize: '18px',
-        marginTop: '20px',
+        marginTop: '0px',
     },
     controlButtons: {
         color: 'darkred',
@@ -64,6 +64,17 @@ const useStyles = (theme) => ({
         background: 'green',
         color: 'white',
         textTransform: 'none',
+    },
+    buttonSection: {
+        background: 'SeaShell',
+        border: '1px solid lightgrey',
+        marginTop: '30px',
+        // paddingTop: '8px',
+        // paddingBottom: '8px',
+        // paddingLeft: '12px',
+        // paddingRight: '12px',
+        maxWidth: '1100px',
+        minWidth: '1000px',
     },
 });
 
@@ -127,23 +138,35 @@ class CelebReview extends Component {
         return (
             <div className={this.classes.root}>
                 <Typography paragraph variant="h5" className={this.classes.pageTitle}>
-                    {'Επαλήθευση στοιχείων'}
+                    {messages.email_verify_data}
                 </Typography>
-                <Grid container justify="center" spacing={3} style={{ maxWidth: '1100px' }}>
-                    <Grid item xs={5}>
-                        {this.renderRecipients()}
+                <Paper
+                    elevation={2}
+                    style={{
+                        minHeight: '400px',
+                        background: 'white',
+                        paddingLeft: '10px',
+                        paddingTop: '30px',
+                        paddingBottom: '30px',
+                    }}
+                >
+                    <Grid container justify="center" spacing={3} style={{ maxWidth: '1100px' }}>
+                        <Grid item xs={5}>
+                            {this.renderRecipients()}
+                        </Grid>
+                        <Grid item xs={5} style={{ height: '575px', marginTop: '20px' }}>
+                            {this.renderEmaildata()}
+                        </Grid>
                     </Grid>
-                    <Grid item xs={5} style={{ height: '575px', marginTop: '20px' }}>
-                        {this.renderEmaildata()}
-                    </Grid>
-                </Grid>
-                <Grid container item xs={12} spacing={5} style={{ marginTop: '30px' }}>
-                    <Grid container item xs={7} justify="flex-end">
+                </Paper>
+
+                <Grid container item xs={12} spacing={3} className={this.classes.buttonSection}>
+                    <Grid container item xs={7} justify="flex-end" alignItems="center">
                         <Typography variant="subtitle1" gutterBottom style={{ color: 'darkblue' }}>
                             {messages.review_guide}
                         </Typography>
                     </Grid>
-                    <Grid xs={5} container item justify="flex-end">
+                    <Grid xs={5} container item justify="flex-end" alignItems="center">
                         <form onSubmit={this.props.handleSubmit}>
                             <Button
                                 onClick={this.props.previousPage}

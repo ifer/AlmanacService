@@ -194,7 +194,7 @@ class Home extends Component {
 
     onCloseErrorMsg() {
         // console.log('Switching to false');
-        this.props.hideError();
+        this.props.hideNotif();
     }
 
     renderHolidays(dayHolidays) {
@@ -357,12 +357,13 @@ class Home extends Component {
             }
         };
         const errorSeverity = () => {
-            // debugger;
-            if (this.props.error) {
-                return this.props.error.severity || 'error';
-            } else {
-                return 'error';
-            }
+            return this.props.severity || 'error';
+            // if (this.props.error) {
+            //     debugger;
+            //     return this.props.error.severity || 'error';
+            // } else {
+            //     return 'error';
+            // }
         };
 
         return (
@@ -410,6 +411,7 @@ function mapStateToProps(state) {
 
     const error = state.errorObj != null ? state.errorObj.error : null;
     const isOpen = state.errorObj != null ? state.errorObj.isOpen : false;
+    const severity = state.errorObj != null ? state.errorObj.severity : null;
 
     return {
         curdayinfo: curdayinfo,
@@ -418,6 +420,7 @@ function mapStateToProps(state) {
         contacts: state.contacts,
         error: error,
         isOpen: isOpen,
+        severity: severity,
         showNoCelebrating: state.noCelebrating,
     };
 }
