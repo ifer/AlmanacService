@@ -7,7 +7,9 @@ import { connect } from 'react-redux';
 
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
+
 import theme from '../style/theme';
+
 // Import all action -creator functions
 import * as actions from '../actions';
 

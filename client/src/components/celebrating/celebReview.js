@@ -17,6 +17,13 @@ const useStyles = (theme) => ({
     root: {
         flexGrow: 1,
         marginTop: '20px',
+        '& .MuiTextField-root': {
+            margin: theme.spacing(1),
+            width: '25ch',
+        },
+        // '& .MuiGrid-spacing-xs-3': {
+        //     margin: '0px',
+        // },
     },
     recipList: {
         maxWidth: '500px',

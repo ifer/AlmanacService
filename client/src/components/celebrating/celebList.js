@@ -38,6 +38,9 @@ const useStyles = (theme) => ({
             margin: theme.spacing(1),
             width: '25ch',
         },
+        // '& .MuiGrid-spacing-xs-3': {
+        //     margin: '0px',
+        // },
     },
     table: {
         minWidth: 600,
@@ -239,7 +242,7 @@ class CelebList extends Component {
                 <Typography paragraph variant="h5" className={this.classes.tableTitle}>
                     {`${messages.celebrating_title} ${today}`}
                 </Typography>
-                <TableContainer component={Paper}>
+                <TableContainer component={Paper} style={{ maxWidth: '1100px', minWidth: '1000px' }}>
                     <Table className={this.classes.table} selectable="true" size="small" aria-label="simple table">
                         <TableHead>
                             <TableRow>
@@ -324,7 +327,7 @@ class CelebList extends Component {
                     severity={'error'}
                 />
 
-                <div className={this.classes.root}>
+                <Grid container xs={12} direction="column" justify="center" alignItems="stretch">
                     <Typography paragraph variant="h5" className={this.classes.pageTitle}>
                         {`${messages.recipients_selection}`}
                     </Typography>
@@ -363,7 +366,7 @@ class CelebList extends Component {
                             </form>
                         </Grid>
                     </Grid>
-                </div>
+                </Grid>
             </div>
         );
     }

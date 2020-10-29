@@ -22,6 +22,9 @@ const useStyles = (theme) => ({
             margin: theme.spacing(1),
             width: '25ch',
         },
+        // '& .MuiGrid-spacing-xs-3': {
+        //     margin: '0px',
+        // },
     },
     controlButtons: {
         color: 'darkred',
@@ -44,6 +47,15 @@ const useStyles = (theme) => ({
         // paddingRight: '12px',
         maxWidth: '1100px',
         minWidth: '1000px',
+    },
+    formBackground: {
+        maxWidth: '1100px',
+        minWidth: '1000px',
+        minHeight: '500px',
+        background: 'white',
+        paddingLeft: '10px',
+        paddingTop: '30px',
+        paddingBottom: '30px',
     },
 });
 
@@ -69,16 +81,7 @@ class CelebEmailForm extends Component {
                     {messages.email_message_title}
                 </Typography>
 
-                <Paper
-                    elevation={2}
-                    style={{
-                        minHeight: '500px',
-                        background: 'white',
-                        paddingLeft: '10px',
-                        paddingTop: '30px',
-                        paddingBottom: '30px',
-                    }}
-                >
+                <Paper elevation={2} className={this.classes.formBackground}>
                     <Grid container direction="column" justify="center" alignItems="center">
                         <form onSubmit={this.props.handleSubmit} style={{ width: '600px' }}>
                             <Field

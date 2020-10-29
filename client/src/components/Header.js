@@ -103,21 +103,19 @@ class Header extends Component {
 
     render() {
         return (
-            <div style={{ maxWidth: '1100px', minWidth: '1000px' }}>
-                <AppBar color="primary" position="static">
-                    <Toolbar>
-                        <Box display="flex" flexGrow={1}>
-                            <Link className={this.classes.brandLogo} to={'/'}>
-                                <Typography variant="h5" color="inherit">
-                                    {messages.appname}
-                                </Typography>
-                            </Link>
-                        </Box>
-                        {this.renderUsername()}
-                        {this.renderLogButton()}
-                    </Toolbar>
-                </AppBar>
-            </div>
+            <AppBar color="primary" position="static" style={{ maxWidth: '1100px', minWidth: '1000px' }}>
+                <Toolbar>
+                    <Box display="flex" flexGrow={1}>
+                        <Link className={this.classes.brandLogo} to={'/'}>
+                            <Typography variant="h5" color="inherit">
+                                {messages.appname}
+                            </Typography>
+                        </Link>
+                    </Box>
+                    {this.renderUsername()}
+                    {this.renderLogButton()}
+                </Toolbar>
+            </AppBar>
         );
     }
 }
