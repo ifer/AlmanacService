@@ -40,7 +40,46 @@ const useStyles = (theme) => ({
         flexGrow: 1,
         marginTop: '40px',
     },
-
+    '@global': {
+        html: {
+            [theme.breakpoints.down('sm')]: {
+                fontSize: 8,
+            },
+            [theme.breakpoints.up('sm')]: {
+                fontSize: 10,
+            },
+            [theme.breakpoints.up('md')]: {
+                fontSize: 12,
+            },
+            [theme.breakpoints.up('lg')]: {
+                fontSize: 16,
+            },
+            [theme.breakpoints.up('xl')]: {
+                fontSize: 18,
+            },
+        },
+    },
+    section: {
+        padding: theme.spacing(1),
+        margin: theme.spacing(1),
+        // Min browser width ~= 500px
+        [theme.breakpoints.down('md')]: {
+            width: '185px',
+            height: 'calc(185px * 1.50)',
+        },
+        [theme.breakpoints.up('md')]: {
+            width: '296px',
+            height: 'calc(296px * 1.50)',
+        },
+        [theme.breakpoints.up('lg')]: {
+            width: '370px',
+            height: 'calc(370px * 1.50)',
+        },
+        [theme.breakpoints.up('xl')]: {
+            width: '592px',
+            height: 'calc(592px * 1.50)',
+        },
+    },
     paper: {
         padding: theme.spacing(2),
         textAlign: 'center',
@@ -49,21 +88,28 @@ const useStyles = (theme) => ({
         background: 'WhiteSmoke',*/
         background: '#FAFAFA',
         width: '100%',
+        height: '100%',
     },
 
     calDayOfWeek: {
         color: 'black',
-        fontWeight: 'bold',
+        fontWeight: 'regular',
+        margin: 0,
+        padding: 0,
     },
 
     calDayOfMonth: {
         color: 'red',
         fontWeight: 'bold',
+        margin: 0,
+        padding: 0,
     },
 
     calMonthYear: {
         color: 'black',
-        fontWeight: 'bold',
+        fontWeight: 'regular',
+        margin: 0,
+        padding: 0,
     },
 
     calHolidays: {
@@ -72,24 +118,24 @@ const useStyles = (theme) => ({
     },
 
     calHolidayDiv: {
-        marginTop: '60px',
-        minHeight: '120px',
+        // marginTop: '60px',
+        // minHeight: '120px',
     },
 
     calMoonPhase: {
-        marginTop: '30px',
+        // marginTop: '30px',
         color: 'green',
     },
 
     calSunRiseSet: {
-        marginTop: '30px',
+        // marginTop: '30px',
         color: 'magenta',
-        marginBottom: '60px',
+        // marginBottom: '60px',
     },
 
     controls: {
         alignItems: 'center',
-        marginTop: '15px',
+        // marginTop: '15px',
     },
 
     controlLabels: {
@@ -99,7 +145,7 @@ const useStyles = (theme) => ({
     controlButtons: {
         color: 'darkred',
         textTransform: 'none',
-        paddingTop: '20px',
+        // paddingTop: '20px',
     },
     title: {
         color: theme.palette.primary.main,
@@ -211,30 +257,40 @@ class Home extends Component {
 
     renderCalendar(dayinfo) {
         return (
-            <Paper elevation={5} className={this.classes.paper} style={{ height: '600px' }}>
-                <Typography paragraph variant="h5" className={this.classes.calDayOfWeek}>
-                    {dayinfo.dayOfWeek}
-                </Typography>
-                <Typography paragraph variant="h4" className={this.classes.calDayOfMonth}>
-                    {dayinfo.dayOfMonth}
-                </Typography>
-                <Typography paragraph variant="h5" className={this.classes.calMonthYear}>
-                    {dayinfo.month} {dayinfo.year}
-                </Typography>
-                <div className={this.classes.calHolidayDiv}>
-                    {/* dayHolidays is an array */}
-                    {dayinfo.dayHolidays.map((holiday, index) => (
-                        <Typography paragraph variant="body1" className={this.classes.calHolidays} key={index}>
-                            {holiday}
+            <Paper elevation={5} className={this.classes.paper}>
+                <Grid
+                    container
+                    direction="column"
+                    justify="space-around"
+                    alignItems="center"
+                    style={{ height: '100%' }}
+                >
+                    <Grid container direction="column" justify="flex-start" alignItems="center" spacing={0}>
+                        <Typography paragraph variant="h5" className={this.classes.calDayOfWeek}>
+                            {dayinfo.dayOfWeek}
                         </Typography>
-                    ))}
-                </div>
-                <Typography paragraph variant="subtitle1" className={this.classes.calMoonPhase}>
-                    {dayinfo.moonPhase}
-                </Typography>
-                <Typography paragraph variant="subtitle1" className={this.classes.calSunRiseSet}>
-                    {dayinfo.sunRiseSet}
-                </Typography>
+                        <Typography paragraph variant="h4" className={this.classes.calDayOfMonth}>
+                            {dayinfo.dayOfMonth}
+                        </Typography>
+                        <Typography paragraph variant="h5" className={this.classes.calMonthYear}>
+                            {dayinfo.month} {dayinfo.year}
+                        </Typography>
+                    </Grid>
+                    <div className={this.classes.calHolidayDiv}>
+                        {/* dayHolidays is an array */}
+                        {dayinfo.dayHolidays.map((holiday, index) => (
+                            <Typography paragraph variant="body1" className={this.classes.calHolidays} key={index}>
+                                {holiday}
+                            </Typography>
+                        ))}
+                    </div>
+                    <Typography paragraph variant="subtitle1" className={this.classes.calMoonPhase}>
+                        {dayinfo.moonPhase}
+                    </Typography>
+                    <Typography paragraph variant="subtitle1" className={this.classes.calSunRiseSet}>
+                        {dayinfo.sunRiseSet}
+                    </Typography>
+                </Grid>
             </Paper>
         );
     }
@@ -242,47 +298,47 @@ class Home extends Component {
     renderLeftPage() {
         return (
             <Paper elevation={5} className={this.classes.paper} style={{ height: '600px' }}>
-                <Grid container spacing={2} className={this.classes.controls}>
-                    <Grid container justify="flex-start" item xs={3}>
-                        <IconButton onClick={() => this.gotoDate('prevMonth')}>
-                            <img src={leftDoubleArrow} alt="" />
-                        </IconButton>
-                    </Grid>
-                    <Grid container justify="flex-end" item xs={2}>
-                        <IconButton onClick={() => this.gotoDate('prevDay')}>
-                            <img src={leftArrow} alt="" />
-                        </IconButton>
-                    </Grid>
-                    <Grid container justify="center" item xs={2}>
-                        <Button onClick={() => this.gotoDate('today')}>
+                <Grid container direction="column" justify="flex-start" alignItems="center" style={{ height: '100%' }}>
+                    <Grid container spacing={1} className={this.classes.controls}>
+                        <Grid container item justify="center" alignItems="center">
+                            <Button onClick={() => this.gotoDate('today')}>
+                                <Typography paragraph variant="h6" className={this.classes.controlButtons}>
+                                    {messages.today}
+                                </Typography>
+                            </Button>
+                        </Grid>
+                        <Grid container item alignItems="center" justify="space-between">
+                            <IconButton onClick={() => this.gotoDate('prevDay')}>
+                                <img src={leftArrow} alt="" />
+                            </IconButton>
                             <Typography paragraph variant="h6" className={this.classes.controlButtons}>
-                                {messages.today}
+                                {'Ημέρα'}
                             </Typography>
-                        </Button>
+                            <IconButton aria-label="next day" onClick={() => this.gotoDate('nextDay')}>
+                                <img src={rightArrow} alt="" />
+                            </IconButton>
+                        </Grid>
+                        <Grid container item alignItems="center" justify="space-between">
+                            <IconButton onClick={() => this.gotoDate('prevMonth')}>
+                                <img src={leftDoubleArrow} alt="" />
+                            </IconButton>
+                            <Typography paragraph variant="h6" className={this.classes.controlButtons}>
+                                {'Μήνας'}
+                            </Typography>
+                            <IconButton onClick={() => this.gotoDate('nextMonth')}>
+                                <img src={rightDoubleArrow} alt="" />
+                            </IconButton>
+                        </Grid>
                     </Grid>
-                    <Grid container justify="flex-start" item xs={2}>
-                        <IconButton aria-label="next day" onClick={() => this.gotoDate('nextDay')}>
-                            <img src={rightArrow} alt="" />
-                        </IconButton>
-                    </Grid>
-                    <Grid container justify="flex-end" item xs={3}>
-                        <IconButton onClick={() => this.gotoDate('nextMonth')}>
-                            <img src={rightDoubleArrow} alt="" />
-                        </IconButton>
-                    </Grid>
-                </Grid>
-                <Grid container spacing={2} className={this.classes.controls}>
-                    <Grid container justify="flex-start" item xs={7}>
+                    <Grid container alignItems="center" justify="space-between">
                         <Typography
                             paragraph
                             variant="h6"
                             className={this.classes.controlLabels}
-                            style={{ marginLeft: '0px', marginBottom: '0px' }}
+                            style={{ marginLeft: '0px', marginBottom: '0px', marginTop: '15px' }}
                         >
                             {messages.gotodate}
                         </Typography>
-                    </Grid>
-                    <Grid container justify="center" item xs={5}>
                         <DatePicker
                             openTo="date"
                             format="DD/MM/YYYY"
@@ -303,45 +359,41 @@ class Home extends Component {
                             }}
                         />
                     </Grid>
-                </Grid>
-                <Grid container spacing={2} className={this.classes.controls}>
-                    <Grid container justify="flex-start" item xs={7}>
+                    <Grid container spacing={1} direction="column" alignItems="flex-start">
                         <Typography
                             paragraph
                             variant="h6"
                             className={this.classes.controlLabels}
-                            style={{ marginLeft: '0px', marginBottom: '0px' }}
+                            style={{ marginLeft: '0px', marginTop: '25px', marginBottom: '2px' }}
                         >
                             {messages.findholiday}
                         </Typography>
+                        <Autocomplete
+                            id="combo-findholiday"
+                            options={this.props.allHolidays}
+                            groupBy={(option) => getHolidayType(option.type)}
+                            getOptionLabel={(option) => option.holiday}
+                            onChange={this.handleHolidayInput}
+                            style={{ width: '100%', height: '50px', marginTop: '15px' }}
+                            autoHighlight
+                            noOptionsText={messages.nooptions}
+                            renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                    label={messages.holiday}
+                                    variant="outlined"
+                                    style={{ fontSize: '8px' }}
+                                />
+                            )}
+                        />
                     </Grid>
-                </Grid>
-                <Grid container justify="center" item xs={12} className={this.classes.controls}>
-                    <Autocomplete
-                        id="combo-findholiday"
-                        options={this.props.allHolidays}
-                        groupBy={(option) => getHolidayType(option.type)}
-                        getOptionLabel={(option) => option.holiday}
-                        onChange={this.handleHolidayInput}
-                        style={{ width: '100%', height: '50px' }}
-                        autoHighlight
-                        noOptionsText={messages.nooptions}
-                        renderInput={(params) => (
-                            <TextField
-                                {...params}
-                                label={messages.holiday}
-                                variant="outlined"
-                                style={{ fontSize: '8px' }}
-                            />
-                        )}
-                    />
-                </Grid>
-                <Grid container item xs={12} className={this.classes.controls}>
-                    <Button onClick={() => this.getCelebrating()}>
-                        <Typography paragraph variant="h6" className={this.classes.controlButtons}>
-                            {messages.celebrating}
-                        </Typography>
-                    </Button>
+                    <Grid container item alignItems="center" justify="flex-start">
+                        <Button style={{ marginTop: '25px' }} onClick={() => this.getCelebrating()}>
+                            <Typography paragraph variant="h6" className={this.classes.controlButtons}>
+                                {messages.celebrating}
+                            </Typography>
+                        </Button>
+                    </Grid>
                 </Grid>
             </Paper>
         );
@@ -377,21 +429,14 @@ class Home extends Component {
 
                 {this.props.curdayinfo.dayOfMonth && this.props.allHolidays && (
                     <MuiPickersUtilsProvider utils={MomentUtils} locale={'el'}>
-                        <div className={this.classes.root}>
-                            <Grid
-                                container
-                                justify="center"
-                                spacing={3}
-                                style={{ maxWidth: '1100px', minWidth: '1000px' }}
-                            >
-                                <Grid item xs={5}>
-                                    {this.renderLeftPage()}
-                                </Grid>
-                                <Grid item xs={5} style={{ height: '300px' }}>
-                                    {this.renderCalendar(this.props.curdayinfo)}
-                                </Grid>
+                        <Grid container justify="center">
+                            <Grid item container justify="center" className={this.classes.section}>
+                                {this.renderLeftPage()}
                             </Grid>
-                        </div>
+                            <Grid item container justify="center" className={this.classes.section}>
+                                {this.renderCalendar(this.props.curdayinfo)}
+                            </Grid>
+                        </Grid>
                     </MuiPickersUtilsProvider>
                 )}
             </div>

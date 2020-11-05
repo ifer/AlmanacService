@@ -1,5 +1,6 @@
 import { createMuiTheme, responsiveFontSizes } from '@material-ui/core/styles';
 import ANAOneiroparmEni82 from './ANAOneiroparmEni82.ttf';
+import createBreakpoints from '@material-ui/core/styles/createBreakpoints';
 
 const oneiro = {
     fontFamily: 'oneiro',
@@ -14,23 +15,48 @@ const oneiro = {
   `,
 };
 
+const breakpoints = createBreakpoints({});
+
 let theme = createMuiTheme({
     palette: {
         primary: { 500: '#B22222' },
     },
     typography: {
-        fontFamily: ['Roboto', 'oneiro'].join(','),
+        // fontFamily: ['Roboto', 'oneiro'].join(','),
         h6: {
             fontFamily: 'oneiro',
             fontWeight: 400,
-            fontSize: '16px',
+            fontSize: 14,
         },
+        fontFamily: 'Roboto',
+        fontWeight: 400,
+        fontSize: 14,
     },
-
+    breakpoints,
     overrides: {
         MuiCssBaseline: {
             '@global': {
                 '@font-face': [oneiro],
+            },
+        },
+        MuiTypography: {
+            h6: {
+                // fontSize: pxToRem(14),
+                [breakpoints.down('sm')]: {
+                    fontSize: 8,
+                },
+                [breakpoints.up('sm')]: {
+                    fontSize: 10,
+                },
+                [breakpoints.up('md')]: {
+                    fontSize: 12,
+                },
+                [breakpoints.up('lg')]: {
+                    fontSize: 16,
+                },
+                [breakpoints.up('xl')]: {
+                    fontSize: 18,
+                },
             },
         },
         MuiOutlinedInput: {

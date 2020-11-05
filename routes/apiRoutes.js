@@ -39,8 +39,8 @@ module.exports = (app) => {
             case 'nextMonth':
                 date = calendarService.nextMonth(req.params.basedate);
                 dayinfo = getDayInfo(date.format('DD/MM/YYYY'));
-                return res.status(411).send(new AppError('411', 'No next month'));
-                // res.send(dayinfo);
+                // return res.status(411).send(new AppError('411', 'No next month'));
+                res.send(dayinfo);
                 return;
             case 'prevMonth':
                 date = calendarService.prevMonth(req.params.basedate);

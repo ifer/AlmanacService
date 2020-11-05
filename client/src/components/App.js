@@ -5,6 +5,7 @@ import { BrowserRouter, Route } from 'react-router-dom';
 // To connect to Redux
 import { connect } from 'react-redux';
 
+import { Grid } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
@@ -40,24 +41,25 @@ class App extends Component {
             <ThemeProvider theme={theme}>
                 <CssBaseline />
 
-                <div className="container">
-                    <BrowserRouter>
-                        {/* BrowserRouter accepts only one child-component */}
-                        <div>
+                <BrowserRouter>
+                    {/* BrowserRouter accepts only one child-component */}
+                    <Grid container direction="column">
+                        <Grid>
                             <Header />
-                            {/* Επειδή δεν συνδέουμε τον header με κάποιο Route,
-                        ο router θα το εμφανίζει πάντα, πριν από όλα τα
-                        components!
-                        */}
-                            <Route exact={true} path="/" component={Home} />
-                            {/* Αν δεν χρησιμοποιήσουμε exact=true στο root, o router
-                            θα δείχνει και το Landing και σε όλα τα άλλα paths
-                            που περιέχουν '/'. Το ίδιο και στο '/surveys'
-                         */}
-                            <Route exact path="/celebrating" component={CelebWizard} />
-                        </div>
-                    </BrowserRouter>
-                </div>
+                        </Grid>
+                        <Grid item container>
+                            {/* left padding: extra small screen: 0 cells, small screen: 2 cells */}
+                            <Grid item xs="0" sm="2" />
+                            <Grid item xs="12" sm="8">
+                                {/* Home: extra small screen: 12 cells, small screen: 8 cells */}
+                                <Route exact={true} path="/" component={Home} />
+                                <Route exact path="/celebrating" component={CelebWizard} />
+                            </Grid>
+                            {/* right padding: extra small screen: 0 cells, small screen: 2 cells  */}
+                            <Grid item xs="0" sm="2" />
+                        </Grid>
+                    </Grid>
+                </BrowserRouter>
             </ThemeProvider>
         );
     }
