@@ -14,6 +14,7 @@ import Paper from '@material-ui/core/Paper';
 import IconButton from '@material-ui/core/IconButton';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import { DatePicker } from '@material-ui/pickers';
 // Package to tell @material-ui/pickers which date-time package to use (eg moment)
@@ -62,12 +63,12 @@ const useStyles = (theme) => ({
     section: {
         padding: theme.spacing(1),
         margin: theme.spacing(1),
+        // [theme.breakpoints.down('md')]: {
+        //     width: '185px',
+        //     height: 'calc(185px * 1.50)',
+        // },
         // Min browser width ~= 500px
-        [theme.breakpoints.down('md')]: {
-            width: '185px',
-            height: 'calc(185px * 1.50)',
-        },
-        [theme.breakpoints.up('md')]: {
+        [theme.breakpoints.down('lg')]: {
             width: '296px',
             height: 'calc(296px * 1.50)',
         },
@@ -297,37 +298,56 @@ class Home extends Component {
 
     renderLeftPage() {
         return (
-            <Paper elevation={5} className={this.classes.paper} style={{ height: '600px' }}>
-                <Grid container direction="column" justify="flex-start" alignItems="center" style={{ height: '100%' }}>
+            <Paper elevation={5} className={this.classes.paper}>
+                <Grid
+                    container
+                    direction="column"
+                    justify="space-around"
+                    alignItems="center"
+                    style={{ height: '100%' }}
+                >
                     <Grid container spacing={1} className={this.classes.controls}>
-                        <Grid container item justify="center" alignItems="center">
-                            <Button onClick={() => this.gotoDate('today')}>
-                                <Typography paragraph variant="h6" className={this.classes.controlButtons}>
+                        <Grid container item alignItems="center" justify="space-between" style={{ padding: 0 }}>
+                            <Tooltip title={messages.prev_day}>
+                                <IconButton aria-label="Προηγούμενη ημέρα" onClick={() => this.gotoDate('prevDay')}>
+                                    <img src={leftArrow} alt="" />
+                                </IconButton>
+                            </Tooltip>
+
+                            <Button style={{ marginBottom: '0px' }} onClick={() => this.gotoDate('today')}>
+                                <Typography
+                                    paragraph
+                                    variant="h6"
+                                    className={this.classes.controlButtons}
+                                    style={{ marginBottom: '0px' }}
+                                >
                                     {messages.today}
                                 </Typography>
                             </Button>
+
+                            <Tooltip title={messages.next_day}>
+                                <IconButton aria-label="next day" onClick={() => this.gotoDate('nextDay')}>
+                                    <img src={rightArrow} alt="" />
+                                </IconButton>
+                            </Tooltip>
                         </Grid>
-                        <Grid container item alignItems="center" justify="space-between">
-                            <IconButton onClick={() => this.gotoDate('prevDay')}>
-                                <img src={leftArrow} alt="" />
-                            </IconButton>
-                            <Typography paragraph variant="h6" className={this.classes.controlButtons}>
-                                {'Ημέρα'}
-                            </Typography>
-                            <IconButton aria-label="next day" onClick={() => this.gotoDate('nextDay')}>
-                                <img src={rightArrow} alt="" />
-                            </IconButton>
-                        </Grid>
-                        <Grid container item alignItems="center" justify="space-between">
-                            <IconButton onClick={() => this.gotoDate('prevMonth')}>
-                                <img src={leftDoubleArrow} alt="" />
-                            </IconButton>
+
+                        <Grid container item alignItems="center" justify="space-between" style={{ padding: 0 }}>
+                            <Tooltip title={messages.prev_month}>
+                                <IconButton onClick={() => this.gotoDate('prevMonth')}>
+                                    <img src={leftDoubleArrow} alt="" />
+                                </IconButton>
+                            </Tooltip>
+                            {/*
                             <Typography paragraph variant="h6" className={this.classes.controlButtons}>
                                 {'Μήνας'}
                             </Typography>
-                            <IconButton onClick={() => this.gotoDate('nextMonth')}>
-                                <img src={rightDoubleArrow} alt="" />
-                            </IconButton>
+                            */}
+                            <Tooltip title={messages.next_month}>
+                                <IconButton onClick={() => this.gotoDate('nextMonth')}>
+                                    <img src={rightDoubleArrow} alt="" />
+                                </IconButton>
+                            </Tooltip>
                         </Grid>
                     </Grid>
                     <Grid container alignItems="center" justify="space-between">
@@ -347,9 +367,9 @@ class Home extends Component {
                             onChange={this.handleDateChange}
                             views={['year', 'month', 'date']}
                             minDate={new Date('1971-01-01')}
-                            minDateMessage="Παλαιότερη δυνατή ημερομηνία: 01/01/1971"
+                            minDateMessage={messages.error_min_date}
                             maxDate={new Date('2200-12-31')}
-                            maxDateMessage="Νεώτερη δυνατή ημερομηνία: 31/12/2200"
+                            maxDateMessage={messages.error_max_date}
                             inputProps={{
                                 style: {
                                     textAlign: 'center',
