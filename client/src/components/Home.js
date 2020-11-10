@@ -257,6 +257,8 @@ class Home extends Component {
     }
 
     renderCalendar(dayinfo) {
+        const dayOfWeek = noGreekAccents(dayinfo.dayOfWeek).toUpperCase();
+        const month = noGreekAccents(dayinfo.month).toUpperCase();
         return (
             <Paper elevation={5} className={this.classes.paper}>
                 <Grid
@@ -268,13 +270,13 @@ class Home extends Component {
                 >
                     <Grid container direction="column" justify="flex-start" alignItems="center" spacing={0}>
                         <Typography paragraph variant="h5" className={this.classes.calDayOfWeek}>
-                            {dayinfo.dayOfWeek}
+                            {dayOfWeek}
                         </Typography>
                         <Typography paragraph variant="h4" className={this.classes.calDayOfMonth}>
                             {dayinfo.dayOfMonth}
                         </Typography>
                         <Typography paragraph variant="h5" className={this.classes.calMonthYear}>
-                            {dayinfo.month} {dayinfo.year}
+                            {month} {dayinfo.year}
                         </Typography>
                     </Grid>
                     <div className={this.classes.calHolidayDiv}>

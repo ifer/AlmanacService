@@ -131,6 +131,7 @@ class CelebList extends Component {
                 phone: person.phone,
             };
         });
+        // console.log(rows);
         this.setState({ rows: rows });
         this.selected = this.props.selected || [];
     }
