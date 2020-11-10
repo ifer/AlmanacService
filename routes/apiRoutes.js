@@ -154,32 +154,115 @@ module.exports = (app) => {
     });
 
     app.post('/api/sendemail', requireLogin, (req, res) => {
-        const message = req.body;
+        const message = req.body.message;
+        const recipients = req.body.recipients;
+
+        // console.log(message);
+        // console.log(recipients);
+        // return;
 
         // debugger;
 
-        User.findOne({ googleid: req.user.googleid }).then((user) => {
-            emailService.sendEmail(message, user.accessToken, user.refreshToken, (error, info) => {
-                if (error) {
-                    // console.log('ERROR:' + JSON.stringify(error));
-                    return res.status(401).send(new AppError(401, ERROR_EMAIL_FAILURE + error.code)); //
-                }
-                if (info) {
-                    //     console.log('SUCCESS:');
-                    // console.log(info);
-                    return res.status(200).send(new AppError(200, MESSAGE_EMAIL_SUCCESS));
-                }
-            }),
-                (error) => {
-                    // console.log('User ' + req.user.googleid + ' not found');
-                    return res
-                        .status(401)
-                        .send(new AppError(401, 'User ' + req.user.googleid + ' not found: ' + error));
-                };
+        let sendError = false;
+        let errorCode = '';
+        let sentCount = 0;
+
+        User.findOne({ googleid: req.user.googleid }).then(async (user) => {
+            if (!user) {
+                console.log('User ' + req.user.googleid + ' not found');
+                return res.status(401).send(new AppError(401, 'User ' + req.user.googleid + ' not found: ' + error));
+            }
+
+            const results = await send(user, recipients, message);
+            console.log(results);
+
+            // for (let i = 0; i < recipients.length; i++) {
+            //     const recip = recipients[i];
+            //     message.to = recip.email;
+            //
+            //     console.log('Sending to: ' + recip.email + ' message: ' + message.text);
+            //     // console.log(message);
+            //
+            //     let error = await emailService.sendEmail(message, user.accessToken, user.refreshToken);
+            //     if (error) {
+            //         sendError = true;
+            //         errorCode = error.code;
+            //     } else {
+            //         sentCount++;
+            //         console.log(`sentCount=${sentCount}`);
+            //     }
+            // }
         });
+
+        // console.log(`recipients.length = ${recipients.length}, sentCount=${sentCount}`);
+        // if (sendError) {
+        //     return res.status(401).send(new AppError(401, ERROR_EMAIL_FAILURE + error.code));
+        // } else if (!sendError && sentCount === recipients.length) {
+        //     return res.status(200).send(new AppError(200, MESSAGE_EMAIL_SUCCESS));
+        // } else {
+        //     return res.status(401).send(new AppError(401, ERROR_EMAIL_FAILURE + ' not all emails sent'));
+        // }
+
+        // User.findOne({ googleid: req.user.googleid }).then((user) => () => {
+        //             console.log ('Hi');
+        //         }),
+        //         (error) => {
+        //             // console.log('User ' + req.user.googleid + ' not found');
+        //             return res
+        //                 .status(401)
+        //                 .send(new AppError(401, 'User ' + req.user.googleid + ' not found: ' + error));
+        //         };
+        // });
+
+        // return;
+        // User.findOne({ googleid: req.user.googleid }).then((user) => {
+        //     emailService.sendEmail(message, user.accessToken, user.refreshToken, (error, info) => {
+        //         if (error) {
+        //             // console.log('ERROR:' + JSON.stringify(error));
+        //             return res.status(401).send(new AppError(401, ERROR_EMAIL_FAILURE + error.code)); //
+        //         }
+        //         if (info) {
+        //             //     console.log('SUCCESS:');
+        //             // console.log(info);
+        //             return res.status(200).send(new AppError(200, MESSAGE_EMAIL_SUCCESS));
+        //         }
+        //     }),
+        //         (error) => {
+        //             // console.log('User ' + req.user.googleid + ' not found');
+        //             return res
+        //                 .status(401)
+        //                 .send(new AppError(401, 'User ' + req.user.googleid + ' not found: ' + error));
+        //         };
+        // });
     });
 };
 
+function send(user, recipients, message) {
+    return new Promise(async (resolve, reject) => {
+        let results = { status: 'SUCCESS', failed: [] };
+        for (let i = 0; i < recipients.length; i++) {
+            const recip = recipients[i];
+            message.to = recip.email;
+
+            console.log('Sending to: ' + recip.email + ' message: ' + message.text);
+            // console.log(message);
+
+            let error = await emailService.sendEmail(message, user.accessToken, user.refreshToken);
+            if (error) {
+                results.status = 'FAILED';
+                results.failed.push({ address: message.email, errorCode: error.code });
+            } else {
+                // succeeded.push(message.email);
+                console.log(`success=${recip.email}`);
+            }
+        }
+        if (results.status === 'FAILED') {
+            reject(results);
+        } else {
+            resolve(results);
+        }
+    });
+}
 // async function getContacts() {
 //     const contacts = await fetchContacts();
 //     return contacts;

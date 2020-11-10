@@ -76,10 +76,10 @@ const useStyles = (theme) => ({
             width: '370px',
             height: 'calc(370px * 1.50)',
         },
-        [theme.breakpoints.up('xl')]: {
-            width: '592px',
-            height: 'calc(592px * 1.50)',
-        },
+        // [theme.breakpoints.up('xl')]: {
+        //     width: '592px',
+        //     height: 'calc(592px * 1.50)',
+        // },
     },
     paper: {
         padding: theme.spacing(2),
@@ -311,7 +311,7 @@ class Home extends Component {
                     <Grid container spacing={1} className={this.classes.controls}>
                         <Grid container item alignItems="center" justify="space-between" style={{ padding: 0 }}>
                             <Tooltip title={messages.prev_day}>
-                                <IconButton aria-label="Προηγούμενη ημέρα" onClick={() => this.gotoDate('prevDay')}>
+                                <IconButton aria-label={messages.prev_day} onClick={() => this.gotoDate('prevDay')}>
                                     <img src={leftArrow} alt="" />
                                 </IconButton>
                             </Tooltip>
@@ -340,11 +340,16 @@ class Home extends Component {
                                     <img src={leftDoubleArrow} alt="" />
                                 </IconButton>
                             </Tooltip>
-                            {/*
-                            <Typography paragraph variant="h6" className={this.classes.controlButtons}>
+
+                            <Typography
+                                paragraph
+                                variant="h6"
+                                className={this.classes.controlButtons}
+                                style={{ color: 'silver', marginBottom: '0px' }}
+                            >
                                 {'Μήνας'}
                             </Typography>
-                            */}
+
                             <Tooltip title={messages.next_month}>
                                 <IconButton onClick={() => this.gotoDate('nextMonth')}>
                                     <img src={rightDoubleArrow} alt="" />

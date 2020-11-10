@@ -26,9 +26,9 @@ const useStyles = (theme) => ({
         // },
     },
     recipList: {
-        maxWidth: '500px',
-        maxHeight: '500px',
-        height: '500px',
+        // maxWidth: '500px',
+        // maxHeight: '500px',
+        height: '93%',
         overflow: 'hidden',
         overflowY: 'auto',
         background: 'whitesmoke',
@@ -40,7 +40,7 @@ const useStyles = (theme) => ({
         overflow: 'hidden',
         overflowY: 'auto',
         border: '1px inset lightgray',
-        padding: '7px',
+        padding: '8px',
     },
     emailBox: {
         height: '93%',
@@ -52,8 +52,11 @@ const useStyles = (theme) => ({
         height: '4%',
     },
     section: {
+        // margin: '5px',
+        marginLeft: '5px',
+        marginRight: '5px',
         padding: '8px',
-        height: '100%',
+        height: '550px',
         background: 'whitesmoke',
     },
     pageTitle: {
@@ -74,14 +77,15 @@ const useStyles = (theme) => ({
     },
     buttonSection: {
         background: 'SeaShell',
-        border: '1px solid lightgrey',
+        border: '2px solid lightgrey',
         marginTop: '30px',
+        padding: '10px',
         // paddingTop: '8px',
         // paddingBottom: '8px',
         // paddingLeft: '12px',
         // paddingRight: '12px',
-        maxWidth: '1100px',
-        minWidth: '1000px',
+        // maxWidth: '1100px',
+        // minWidth: '1000px',
     },
 });
 
@@ -150,24 +154,24 @@ class CelebReview extends Component {
                 <Paper
                     elevation={2}
                     style={{
-                        minHeight: '400px',
                         background: 'white',
                         paddingLeft: '10px',
-                        paddingTop: '30px',
-                        paddingBottom: '30px',
+                        height: '100%',
+                        // paddingTop: '30px',
+                        paddingBottom: '20px',
                     }}
                 >
-                    <Grid container justify="center" spacing={3} style={{ maxWidth: '1100px' }}>
+                    <Grid container justify="center" alignItems="center">
                         <Grid item xs={5}>
                             {this.renderRecipients()}
                         </Grid>
-                        <Grid item xs={5} style={{ height: '575px', marginTop: '20px' }}>
+                        <Grid item xs={5} style={{ marginTop: '20px' }}>
                             {this.renderEmaildata()}
                         </Grid>
                     </Grid>
                 </Paper>
 
-                <Grid container item xs={12} spacing={3} className={this.classes.buttonSection}>
+                <Grid container item xs={12} className={this.classes.buttonSection}>
                     <Grid container item xs={7} justify="flex-end" alignItems="center">
                         <Typography variant="subtitle1" gutterBottom style={{ color: 'darkblue' }}>
                             {messages.review_guide}
@@ -179,7 +183,7 @@ class CelebReview extends Component {
                                 onClick={this.props.previousPage}
                                 variant="outlined"
                                 color="default"
-                                style={{ marginRight: '50px' }}
+                                style={{ width: '115px', marginRight: '20px' }}
                                 className={this.classes.controlButtons}
                             >
                                 {messages.prev_step}
@@ -188,6 +192,7 @@ class CelebReview extends Component {
                                 type="submit"
                                 variant="outlined"
                                 color="primary"
+                                style={{ width: '115px' }}
                                 className={this.classes.sendEmailButton}
                             >
                                 {messages.send_email}

@@ -52,13 +52,17 @@ class CelebWizard extends Component {
 
         const message = {
             from: this.props.auth.email,
-            to: recipients,
             subject: this.props.emaildata.subject,
             text: this.props.emaildata.body,
         };
 
+        const emailData = {
+            recipients: this.props.recipients,
+            message: message,
+        };
+
         // debugger;
-        this.props.sendEmail(message);
+        this.props.sendEmail(emailData);
 
         this.props.setCelebSelected([]);
         this.props.setEmailData(null);
