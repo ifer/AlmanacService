@@ -39,23 +39,24 @@ const useStyles = (theme) => ({
     },
     buttonSection: {
         background: 'SeaShell',
-        border: '1px solid lightgrey',
+        border: '2px solid lightgrey',
         marginTop: '30px',
+        padding: '10px',
         // paddingTop: '8px',
         // paddingBottom: '8px',
         // paddingLeft: '12px',
         // paddingRight: '12px',
-        maxWidth: '1100px',
-        minWidth: '1000px',
+        // maxWidth: '1100px',
+        // minWidth: '1000px',
     },
     formBackground: {
-        maxWidth: '1100px',
-        minWidth: '1000px',
-        minHeight: '500px',
+        // maxWidth: '1100px',
+        // minWidth: '1000px',
+        // minHeight: '500px',
         background: 'white',
         paddingLeft: '10px',
-        paddingTop: '30px',
-        paddingBottom: '30px',
+        // paddingTop: '30px',
+        // paddingBottom: '30px',
     },
 });
 
@@ -72,7 +73,7 @@ class CelebEmailForm extends Component {
         // this.submitEmailData = this.submitEmailData.bind(this);
         // this.handleChangeText = this.handleChangeText.bind(this);
     }
-
+    // style={{ border: '5px solid blue' }}
     render() {
         // console.log('subject:' + this.state.subject + ', body: ' + this.state.body);
         return (
@@ -83,16 +84,20 @@ class CelebEmailForm extends Component {
 
                 <Paper elevation={2} className={this.classes.formBackground}>
                     <Grid container direction="column" justify="center" alignItems="center">
-                        <form onSubmit={this.props.handleSubmit} style={{ width: '600px' }}>
+                        <form
+                            onSubmit={this.props.handleSubmit}
+                            style={{ padding: '20px', width: '100%', textAlign: 'center' }}
+                        >
                             <Field
                                 name="subject"
                                 component={renderTextField}
-                                label="Θέμα"
+                                label={messages.email_subject}
                                 onChange={this.handleChangeText}
+                                style={{ width: '80%', margin: '10px' }}
                                 inputProps={{
                                     style: {
                                         height: '2em',
-                                        width: '600px',
+                                        width: '80%',
                                         paddingLeft: '1em',
                                     },
                                 }}
@@ -100,10 +105,11 @@ class CelebEmailForm extends Component {
                             <Field
                                 name="body"
                                 component={renderTextField}
-                                label="Κείμενο"
+                                label={messages.email_body}
                                 onChange={this.handleChangeText}
                                 multiline
                                 rows={15}
+                                style={{ width: '80%', margin: '10px' }}
                                 inputProps={{
                                     style: {
                                         height: '20em',
@@ -113,7 +119,7 @@ class CelebEmailForm extends Component {
                         </form>
                     </Grid>
                 </Paper>
-                <Grid container item xs={12} spacing={3} className={this.classes.buttonSection}>
+                <Grid container item xs={12} className={this.classes.buttonSection}>
                     <Grid container item xs={8} justify="flex-end" alignItems="center">
                         <Typography variant="subtitle1" gutterBottom style={{ color: 'darkblue' }}>
                             {messages.email_message_guide}
@@ -125,7 +131,7 @@ class CelebEmailForm extends Component {
                                 onClick={this.props.previousPage}
                                 variant="outlined"
                                 color="default"
-                                style={{ marginRight: '50px' }}
+                                style={{ width: '115px', marginRight: '20px' }}
                                 className={this.classes.controlButtons}
                             >
                                 {messages.prev_step}
@@ -134,6 +140,7 @@ class CelebEmailForm extends Component {
                                 type="submit"
                                 variant="outlined"
                                 color="primary"
+                                style={{ width: '115px' }}
                                 className={this.classes.controlButtons}
                             >
                                 {messages.next_step}

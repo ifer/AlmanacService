@@ -53,6 +53,7 @@ const useStyles = (theme) => ({
         fontWeight: 'bold',
         textAlign: 'center',
         fontSize: '18px',
+        marginTop: '20px',
     },
     tableTitle: {
         color: 'darkred',
@@ -76,14 +77,15 @@ const useStyles = (theme) => ({
     },
     buttonSection: {
         background: 'SeaShell',
-        border: '1px solid lightgrey',
+        border: '2px solid lightgrey',
         marginTop: '30px',
+        padding: '10px',
         // paddingTop: '8px',
         // paddingBottom: '8px',
         // paddingLeft: '12px',
         // paddingRight: '12px',
-        maxWidth: '1100px',
-        minWidth: '1000px',
+        // maxWidth: '1100px',
+        // minWidth: '1000px',
     },
 });
 
@@ -230,6 +232,9 @@ class CelebList extends Component {
         this.props.handleSubmit();
     }
 
+    /*
+style={{ maxWidth: '1100px', minWidth: '1000px' }}
+*/
     renderTable() {
         const today = `${this.props.curdayinfo.dayOfMonth} ${this.props.curdayinfo.month}  ${this.props.curdayinfo.year}`;
 
@@ -243,7 +248,7 @@ class CelebList extends Component {
                 <Typography paragraph variant="h5" className={this.classes.tableTitle}>
                     {`${messages.celebrating_title} ${today}`}
                 </Typography>
-                <TableContainer component={Paper} style={{ maxWidth: '1100px', minWidth: '1000px' }}>
+                <TableContainer component={Paper}>
                     <Table className={this.classes.table} selectable="true" size="small" aria-label="simple table">
                         <TableHead>
                             <TableRow>
@@ -313,6 +318,10 @@ class CelebList extends Component {
         );
     }
 
+    /*
+style={{ maxWidth: '1100px', minWidth: '1000px' }}
+style={{ border: '5px solid blue' }}
+*/
     render() {
         // console.log(`Subject=${this.state.subject} body=${this.state.body}`);
         if (!this.props.celebratingList) {
@@ -332,13 +341,13 @@ class CelebList extends Component {
                     <Typography paragraph variant="h5" className={this.classes.pageTitle}>
                         {`${messages.recipients_selection}`}
                     </Typography>
-                    <Grid container justify="center" spacing={3} style={{ maxWidth: '1100px', minWidth: '1000px' }}>
+                    <Grid container justify="center" spacing={3}>
                         <Grid item xs={12}>
                             {this.renderTable()}
                         </Grid>
                     </Grid>
 
-                    <Grid container item xs={12} spacing={3} className={this.classes.buttonSection}>
+                    <Grid container item xs={12} className={this.classes.buttonSection}>
                         <Grid container item xs={8} justify="flex-end" alignItems="center">
                             <Typography variant="subtitle1" gutterBottom style={{ color: 'darkblue' }}>
                                 {messages.recipients_selection_guide}
@@ -350,7 +359,7 @@ class CelebList extends Component {
                                     onClick={this.props.cancel}
                                     variant="outlined"
                                     color="default"
-                                    style={{ marginRight: '50px' }}
+                                    style={{ width: '115px', marginRight: '20px' }}
                                     className={this.classes.controlButtons}
                                 >
                                     {messages.cancel}
@@ -359,6 +368,7 @@ class CelebList extends Component {
                                     onClick={this.submitRecipients}
                                     variant="outlined"
                                     color="primary"
+                                    style={{ width: '115px' }}
                                     className={this.classes.controlButtons}
                                     disabled={this.selected.length === 0}
                                 >
