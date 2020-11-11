@@ -43,10 +43,10 @@ class CelebWizard extends Component {
         // console.log(this.props.recipients);
         // console.log(this.props.emaildata.subject + '  ' + this.props.emaildata.body);
 
-        let recipients = '';
-        this.props.recipients.forEach((recip) => {
-            recipients += recip.email + ',';
-        });
+        // let recipients = '';
+        // this.props.recipients.forEach((recip) => {
+        //     recipients += recip.email + ',';
+        // });
 
         // console.log('recipients=' + recipients);
 

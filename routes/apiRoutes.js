@@ -2,6 +2,8 @@ const { fetchContacts, tokenRefresh } = require('../services/contactsService');
 const { getDayInfo } = require('../services/dayinfo');
 const refresh = require('passport-oauth2-refresh');
 
+// var moment = require('moment');
+
 const calendarService = require('../services/calendarService');
 const holidayService = require('../services/holidayService');
 const requireLogin = require('../middlewares/requireLogin');
@@ -12,6 +14,8 @@ const User = require('../models/User').User;
 const { ERROR_COULD_NOT_REFRESH_TOKEN, MESSAGE_EMAIL_SUCCESS, ERROR_EMAIL_FAILURE } = require('../helpers/constants');
 
 const { AppError } = require('../helpers/error');
+
+const emailSendingInterval = 500; // ms
 
 //Wrap all to an exported anonymous function
 //so that we can call it from index.js with app as an argument
@@ -157,113 +161,40 @@ module.exports = (app) => {
         const message = req.body.message;
         const recipients = req.body.recipients;
 
-        // console.log(message);
-        // console.log(recipients);
-        // return;
-
-        // debugger;
-
-        let sendError = false;
-        let errorCode = '';
-        let sentCount = 0;
-
         User.findOne({ googleid: req.user.googleid }).then(async (user) => {
             if (!user) {
                 console.log('User ' + req.user.googleid + ' not found');
                 return res.status(401).send(new AppError(401, 'User ' + req.user.googleid + ' not found: ' + error));
             }
 
-            const results = await send(user, recipients, message);
-            console.log(results);
+            try {
+                await sendToAll(user, recipients, message);
+            } catch (error) {
+                return res.status(401).send(new AppError(401, ERROR_EMAIL_FAILURE + error));
+            }
 
-            // for (let i = 0; i < recipients.length; i++) {
-            //     const recip = recipients[i];
-            //     message.to = recip.email;
-            //
-            //     console.log('Sending to: ' + recip.email + ' message: ' + message.text);
-            //     // console.log(message);
-            //
-            //     let error = await emailService.sendEmail(message, user.accessToken, user.refreshToken);
-            //     if (error) {
-            //         sendError = true;
-            //         errorCode = error.code;
-            //     } else {
-            //         sentCount++;
-            //         console.log(`sentCount=${sentCount}`);
-            //     }
-            // }
+            return res.status(200).send(new AppError(200, MESSAGE_EMAIL_SUCCESS));
         });
-
-        // console.log(`recipients.length = ${recipients.length}, sentCount=${sentCount}`);
-        // if (sendError) {
-        //     return res.status(401).send(new AppError(401, ERROR_EMAIL_FAILURE + error.code));
-        // } else if (!sendError && sentCount === recipients.length) {
-        //     return res.status(200).send(new AppError(200, MESSAGE_EMAIL_SUCCESS));
-        // } else {
-        //     return res.status(401).send(new AppError(401, ERROR_EMAIL_FAILURE + ' not all emails sent'));
-        // }
-
-        // User.findOne({ googleid: req.user.googleid }).then((user) => () => {
-        //             console.log ('Hi');
-        //         }),
-        //         (error) => {
-        //             // console.log('User ' + req.user.googleid + ' not found');
-        //             return res
-        //                 .status(401)
-        //                 .send(new AppError(401, 'User ' + req.user.googleid + ' not found: ' + error));
-        //         };
-        // });
-
-        // return;
-        // User.findOne({ googleid: req.user.googleid }).then((user) => {
-        //     emailService.sendEmail(message, user.accessToken, user.refreshToken, (error, info) => {
-        //         if (error) {
-        //             // console.log('ERROR:' + JSON.stringify(error));
-        //             return res.status(401).send(new AppError(401, ERROR_EMAIL_FAILURE + error.code)); //
-        //         }
-        //         if (info) {
-        //             //     console.log('SUCCESS:');
-        //             // console.log(info);
-        //             return res.status(200).send(new AppError(200, MESSAGE_EMAIL_SUCCESS));
-        //         }
-        //     }),
-        //         (error) => {
-        //             // console.log('User ' + req.user.googleid + ' not found');
-        //             return res
-        //                 .status(401)
-        //                 .send(new AppError(401, 'User ' + req.user.googleid + ' not found: ' + error));
-        //         };
-        // });
     });
 };
 
-function send(user, recipients, message) {
+function sendToAll(user, recipients, message) {
     return new Promise(async (resolve, reject) => {
-        let results = { status: 'SUCCESS', failed: [] };
         for (let i = 0; i < recipients.length; i++) {
-            const recip = recipients[i];
-            message.to = recip.email;
+            const recipient = recipients[i];
+            message.to = recipient.email;
 
-            console.log('Sending to: ' + recip.email + ' message: ' + message.text);
-            // console.log(message);
-
-            let error = await emailService.sendEmail(message, user.accessToken, user.refreshToken);
-            if (error) {
-                results.status = 'FAILED';
-                results.failed.push({ address: message.email, errorCode: error.code });
-            } else {
-                // succeeded.push(message.email);
-                console.log(`success=${recip.email}`);
+            try {
+                await emailService.sendEmail(message, user.accessToken, user.refreshToken);
+            } catch (error) {
+                reject(error);
             }
+            await sleep(emailSendingInterval);
         }
-        if (results.status === 'FAILED') {
-            reject(results);
-        } else {
-            resolve(results);
-        }
+        resolve();
     });
 }
-// async function getContacts() {
-//     const contacts = await fetchContacts();
-//     return contacts;
-// }
+
+function sleep(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
