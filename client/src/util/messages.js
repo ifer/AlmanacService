@@ -11,6 +11,7 @@ const messages = {
     findholiday: 'Αναζήτηση εορτής...',
     holiday: 'Εορτή..',
     celebrating: 'Εορτάζοντες...',
+    help: 'Τι είναι αυτό;',
     loginWithGoogle: 'Σύνδεση μέσω Google',
     logout: 'Αποσύνδεση',
     nooptions: 'Δεν βρέθηκε η λέξη',

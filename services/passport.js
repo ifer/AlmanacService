@@ -37,11 +37,12 @@ const strategy = new GoogleStrategy(
     },
     (accessToken, refreshToken, profile, done) => {
         // Function that is called after callback route is executed and google returns access token
-        // Check if user already exists
-        console.log('profile:');
-        console.log(profile);
-        console.log(`accessToken: ${accessToken}, refreshToken: ${refreshToken}`);
 
+        // console.log('profile:');
+        // console.log(profile);
+        // console.log(`accessToken: ${accessToken}, refreshToken: ${refreshToken}`);
+
+        // Check if user already exists
         User.findOne({ googleid: profile.id }).then((existingUser) => {
             if (!existingUser) {
                 let newuser = User.create({
@@ -52,14 +53,14 @@ const strategy = new GoogleStrategy(
                     refreshToken: refreshToken,
                 });
                 newuser.save().then((u) => {
-                    console.log(`User ${u.displayname} added`);
+                    // console.log(`User ${u.displayname} added`);
                     done(null, newuser);
                 });
             } else {
                 existingUser.accessToken = accessToken;
                 existingUser.refreshToken = refreshToken;
                 existingUser.save().then((u) => {
-                    console.log(`User ${u.displayname} updated ${JSON.stringify(existingUser)}`);
+                    // console.log(`User ${u.displayname} updated ${JSON.stringify(existingUser)}`);
                 });
                 // console.log(`User ${existingUser.displayname} already exists`);
                 done(null, existingUser);

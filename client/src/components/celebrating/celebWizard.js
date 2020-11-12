@@ -45,6 +45,7 @@ class CelebWizard extends Component {
             from: this.props.auth.email,
             subject: this.props.emaildata.subject,
             text: this.props.emaildata.body,
+            html: '<html>' + this.props.emaildata.body + '</html>',
         };
 
         const emailData = {

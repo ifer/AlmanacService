@@ -421,6 +421,13 @@ class Home extends Component {
                             </Typography>
                         </Button>
                     </Grid>
+                    <Grid container item alignItems="center" justify="flex-end">
+                        <Button style={{ marginTop: '0px' }} onClick={() => this.getCelebrating()}>
+                            <Typography paragraph variant="h6" className={this.classes.controlButtons}>
+                                {messages.help}
+                            </Typography>
+                        </Button>
+                    </Grid>{' '}
                 </Grid>
             </Paper>
         );
