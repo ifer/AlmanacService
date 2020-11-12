@@ -21,6 +21,8 @@ const messages = {
     error_could_not_refresh_token: 'Πρόβλημα πρόσβασης στις επαφές: δεν μπορεί να ανανεωθεί το token',
     error_no_connection: 'Πρόβλημα στην επικοινωνία με τον server!',
     error_you_must_login: 'Πρέπει να συνδεθείτε στο Google για την λειτουργία αυτή',
+    error_max_recipients_exceeded:
+        'Μπορείτε να στείλετε μήνυμα ταυτόχρονα σε %d παραλήπτες το πολύ. Εναλλακτικά στείλτε τα μηνύματα τμηματικά',
     no_celebrating: 'Δεν υπάρχουν εορτάζοντες στις επαφές σας την ημέρα αυτή',
     label_rows: 'Γραμμές',
     label_rows_count: 'από σύνολο',

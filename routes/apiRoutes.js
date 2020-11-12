@@ -179,9 +179,8 @@ module.exports = (app) => {
 };
 
 function sendToAll(user, recipients, message) {
-    return new Promise(async (resolve, reject) => {
-        for (let i = 0; i < recipients.length; i++) {
-            const recipient = recipients[i];
+    return new Promise((resolve, reject) => {
+        recipients.forEach(async (recipient) => {
             message.to = recipient.email;
 
             try {
@@ -189,8 +188,10 @@ function sendToAll(user, recipients, message) {
             } catch (error) {
                 reject(error);
             }
+
             await sleep(emailSendingInterval);
-        }
+        });
+
         resolve();
     });
 }

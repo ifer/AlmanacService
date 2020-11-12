@@ -30,6 +30,10 @@ import validateEmails from '../../util/validateEmails';
 // Import action functions
 import { setRecipients, setCelebSelected } from '../../actions';
 
+// import { max_recipients } from '../../util/constants';
+
+const max_recipients = 500;
+
 const useStyles = (theme) => ({
     root: {
         flexGrow: 1,
@@ -195,13 +199,14 @@ class CelebList extends Component {
         this.props.history.push('/');
     }
 
-    validate(emails) {
-        // let recipients = '';
-        // this.state.rows.forEach((person) => {
-        //     if (this.isSelected(person.id)) {
-        //         recipients += person.email + ',';
-        //     }
-        // });
+    validate(recipients, emails) {
+        if (recipients.length > max_recipients) {
+            // this.props.maxRecipientsExceeded();
+            const msg = messages.error_max_recipients_exceeded.replace('%d', max_recipients);
+            this.setState({ error: true, errormsg: msg });
+            return false;
+        }
+
         const errors = {}; // If this object remains empty, that means there are no errors
         errors.emails = validateEmails(emails || '');
 
@@ -227,7 +232,7 @@ class CelebList extends Component {
             }
         });
         // console.log('submitRecipients');
-        if (this.validate(emails) === false) return;
+        if (this.validate(recipients, emails) === false) return;
         this.props.setRecipients(recipients);
         this.props.handleSubmit();
     }
