@@ -43,21 +43,21 @@ const useStyles = (theme) => ({
     },
     '@global': {
         html: {
-            [theme.breakpoints.down('sm')]: {
-                fontSize: 8,
-            },
-            [theme.breakpoints.up('sm')]: {
-                fontSize: 10,
-            },
-            [theme.breakpoints.up('md')]: {
+            // [theme.breakpoints.down('sm')]: {
+            //     fontSize: 8,
+            // },
+            // [theme.breakpoints.up('sm')]: {
+            //     fontSize: 10,
+            // },
+            [theme.breakpoints.down('lg')]: {
                 fontSize: 12,
             },
             [theme.breakpoints.up('lg')]: {
                 fontSize: 16,
             },
-            [theme.breakpoints.up('xl')]: {
-                fontSize: 18,
-            },
+            // [theme.breakpoints.up('xl')]: {
+            //     fontSize: 18,
+            // },
         },
     },
     section: {
@@ -181,15 +181,15 @@ class Home extends Component {
         this.props.setEmailData(null);
 
         // Dev only
-        this.props.changeDate('gotoDate', '07012021');
+        // this.props.changeDate('gotoDate', '07012021');
 
         // PROD
-        // if (this.props.curdayinfo) {
-        //     this.props.changeDate('gotoDate', this.props.curdayinfo.datestr);
-        // } else {
-        //     // this.props.changeDate('today');
-        //     this.props.changeDate('gotoDate', '07012021');
-        // }
+        if (this.props.curdayinfo) {
+            this.props.changeDate('gotoDate', this.props.curdayinfo.datestr);
+        } else {
+            this.props.changeDate('today');
+            // this.props.changeDate('gotoDate', '07012021');
+        }
     }
 
     gotoDate(where) {
@@ -437,12 +437,6 @@ class Home extends Component {
         };
         const errorSeverity = () => {
             return this.props.severity || 'error';
-            // if (this.props.error) {
-            //     debugger;
-            //     return this.props.error.severity || 'error';
-            // } else {
-            //     return 'error';
-            // }
         };
 
         return (
