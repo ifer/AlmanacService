@@ -16,6 +16,7 @@ import * as actions from '../actions';
 
 import Header from './Header';
 import Home from './Home';
+import Help from './Help';
 import CelebWizard from './celebrating/celebWizard';
 
 // Package to tell @material-ui/pickers which date-time package to use (eg moment)
@@ -54,6 +55,7 @@ class App extends Component {
                                 {/* Home: extra small screen: 12 cells, small screen: 8 cells */}
                                 <Route exact={true} path="/" component={Home} />
                                 <Route exact path="/celebrating" component={CelebWizard} />
+                                <Route exact path="/help" component={Help} />
                             </Grid>
                             {/* right padding: extra small screen: 0 cells, small screen: 2 cells  */}
                             <Grid item xs="0" sm="2" />

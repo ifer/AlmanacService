@@ -1,41 +1,81 @@
 import React from 'react';
 
-const Help = () => {
+import { makeStyles } from '@material-ui/core/styles';
+import IconButton from '@material-ui/core/IconButton';
+import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
+import EventAvailableIcon from '@material-ui/icons/EventAvailable';
+
+const useStyles = makeStyles({
+    h1: {
+        color: 'darkred',
+        fontSize: '2em',
+        fontWeight: '700',
+        marginTop: '0px',
+        textAlign: 'center',
+    },
+    h2: {
+        color: 'darkred',
+        fontSize: '1.8em',
+    },
+    h3: {
+        color: 'darkblue',
+        fontSize: '1.6em',
+    },
+    wizardScreen: {
+        color: 'darkgreen',
+        fontSize: '1.2em',
+    },
+});
+
+const Help = (props) => {
+    const classes = useStyles();
+    console.log(props);
     return (
         <>
-            <div>
-                <title>Οδηγίες για τον Ημεροδείκτη</title>
-                <h1 style={{ color: 'darkred' }}>Ημεροδείκτης</h1>
+            <div style={{ fontFamily: '"Times New Roman", Times, serif', fontSize: '1.5em' }}>
+                <IconButton
+                    size="medium"
+                    onClick={() => {
+                        props.history.push('/');
+                    }}
+                >
+                    <KeyboardBackspaceIcon style={{ fontSize: '50px', color: 'black', marginLeft: '-20px' }} />
+                </IconButton>
+                <h1 className={classes.h1}>Ημεροδείκτης: οδηγίες χρήσης</h1>
                 <div>
                     Ο Ημεροδείκτης είναι μια απλή εφαρμογή που προσομοιώνει τους επιτραπέζιους ημεροδείκτες. Δηλαδή
                     προσφέρει πληροφορίες για κάθε ημέρα του έτους.
                 </div>
                 <ul>
-                    <li>Εμφανίζει όλες τις εορτές της Ελληνικής Ορθόδοξης Εκκλησίας, κινητές και ακίνητες.</li>
-                    <li>Εμφανίζει τη φάση σελήνης καθώς και τις ώρες ανατολής και δύσης ηλίου.</li>
-                    <li>
+                    <li style={{ listStyleType: 'square' }}>
+                        Εμφανίζει όλες τις εορτές της Ελληνικής Ορθόδοξης Εκκλησίας, κινητές και ακίνητες.
+                    </li>
+                    <li style={{ listStyleType: 'square' }}>
+                        Εμφανίζει τη φάση σελήνης καθώς και τις ώρες ανατολής και δύσης ηλίου.
+                    </li>
+                    <li style={{ listStyleType: 'square' }}>
                         Ο χρήστης μπορεί να <a href="#move">μετακινηθεί</a> σε οποιαδήποτε ημερομηνία.
                     </li>
-                    <li>
+                    <li style={{ listStyleType: 'square' }}>
                         Ο χρήστης μπορεί επίσης να <a href="#search">αναζητήσει</a> μια κινητή εορτή (πχ Καθαρά Δευτέρα,
                         Πάσχα, κλπ) οποιουδήποτε έτους.
                     </li>
-                    <li>
+                    <li style={{ listStyleType: 'square' }}>
                         Προσφέρει δυνατότητα <a href="#search">αναζήτησης</a> στις ακίνητες εορτές με βάση, για
                         παράδειγμα, το όνομα ενός αγίου.
                     </li>
-                    <li>
+                    <li style={{ listStyleType: 'square' }}>
                         Ψάχνει στις "Επαφές" που είναι καταχωρημένες στον Google λογαριασμό του χρήστη και βρίσκει τους
-                        <a href="#celebrating">εορτάζοντες</a> της ημέρας, τους οποίους εμφανίζει σε λίστα με τα
+                        <a href="#celebrating"> εορτάζοντες</a> της ημέρας, τους οποίους εμφανίζει σε λίστα με τα
                         τηλέφωνα και τις ηλεκτρονικές διευθύνσεις τους.
                     </li>
-                    <li>
+                    <li style={{ listStyleType: 'square' }}>
                         Μπορεί να στείλει μαζικά μήνυμα <a href="#celebrating">e-mail</a> σε όλους (ή σε επιλεγμένους)
                         εορτάζοντες.
                     </li>
                 </ul>
-                <h2 style={{ color: 'darkred' }}>Λειτουργίες και δυνατότητες της εφαρμογής</h2>
-                <h3 style={{ color: 'darkblue' }} id="header">
+                <h2 className={classes.h2}>Λειτουργίες και δυνατότητες της εφαρμογής</h2>
+                <h3 className={classes.h3} id="header">
                     Γραμμή επικεφαλίδας
                 </h3>
                 <div>
@@ -44,7 +84,7 @@ const Help = () => {
                     <b>
                         <i>Σύνδεση μέσω Google</i>
                     </b>
-                    . Αν θέλουμε να χρησιμοποιήσουμε την δυνατότητα να μάθουμε ποιοι από τις <i>επαφές</i> μας έχουν την
+                    . Αν θέλουμε να χρησιμοποιήσουμε την δυνατότητα να μάθουμε ποιοι από τις επαφές μας έχουν την
                     ονομαστική τους εορτή μια συγκεκριμένη μέρα, θα πρέπει προηγουμένως να συνδεθούμε στο Google. Αφού
                     πατήσουμε τον σύνδεσμο, θα εμφανιστεί ένα πλαίσιο που μας καλεί να επιλέξουμε τον λογαριασμό Google
                     με τον οποίο θέλουμε να συνδεθούμε και στη συνέχεια ένα δεύτερο πλαίσιο μας ζητάει να επιβεβαιώσουμε
@@ -54,8 +94,8 @@ const Help = () => {
                     <b>
                         <ul>
                             <li>
-                                Εδώ πρέπει να δηλώσουμε πως η εφαρμογή <i>Ημεροδείκτης</i>
-                                <u>δεν αποθηκεύει και δεν χρησιμοποιεί καθ'οιονδήποτε τρόπο</u> όλα ή μέρος των
+                                Εδώ πρέπει να δηλωθεί πως η εφαρμογή <i>Ημεροδείκτης</i>
+                                <u> δεν αποθηκεύει και δεν χρησιμοποιεί καθ'οιονδήποτε τρόπο</u> όλα ή μέρος των
                                 στοιχείων των επαφών του χρήστη.
                             </li>
                         </ul>
@@ -67,7 +107,7 @@ const Help = () => {
                 <div>
                     <p />
                 </div>
-                <h3 style={{ color: 'darkblue' }} id="home">
+                <h3 className={classes.h3} id="home">
                     Αρχική οθόνη
                 </h3>
                 <div>
@@ -84,7 +124,7 @@ const Help = () => {
                     <div>
                         Στην πρώτη σειρά, με τα βέλη προχωράμε μιά ημέρα μπροστά ή πίσω και με το κουμπί
                         <b>
-                            <i>Σήμερα</i>
+                            <i> Σήμερα</i>
                         </b>{' '}
                         επιστρέφουμε στην σημερινή ημερομηνία. Στην δεύτερη σειρά, τα βέλη μας οδηγούν ένα μήνα μπροστά
                         ή πίσω.
@@ -114,7 +154,7 @@ const Help = () => {
                         </b>{' '}
                         (ταξινομημένες με χρονολογική σειρά) και κατόπιν οι
                         <b>
-                            <i>ακίνητες</i>
+                            <i> ακίνητες</i>
                         </b>{' '}
                         (αλφαβητικά).
                     </div>
@@ -124,7 +164,7 @@ const Help = () => {
                         γράφουμε.
                     </div>
                 </ul>
-                <h3 style={{ color: 'darkblue' }} id="celebrating">
+                <h3 className={classes.h3} id="celebrating">
                     Εορτάζοντες
                 </h3>
                 <div>
@@ -146,7 +186,7 @@ const Help = () => {
                     σχετικό μήνυμα. Αν βρεθούν, τότε ξεκινάει μια διαδικασία από 3 διαδοχικές οθόνες (wizard):
                 </div>
                 <ol>
-                    <li style={{ color: 'darkgreen' }}>
+                    <li className={classes.wizardScreen}>
                         <b>Λίστα εορταζόντων - Επιλογή παραληπτών μηνύματος</b>
                     </li>
                     <div>
@@ -156,10 +196,10 @@ const Help = () => {
                         τον πίνακα και δεξιά.
                     </div>
                     <div>
-                        Αν θέλουμε να προχωρήσουμε στην αποστολή μηνύματος σε εορτάζοντες, πρέπει να επιλέξουμε τους
-                        παραλήπτες κάνοντας κλικ στα τετραγωνάκια που βρίσκονται αριστερά από κάθε εγγραφή. Για να
-                        τους/τις επιλέξουμε όλους/ες, κάνουμε κλικ στο τετραγωνάκι που βρίσκεται στην γραμμή των
-                        ετικετών του πίνακα. Στη συνέχεια πατάμε το κουμπί{' '}
+                        Αν θέλουμε να προχωρήσουμε στην αποστολή μηνύματος email σε εορτάζοντες, πρέπει να επιλέξουμε
+                        τους παραλήπτες κάνοντας κλικ στα τετραγωνάκια που βρίσκονται αριστερά από κάθε εγγραφή. Για να
+                        επιλέξουμε όλους/ες, κάνουμε κλικ στο τετραγωνάκι που βρίσκεται στην γραμμή των ετικετών του
+                        πίνακα. Στη συνέχεια πατάμε το κουμπί{' '}
                         <b>
                             <i>Επόμενο</i>
                         </b>
@@ -174,7 +214,7 @@ const Help = () => {
                     <div>
                         <p />
                     </div>
-                    <li style={{ color: 'darkgreen' }} id="email">
+                    <li className={classes.wizardScreen} id="email">
                         <b>Σύνταξη μηνύματος</b>
                     </li>
                     <div>
@@ -193,7 +233,7 @@ const Help = () => {
                     <div>
                         <p />
                     </div>
-                    <li style={{ color: 'darkgreen' }}>
+                    <li className={classes.wizardScreen}>
                         <b>Επαλήθευση και αποστολή</b>
                     </li>
                     <div>
@@ -221,9 +261,22 @@ const Help = () => {
                 <b>Η αποστολή αυτή μπορεί να διαρκέσει αρκετά δευτερόλεπτα, ανάλογα με το πλήθος των παραληπτών</b>.
                 Όταν η διαδικασία ολοκληρωθεί, ο χρήστης θα ειδοποιηθεί με μήνυμα στην οθόνη για την επιτυχία της
                 αποστολής ή για πιθανό πρόβλημα.
+                <div>
+                    <p />
+                </div>
+                <div>
+                    <p />
+                </div>
+                <div style={{ textAlign: 'center' }}>
+                    <EventAvailableIcon style={{ fontSize: '30px' }} />
+                    <EventAvailableIcon style={{ fontSize: '30px' }} />
+                    <EventAvailableIcon style={{ fontSize: '30px' }} />
+                </div>
             </div>
         </>
     );
 };
 
+//plugin styles as props (material-ui)
+// const styledHelp = withStyles(useStyles)(Help);
 export default Help;

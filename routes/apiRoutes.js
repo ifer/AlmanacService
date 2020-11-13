@@ -123,7 +123,7 @@ module.exports = (app) => {
                         .catch((err) => {
                             // console.log('errmsg=' + JSON.stringify(errmsg));
                             if (err.message.indexOf('401') >= 0) {
-                                console.log('Access token expired');
+                                // console.log('Access token expired');
 
                                 // Access token expired.
                                 // Try to fetch a new one.
@@ -132,7 +132,8 @@ module.exports = (app) => {
                                         // console.log('2. Could not fetch contacts: ' + JSON.stringify(err));
                                         return res.status(401).send(new AppError(401, ERROR_COULD_NOT_REFRESH_TOKEN));
                                     }
-                                    console.log('Refresh: new access token: ' + accessToken);
+                                    // console.log('Refresh: new access token: ' + accessToken);
+
                                     // Save the new accessToken for future use
                                     user.accessToken = accessToken;
                                     user.save().then((u) => {

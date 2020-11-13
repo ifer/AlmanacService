@@ -55,9 +55,9 @@ const useStyles = (theme) => ({
             [theme.breakpoints.up('lg')]: {
                 fontSize: 16,
             },
-            // [theme.breakpoints.up('xl')]: {
-            //     fontSize: 18,
-            // },
+            [theme.breakpoints.up('xl')]: {
+                fontSize: 17,
+            },
         },
     },
     section: {
@@ -76,10 +76,10 @@ const useStyles = (theme) => ({
             width: '370px',
             height: 'calc(370px * 1.50)',
         },
-        // [theme.breakpoints.up('xl')]: {
-        //     width: '592px',
-        //     height: 'calc(592px * 1.50)',
-        // },
+        [theme.breakpoints.up('xl')]: {
+            width: '450px',
+            height: 'calc(450px * 1.50)',
+        },
     },
     paper: {
         padding: theme.spacing(2),
@@ -170,6 +170,7 @@ class Home extends Component {
         this.handleHolidayInput = this.handleHolidayInput.bind(this);
         this.getCelebrating = this.getCelebrating.bind(this);
         this.onCloseErrorMsg = this.onCloseErrorMsg.bind(this);
+        this.openHelp = this.openHelp.bind(this);
     }
 
     componentDidMount() {
@@ -225,6 +226,10 @@ class Home extends Component {
         } else {
             this.props.noCelebrating();
         }
+    }
+
+    openHelp() {
+        this.props.history.push('/help');
     }
 
     handleHolidayInput(event, value) {
@@ -422,7 +427,7 @@ class Home extends Component {
                         </Button>
                     </Grid>
                     <Grid container item alignItems="center" justify="flex-end">
-                        <Button style={{ marginTop: '0px' }} onClick={() => this.getCelebrating()}>
+                        <Button style={{ marginTop: '0px' }} onClick={() => this.openHelp()}>
                             <Typography paragraph variant="h6" className={this.classes.controlButtons}>
                                 {messages.help}
                             </Typography>
