@@ -29,7 +29,7 @@ const useStyles = makeStyles({
 
 const Help = (props) => {
     const classes = useStyles();
-    console.log(props);
+    // console.log(props);
     return (
         <>
             <div style={{ fontFamily: '"Times New Roman", Times, serif', fontSize: '1.5em' }}>

@@ -12,6 +12,7 @@ const messages = {
     holiday: 'Εορτή..',
     celebrating: 'Εορτάζοντες...',
     help: 'Τι είναι αυτό;',
+    privacy: 'Προσωπικά δεδομένα..',
     loginWithGoogle: 'Σύνδεση μέσω Google',
     logout: 'Αποσύνδεση',
     nooptions: 'Δεν βρέθηκε η λέξη',
