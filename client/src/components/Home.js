@@ -171,7 +171,6 @@ class Home extends Component {
         this.getCelebrating = this.getCelebrating.bind(this);
         this.onCloseErrorMsg = this.onCloseErrorMsg.bind(this);
         this.openHelp = this.openHelp.bind(this);
-        this.openPrivacy = this.openPrivacy.bind(this);
     }
 
     componentDidMount() {
@@ -231,10 +230,6 @@ class Home extends Component {
 
     openHelp() {
         this.props.history.push('/help');
-    }
-
-    openPrivacy() {
-        this.props.history.push('/privacy');
     }
 
     handleHolidayInput(event, value) {
@@ -435,13 +430,6 @@ class Home extends Component {
                         <Button style={{ marginTop: '0px' }} onClick={() => this.openHelp()}>
                             <Typography paragraph variant="h6" className={this.classes.controlButtons}>
                                 {messages.help}
-                            </Typography>
-                        </Button>
-                    </Grid>
-                    <Grid container item alignItems="center" justify="flex-start">
-                        <Button style={{ marginTop: '0px' }} onClick={() => this.openPrivacy()}>
-                            <Typography paragraph variant="body2" className={this.classes.controlButtons}>
-                                {messages.privacy}
                             </Typography>
                         </Button>
                     </Grid>

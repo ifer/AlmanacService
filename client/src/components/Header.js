@@ -7,8 +7,12 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import Box from '@material-ui/core/Box';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 
 import messages from '../util/messages';
 
@@ -41,9 +45,66 @@ class Header extends Component {
         this.renderLogButton = this.renderLogButton.bind(this);
         this.renderUsername = this.renderUsername.bind(this);
         this.classes = this.props.classes;
+        this.state = {
+            anchorEl: null,
+        };
+        this.openMenu = this.openMenu.bind(this);
+        this.closeMenu = this.closeMenu.bind(this);
+        this.openPrivacy = this.openPrivacy.bind(this);
         // const { classes } = this.props;
     }
 
+    openMenu(event) {
+        this.setState({ anchorEl: event.currentTarget });
+    }
+
+    closeMenu() {
+        this.setState({ anchorEl: null });
+    }
+
+    openPrivacy() {
+        this.props.history.push('/privacy');
+        this.closeMenu();
+    }
+
+    renderMenu() {
+        return (
+            <div>
+                <IconButton
+                    edge="start"
+                    style={{ color: 'white', marginRight: '20px' }}
+                    onClick={this.openMenu}
+                    aria-label="menu"
+                >
+                    <MenuIcon />
+                </IconButton>
+                <Menu
+                    id="app-menu"
+                    anchorEl={this.state.anchorEl}
+                    keepMounted
+                    open={Boolean(this.state.anchorEl)}
+                    onClose={this.closeMenu}
+                    style={{ marginTop: '40px' }}
+                >
+                    <MenuItem onClick={this.openPrivacy}>{messages.privacy}</MenuItem>
+                </Menu>
+            </div>
+        );
+    }
+
+    /*
+<Menu
+id="simple-menu"
+anchorEl={anchorEl}
+keepMounted
+open={Boolean(anchorEl)}
+onClose={handleClose}
+>
+<MenuItem onClick={handleClose}>Profile</MenuItem>
+
+</Menu>
+
+*/
     // Return JSX piece of code that shows
     // the user auth state.
     // this.props.auth are injected by redux via mapStateToProps
@@ -105,6 +166,7 @@ class Header extends Component {
         return (
             <AppBar color="primary" position="static">
                 <Toolbar>
+                    {this.renderMenu()}
                     <Box display="flex" flexGrow={1}>
                         <Link className={this.classes.brandLogo} to={'/'}>
                             <Typography variant="h5" color="inherit">
@@ -130,6 +192,7 @@ function mapStateToProps(state) {
     return { auth: state.auth };
 }
 //plugin styles as props (material-ui)
-const styledHeader = withStyles(useStyles)(Header);
+//withRouter: to make props.history available
+const styledHeader = withStyles(useStyles)(withRouter(Header));
 //plugin state as props (redux)
 export default connect(mapStateToProps)(styledHeader);
