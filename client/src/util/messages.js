@@ -1,5 +1,6 @@
 const messages = {
     appname: 'Ημεροδείκτης',
+    version: 'έκδ.',
     prev: 'Προηγούμενη',
     next: 'Επόμενη',
     prev_day: 'Προηγούμενη ημέρα',

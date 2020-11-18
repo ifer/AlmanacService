@@ -24,8 +24,8 @@ function getDayInfo(datestr) {
     // get today's sunlight times for Athens
     const times = SunCalc.getTimes(date, latitude, longitude);
     // format sunrise time from the Date object
-    const sunriseStr = times.sunrise.getHours() + ':' + times.sunrise.getMinutes();
-    const sunsetStr = times.sunset.getHours() + ':' + times.sunset.getMinutes();
+    const sunriseStr = to2digits(times.sunrise.getHours()) + ':' + to2digits(times.sunrise.getMinutes());
+    const sunsetStr = to2digits(times.sunset.getHours()) + ':' + to2digits(times.sunset.getMinutes());
 
     // moonPhase(date);
     // let testDate = moment('01/03/2025 00:00', 'DD/MM/YYYY HH:mm');
@@ -53,6 +53,16 @@ function getDayInfo(datestr) {
         sunRiseSet: `Ανατολή: ${sunriseStr}  Δύση: ${sunsetStr}`,
         datestr: date.format('DDMMYYYY'),
     };
+}
+
+function to2digits(n) {
+    s = n.toString();
+
+    if (s.length === 2) {
+        return s;
+    } else {
+        return '0' + s;
+    }
 }
 
 module.exports = { getDayInfo };

@@ -264,7 +264,7 @@ GoogleContacts.prototype._buildPath = function (params) {
     path += params.projection;
     if (params.id) path += '/' + params.id;
     path += '?' + qs.stringify(query);
-    console.log(`path=${path}`);
+    // console.log(`path=${path}`);
     return path;
 };
 

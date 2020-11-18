@@ -4,9 +4,11 @@ client/package.json
 config
 data
 db
+helpers
+middlewares
 models
 routes
 services
-util
 index.js
 package.json
+version.txt

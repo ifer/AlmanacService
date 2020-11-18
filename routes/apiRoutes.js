@@ -177,6 +177,17 @@ module.exports = (app) => {
             return res.status(200).send(new AppError(200, MESSAGE_EMAIL_SUCCESS));
         });
     });
+
+    app.get('/api/getVersion', (req, res) => {
+        fs = require('fs');
+        fs.readFile('version.txt', 'utf8', function (err, data) {
+            if (err) {
+                console.log(err);
+                return res.status(401).send(new AppError(401, ''));
+            }
+            res.send(data);
+        });
+    });
 };
 
 function sendToAll(user, recipients, message) {

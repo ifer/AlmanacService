@@ -2,7 +2,7 @@
 
 if [ $# -lt 1 ]
 then
-	echo "Syntax: deploy.sh <linode | plato>" [source]
+	echo "Syntax: deploy.sh <linode | plato>" [sourceonly]
 	exit 1
 fi
 
@@ -19,11 +19,15 @@ else
 	exit 1
 fi
 
-if [ "$2" = "source" ]
+if [ "$2" = "sourceonly" ]
 then
 	LIST="deploy.list.source"
-else
+elif [ "$2" = "" ]
+then
 	LIST="deploy.list"
+else
+	echo  "Syntax: deploy.sh <linode | plato>" [sourceonly]
+	exit 1
 fi
 
 version=`cat ./version.txt`;

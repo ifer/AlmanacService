@@ -6,9 +6,12 @@ node_modules
 config
 data
 db
+Google-Contacts
+helpers
+middlewares
 models
 routes
 services
-util
 index.js
 package.json
+version.txt

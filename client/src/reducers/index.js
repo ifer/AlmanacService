@@ -12,6 +12,7 @@ import recipientsReducer from './recipientsReducer';
 import emaildataReducer from './emaildataReducer';
 import celebSelectedReducer from './celebSelectedReducer';
 import sendEmailReducer from './sendEmailReducer';
+import versionReducer from './versionReducer';
 
 export default combineReducers({
     auth: authReducer,
@@ -25,4 +26,5 @@ export default combineReducers({
     emaildata: emaildataReducer,
     celebSelected: celebSelectedReducer,
     emailresp: sendEmailReducer,
+    version: versionReducer,
 });

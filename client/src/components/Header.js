@@ -14,6 +14,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 
+import * as actions from '../actions';
+
 import messages from '../util/messages';
 
 const useStyles = (theme) => ({
@@ -37,6 +39,10 @@ const useStyles = (theme) => ({
     brandLogo: {
         color: 'white',
     },
+    version: {
+        color: 'white',
+        marginRight: '60px',
+    },
 });
 
 class Header extends Component {
@@ -51,9 +57,13 @@ class Header extends Component {
         this.openMenu = this.openMenu.bind(this);
         this.closeMenu = this.closeMenu.bind(this);
         this.openPrivacy = this.openPrivacy.bind(this);
+        this.renderVersion = this.renderVersion.bind(this);
         // const { classes } = this.props;
     }
 
+    componentDidMount() {
+        this.props.getVersion();
+    }
     openMenu(event) {
         this.setState({ anchorEl: event.currentTarget });
     }
@@ -127,6 +137,14 @@ onClose={handleClose}
         }
     }
 
+    renderVersion() {
+        return (
+            <Typography variant="subtitle2" className={this.classes.version}>
+                {messages.version + this.props.version}
+            </Typography>
+        );
+    }
+
     renderLogButton() {
         switch (this.props.auth) {
             case null:
@@ -174,6 +192,7 @@ onClose={handleClose}
                             </Typography>
                         </Link>
                     </Box>
+                    {this.renderVersion()}
                     {this.renderUsername()}
                     {this.renderLogButton()}
                 </Toolbar>
@@ -189,10 +208,10 @@ onClose={handleClose}
 // διαθέσιμο το πεδίο auth στο component Header.
 function mapStateToProps(state) {
     // console.log(state.auth);
-    return { auth: state.auth };
+    return { auth: state.auth, version: state.version };
 }
 //plugin styles as props (material-ui)
 //withRouter: to make props.history available
 const styledHeader = withStyles(useStyles)(withRouter(Header));
 //plugin state as props (redux)
-export default connect(mapStateToProps)(styledHeader);
+export default connect(mapStateToProps, actions)(styledHeader);

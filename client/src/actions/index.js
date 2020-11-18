@@ -12,6 +12,7 @@ import { ERROR } from './types';
 import { HIDE_NOTIF } from './types';
 import { CELEB_SELECTED } from './types';
 import { SEND_EMAIL } from './types';
+import { GET_VERSION } from '../actions/types';
 
 import messages from '../util/messages';
 
@@ -151,5 +152,22 @@ export const setCelebSelected = (selected) => {
     // console.log('dispatch:' + recipients);
     return (dispatch) => {
         dispatch({ type: CELEB_SELECTED, payload: selected });
+    };
+};
+
+export const getVersion = () => {
+    return async (dispatch) => {
+        let res;
+        // debugger;
+        try {
+            res = await axios.get(`/api/getVersion`);
+            dispatch({ type: GET_VERSION, payload: res.data, error: null });
+        } catch (err) {
+            // console.log('ERROR FETCHING: ');
+            // console.log(err);
+            dispatch({ type: GET_VERSION, payload: null, error: err });
+            // dispatch({ type: ERROR, error: err });
+        }
+        // console.log('axios fetchAllHolidays res=' + JSON.stringify(res.data));
     };
 };
