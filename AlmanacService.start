@@ -1,0 +1,16 @@
+#! /bin/bash
+
+## Script to start service on production server ##
+## Called by: /etc/systemd/system/AlmanacService.service
+
+#cd /u/local/apps/AlmanacService
+
+#export NODE_ENV=production
+#export GOOGLE_CLIENT_ID=985979000031-5bm3khidu7fcdm80f2itglddmvsmekf4.apps.googleusercontent.com
+#export GOOGLE_CLIENT_SECRET=FsPcPbOQX1LbpMdkRyRSUq3B
+#export COOKIE_KEY=aRandomStringToBeUsedAsCookieEncryptionKey
+#export SSLCERTIFICATE="/etc/letsencrypt/live/ifernet.gr/cert.pem"
+#export SSLPRIVATEKEY="/etc/letsencrypt/live/ifernet.gr/privkey.pem"
+#export SSLCHAIN="/etc/letsencrypt/live/ifernet.gr/fullchain.pem"
+#export SSLPORT=444
+/usr/bin/node /u/local/apps/AlmanacService/index.js >> /var/log/AlmanacService.log 2>&1

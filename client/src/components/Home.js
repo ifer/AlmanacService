@@ -382,6 +382,8 @@ class Home extends Component {
                             minDateMessage={messages.error_min_date}
                             maxDate={new Date('2200-12-31')}
                             maxDateMessage={messages.error_max_date}
+                            cancelLabel={messages.cancelLabel}
+                            okLabel={messages.okLabel}
                             inputProps={{
                                 style: {
                                     textAlign: 'center',

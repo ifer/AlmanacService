@@ -44,15 +44,6 @@ connect(dbURI).then((db) => {
     // });
 });
 
-console.log(process.env.NODE_ENV);
-console.log(process.env.GOOGLE_CLIENT_ID);
-console.log(process.env.GOOGLE_CLIENT_SECRET);
-console.log(process.env.COOKIE_KEY);
-console.log(process.env.SSLCERTIFICATE);
-console.log(process.env.SSLPRIVATEKEY);
-console.log(process.env.SSLCHAIN);
-console.log(process.env.SSLPORT);
-
 // In production, take the port number by the env variable PORT
 // In development, use 5000
 const PORT = process.env.PORT || 5000;

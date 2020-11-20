@@ -2,8 +2,16 @@ import React from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
+import Paper from '@material-ui/core/Paper';
 import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
 import EventAvailableIcon from '@material-ui/icons/EventAvailable';
+
+import homeImg from '../style/almanac_home.png';
+import gotodateImg from '../style/almanac_gotodate.png';
+import findholidayImg from '../style/almanac_findholiday.png';
+import wizard1Img from '../style/almanac_wizard1.png';
+import wizard2Img from '../style/almanac_wizard2.png';
+import wizard3Img from '../style/almanac_wizard3.png';
 
 const useStyles = makeStyles({
     h1: {
@@ -110,6 +118,15 @@ const Help = (props) => {
                 <h3 className={classes.h3} id="home">
                     Αρχική οθόνη
                 </h3>
+                <Paper variant="outlined">
+                    <img
+                        src={homeImg}
+                        width="100%"
+                        height="auto"
+                        alt=""
+                        style={{ textAlign: 'center', verticalAlign: 'middle' }}
+                    />
+                </Paper>
                 <div>
                     Στο δεξί μέρος της σελίδας εμφανίζονται τα δεδομένα της ημέρας. Στο αριστερό μέρος βρίσκονται τα
                     στοιχεία ελέγχου που προσφέρουν τις εξής επιλογές:
@@ -125,10 +142,19 @@ const Help = (props) => {
                         Στην πρώτη σειρά, με τα βέλη προχωράμε μιά ημέρα μπροστά ή πίσω και με το κουμπί
                         <b>
                             <i> Σήμερα</i>
-                        </b>{' '}
+                        </b>
                         επιστρέφουμε στην σημερινή ημερομηνία. Στην δεύτερη σειρά, τα βέλη μας οδηγούν ένα μήνα μπροστά
                         ή πίσω.
                     </div>
+                    <Paper variant="outlined" style={{ textAlign: 'center' }}>
+                        <img
+                            src={gotodateImg}
+                            width="25%"
+                            height="auto"
+                            alt=""
+                            style={{ textAlign: 'center', verticalAlign: 'middle' }}
+                        />
+                    </Paper>
                     <div>
                         Αμέσως πιο κάτω, αν κάνουμε κλικ δίπλα από την ετικέτα{' '}
                         <b>
@@ -140,8 +166,17 @@ const Help = (props) => {
                         <p />
                     </div>
                     <li id="search">
-                        <b>Αναζήτηση</b>
+                        <b>Αναζήτηση εορτής</b>
                     </li>
+                    <Paper variant="outlined" style={{ textAlign: 'center' }}>
+                        <img
+                            src={findholidayImg}
+                            width="40%"
+                            height="auto"
+                            alt=""
+                            style={{ textAlign: 'center', verticalAlign: 'middle' }}
+                        />
+                    </Paper>
                     <div>
                         Κάτω από την ετικέτα{' '}
                         <b>
@@ -189,6 +224,15 @@ const Help = (props) => {
                     <li className={classes.wizardScreen}>
                         <b>Λίστα εορταζόντων - Επιλογή παραληπτών μηνύματος</b>
                     </li>
+                    <Paper variant="outlined" style={{ textAlign: 'center', verticalAlign: 'middle' }}>
+                        <img
+                            src={wizard1Img}
+                            width="100%"
+                            height="auto"
+                            alt=""
+                            style={{ textAlign: 'center', verticalAlign: 'middle' }}
+                        />
+                    </Paper>
                     <div>
                         Εμφανίζεται ένας πίνακας με τα στοιχεία των εορταζόντων: ονοματεπώνυμο, email, τηλέφωνο. Η λίστα
                         παρουσιάζεται σε σελίδες των 10 ατόμων η κάθε μία. Για μετακίνηση στην επόμενη ή προηγούμενη
@@ -217,6 +261,15 @@ const Help = (props) => {
                     <li className={classes.wizardScreen} id="email">
                         <b>Σύνταξη μηνύματος</b>
                     </li>
+                    <Paper variant="outlined" style={{ textAlign: 'center', verticalAlign: 'middle' }}>
+                        <img
+                            src={wizard2Img}
+                            width="100%"
+                            height="auto"
+                            alt=""
+                            style={{ textAlign: 'center', verticalAlign: 'middle' }}
+                        />
+                    </Paper>{' '}
                     <div>
                         Στην σελίδα αυτή μπορούμε να γράψουμε το μήνυμα που θα αποστείλουμε στους επιλεγμένους
                         αποδέκτες. Εμφανίζονται δύο πεδία για συμπλήρωση: <i>Θέμα</i> και <i>Κείμενο</i>. Και τα δύο
@@ -236,6 +289,15 @@ const Help = (props) => {
                     <li className={classes.wizardScreen}>
                         <b>Επαλήθευση και αποστολή</b>
                     </li>
+                    <Paper variant="outlined" style={{ textAlign: 'center', verticalAlign: 'middle' }}>
+                        <img
+                            src={wizard3Img}
+                            width="100%"
+                            height="auto"
+                            alt=""
+                            style={{ textAlign: 'center', verticalAlign: 'middle' }}
+                        />
+                    </Paper>
                     <div>
                         Στην σελίδα αυτή καλούμαστε να επαληθεύσουμε τα δεδομένα που έχουμε εισαγάγει, δηλαδή τους
                         παραλήπτες και τα στοιχεία του μηνύματος (θέμα, κείμενο). Αν όλα είναι εντάξει, πατάμε{' '}

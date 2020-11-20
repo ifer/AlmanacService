@@ -13,6 +13,8 @@ const messages = {
     holiday: 'Εορτή..',
     celebrating: 'Εορτάζοντες...',
     help: 'Τι είναι αυτό;',
+    okLabel: 'OK',
+    cancelLabel: 'ΑΚΥΡΟ',
     privacy: 'Πολιτική Απορρήτου',
     loginWithGoogle: 'Σύνδεση μέσω Google',
     logout: 'Αποσύνδεση',

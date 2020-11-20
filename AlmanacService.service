@@ -1,0 +1,23 @@
+## To run as a service on Ubuntu ##
+## path: /etc/systemd/system/AlmanacService.service ##
+
+[Unit]
+Description=AlmanacService
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/u/local/apps/AlmanacService
+ExecStart=/u/local/apps/AlmanacService/AlmanacService.start
+Restart=on-failure
+Environment=NODE_ENV=production
+Environment=GOOGLE_CLIENT_ID=985979000031-5bm3khidu7fcdm80f2itglddmvsmekf4.apps.googleusercontent.com
+Environment=GOOGLE_CLIENT_SECRET=FsPcPbOQX1LbpMdkRyRSUq3B
+Environment=COOKIE_KEY=aRandomStringToBeUsedAsCookieEncryptionKey
+Environment=SSLCERTIFICATE=/etc/letsencrypt/live/ifernet.gr/cert.pem
+Environment=SSLPRIVATEKEY=/etc/letsencrypt/live/ifernet.gr/privkey.pem
+Environment=SSLCHAIN=/etc/letsencrypt/live/ifernet.gr/fullchain.pem
+Environment=SSLPORT=444
+
+[Install]
+WantedBy=multi-user.target
