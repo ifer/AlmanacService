@@ -170,8 +170,10 @@ module.exports = (app) => {
 
             try {
                 await sendToAll(user, recipients, message);
+                // console.log('POST RES Caught error:' + res);
             } catch (error) {
-                return res.status(401).send(new AppError(401, ERROR_EMAIL_FAILURE + error));
+                // console.log('POST Caught error:' + error);
+                return res.status(400).send(new AppError(400, ERROR_EMAIL_FAILURE + error));
             }
 
             return res.status(200).send(new AppError(200, MESSAGE_EMAIL_SUCCESS));
@@ -182,8 +184,8 @@ module.exports = (app) => {
         fs = require('fs');
         fs.readFile('version.txt', 'utf8', function (err, data) {
             if (err) {
-                console.log(err);
-                return res.status(401).send(new AppError(401, ''));
+                // console.log(err);
+                return res.status(400).send(new AppError(400, ''));
             }
             res.send(data);
         });
@@ -191,18 +193,17 @@ module.exports = (app) => {
 };
 
 function sendToAll(user, recipients, message) {
-    return new Promise((resolve, reject) => {
-        recipients.forEach(async (recipient) => {
+    return new Promise(async (resolve, reject) => {
+        for (let i = 0; i < recipients.length; i++) {
+            const recipient = recipients[i];
             message.to = recipient.email;
-
             try {
-                await emailService.sendEmail(message, user.accessToken, user.refreshToken);
+                // await emailService.sendEmail(message, user.accessToken, user.refreshToken);
+                await emailService.sendEmailGoogleAPI(message, user.accessToken, user.refreshToken);
             } catch (error) {
-                reject(error);
+                return reject(error);
             }
-
-            await sleep(emailSendingInterval);
-        });
+        }
 
         resolve();
     });

@@ -16,6 +16,9 @@ const messages = {
     okLabel: 'OK',
     cancelLabel: 'ΑΚΥΡΟ',
     privacy: 'Πολιτική Απορρήτου',
+    cookiesConsentText:
+        'Ο ιστότοπος χρησιμοποιεί cookies για την σύνδεση του χρήστη στο Google, αλλά δεν αποθηκεύει ή χρησιμοποιεί προσωπικά δεδομένα',
+    cookiesConsentButton: 'Καταλαβαίνω',
     loginWithGoogle: 'Σύνδεση μέσω Google',
     logout: 'Αποσύνδεση',
     nooptions: 'Δεν βρέθηκε η λέξη',

@@ -23,6 +23,8 @@ import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 // pick a date util library
 import MomentUtils from '@date-io/moment';
 
+import CookieConsent from 'react-cookie-consent';
+
 import moment from 'moment';
 import 'moment/locale/el';
 
@@ -171,6 +173,7 @@ class Home extends Component {
         this.getCelebrating = this.getCelebrating.bind(this);
         this.onCloseErrorMsg = this.onCloseErrorMsg.bind(this);
         this.openHelp = this.openHelp.bind(this);
+        this.renderCookieConsent = this.renderCookieConsent.bind(this);
     }
 
     componentDidMount() {
@@ -440,6 +443,15 @@ class Home extends Component {
         );
     }
 
+    renderCookieConsent() {
+        //expires={150}
+        return (
+            <CookieConsent expires={1} buttonText={messages.cookiesConsentButton}>
+                {messages.cookiesConsentText}
+            </CookieConsent>
+        );
+    }
+
     render() {
         const errorText = () => {
             // debugger;
@@ -461,7 +473,7 @@ class Home extends Component {
                     onClose={this.onCloseErrorMsg}
                     severity={errorSeverity()}
                 />
-
+                {this.renderCookieConsent()}
                 {this.props.curdayinfo.dayOfMonth && this.props.allHolidays && (
                     <MuiPickersUtilsProvider utils={MomentUtils} locale={'el'}>
                         <Grid container justify="center">
