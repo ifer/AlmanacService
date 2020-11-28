@@ -13,6 +13,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import GoogleButton from 'react-google-button';
 
 import * as actions from '../actions';
 
@@ -151,11 +152,14 @@ onClose={handleClose}
                 return;
             case false:
                 return (
-                    <Button href="/auth/google">
-                        <Typography variant="subtitle1" className={this.classes.login}>
-                            {messages.loginWithGoogle}
-                        </Typography>
-                    </Button>
+                    <GoogleButton
+                        type="dark"
+                        label={messages.loginWithGoogle}
+                        onClick={() => {
+                            window.location.href = '/auth/google';
+                            // console.log('Google button clicked');
+                        }}
+                    />
                 );
             default:
                 return (

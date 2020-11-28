@@ -56,7 +56,7 @@ const Privacy = (props) => {
                 <h3 className={classes.h3}>Almanac: Privacy policy</h3>
                 <div>
                     The application 'Almanac' declares that does not store or use in any way all or part of the user's
-                    contacts information as well as any other of his/her personal data, such as e-mail, etc..
+                    contacts information as well as any other of his/her personal data, such as e-mail messages, etc..
                 </div>
             </div>
         </>
