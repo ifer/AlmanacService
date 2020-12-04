@@ -10,6 +10,7 @@ const passport = require('passport');
 const bodyParser = require('body-parser');
 const connect = require('camo').connect;
 const fs = require('fs');
+// const http = require('http');
 const https = require('https');
 
 const dbURI = `nedb://${appRoot}/db/users`;
@@ -46,7 +47,7 @@ connect(dbURI).then((db) => {
 
 // In production, take the port number by the env variable PORT
 // In development, use 5000
-const PORT = process.env.PORT || 5000;
+// const PORT = process.env.PORT || 5000;
 const SSLPORT = process.env.SSLPORT || 5001;
 
 const app = express();
@@ -82,11 +83,15 @@ app.use(passport.session());
 authRoutes(app);
 apiRoutes(app);
 
+console.log('__dirname=' + __dirname);
+console.log('process.cwd()= ' + process.cwd());
+
 //// DEPLOYMENT TO PRODUCTION CONFIG
 // AFTER declaring api routes!!
 if (process.env.NODE_ENV === 'production') {
     // serve up production assets
     app.use(express.static('client/build'));
+
     // let the react app to handle any unknown routes
     // serve up the index.html if express does'nt recognize the route
 
@@ -95,7 +100,10 @@ if (process.env.NODE_ENV === 'production') {
     });
 }
 
-// app.listen(PORT);
+// const httpServer = http.createServer(app);
+// httpServer.listen(PORT, () => {
+//     console.log(`HTTP server started on port ${PORT}`);
+// });
 
 // Certificate
 const privateKey = fs.readFileSync(keys.sslPrivateKey, 'utf8');
