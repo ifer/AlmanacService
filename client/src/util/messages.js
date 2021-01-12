@@ -15,7 +15,7 @@ const messages = {
     help: 'Τι είναι αυτό;',
     okLabel: 'OK',
     cancelLabel: 'ΑΚΥΡΟ',
-    privacy: 'Πολιτική Ιδιωτικότητας',
+    privacy: 'Πολιτική Απορρήτου',
     cookiesConsentText:
         'Ο ιστότοπος χρησιμοποιεί cookies για καλύτερη εξυπηρέτηση του χρήστη, αλλά δεν αποθηκεύει και δεν χρησιμοποιεί προσωπικά δεδομένα',
     cookiesConsentButton: 'Καταλαβαίνω',
