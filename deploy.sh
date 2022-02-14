@@ -52,7 +52,7 @@ $COMMAND "$filename"
 if [ $? -eq 0 ]
 then
     echo "Done"
-    # rm -f $filename
+    rm -f $filename
 else
     echo "Error sending $filename to $SERVER"
 fi
