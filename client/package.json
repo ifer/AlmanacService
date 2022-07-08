@@ -21,7 +21,7 @@
         "kerberos": "^1.0.0",
         "materialize-css": "^1.0.0-rc.2",
         "merge-deep": "^3.0.3",
-        "moment": "^2.27.0",
+        "moment": "^2.29.4",
         "nodemailer": "^6.4.16",
         "normalize-url": "4.5.1",
         "npm": "^6.14.8",
