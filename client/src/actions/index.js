@@ -50,6 +50,7 @@ export const changeDate = (where, basedate) => {
         // console.log(`changeDate called ${where}/${basedate}`);
         try {
             const res = await axios.get(`/api/goto/${where}/${basedate}`);
+            console.log(`res.data=${JSON.stringify(res.data)}`);
             dispatch({ type: CHANGE_DATE, payload: res.data, error: null });
         } catch (err) {
             dispatch({ type: CHANGE_DATE, payload: null, error: err });

@@ -35,6 +35,7 @@ import rightDoubleArrow from '../style/rightDoubleArrow.png';
 import messages from '../util/messages';
 import { noGreekAccents } from '../util/utils';
 import ShowNotification from './ShowNotification';
+import Celebrators from './Celebrators';
 
 moment.locale('el');
 
@@ -174,6 +175,13 @@ class Home extends Component {
         this.onCloseErrorMsg = this.onCloseErrorMsg.bind(this);
         this.openHelp = this.openHelp.bind(this);
         this.renderCookieConsent = this.renderCookieConsent.bind(this);
+        this.closeCelebrators = this.closeCelebrators.bind(this);
+
+        this.state = {
+            celebratorsOpen: false,
+        };
+
+        // console.log(`props=${JSON.stringify(props.curdayinfo)}`);
     }
 
     componentDidMount() {
@@ -190,6 +198,7 @@ class Home extends Component {
         // PROD
         if (this.props.curdayinfo) {
             this.props.changeDate('gotoDate', this.props.curdayinfo.datestr);
+            // console.log(`props.curdayinfo=${JSON.stringify(this.props.curdayinfo)}`);
         } else {
             this.props.changeDate('today');
             // this.props.changeDate('gotoDate', '07012021');
@@ -267,6 +276,7 @@ class Home extends Component {
     renderCalendar(dayinfo) {
         const dayOfWeek = noGreekAccents(dayinfo.dayOfWeek).toUpperCase();
         const month = noGreekAccents(dayinfo.month).toUpperCase();
+        // console.log(`dayinfo=${JSON.stringify(dayinfo)}`);
         return (
             <Paper elevation={5} className={this.classes.paper}>
                 <Grid
@@ -306,7 +316,7 @@ class Home extends Component {
         );
     }
 
-    renderLeftPage() {
+    renderLeftPage(dayinfo) {
         return (
             <Paper elevation={5} className={this.classes.paper}>
                 <Grid
@@ -425,7 +435,8 @@ class Home extends Component {
                         />
                     </Grid>
                     <Grid container item alignItems="center" justify="flex-start">
-                        <Button style={{ marginTop: '25px' }} onClick={() => this.getCelebrating()}>
+                        {/* <Button style={{ marginTop: '25px' }} onClick={() => this.getCelebrating()}> */}
+                        <Button style={{ marginTop: '25px' }} onClick={() => this.setState({ celebratorsOpen: true })}>
                             <Typography paragraph variant="h6" className={this.classes.controlButtons}>
                                 {messages.celebrating}
                             </Typography>
@@ -452,6 +463,10 @@ class Home extends Component {
         );
     }
 
+    closeCelebrators() {
+        this.setState({ celebratorsOpen: false });
+    }
+
     render() {
         const errorText = () => {
             // debugger;
@@ -473,12 +488,13 @@ class Home extends Component {
                     onClose={this.onCloseErrorMsg}
                     severity={errorSeverity()}
                 />
+                {this.state.celebratorsOpen === true && <Celebrators onClose={this.closeCelebrators} />}
                 {this.renderCookieConsent()}
                 {this.props.curdayinfo.dayOfMonth && this.props.allHolidays && (
                     <MuiPickersUtilsProvider utils={MomentUtils} locale={'el'}>
                         <Grid container justify="center">
                             <Grid item container justify="center" className={this.classes.section}>
-                                {this.renderLeftPage()}
+                                {this.renderLeftPage(this.props.curdayinfo)}
                             </Grid>
                             <Grid item container justify="center" className={this.classes.section}>
                                 {this.renderCalendar(this.props.curdayinfo)}
