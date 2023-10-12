@@ -47,7 +47,7 @@ class App extends Component {
                 <BrowserRouter>
                     {/* BrowserRouter accepts only one child-component */}
                     <Grid container direction="column">
-                        <Grid>
+                        <Grid item>
                             <Header />
                         </Grid>
                         <Grid item container>

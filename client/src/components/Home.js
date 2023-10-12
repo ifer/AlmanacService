@@ -23,8 +23,6 @@ import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 // pick a date util library
 import MomentUtils from '@date-io/moment';
 
-import CookieConsent from 'react-cookie-consent';
-
 import moment from 'moment';
 import 'moment/locale/el';
 
@@ -88,9 +86,9 @@ const useStyles = (theme) => ({
         padding: theme.spacing(2),
         textAlign: 'center',
         color: theme.palette.text.secondary,
-        /* background: 'FloralWhite',
-        background: 'WhiteSmoke',*/
-        background: '#FAFAFA',
+        // /* background: 'FloralWhite',*/
+        // background: 'WhiteSmoke',
+        // background: '#FAFAFA',
         width: '100%',
         height: '100%',
     },
@@ -171,10 +169,10 @@ class Home extends Component {
         this.renderLeftPage = this.renderLeftPage.bind(this);
         // this.handleFixedHolidayInput = this.handleFixedHolidayInput.bind(this);
         this.handleHolidayInput = this.handleHolidayInput.bind(this);
-        this.getCelebrating = this.getCelebrating.bind(this);
+        // this.getCelebrating = this.getCelebrating.bind(this);
         this.onCloseErrorMsg = this.onCloseErrorMsg.bind(this);
         this.openHelp = this.openHelp.bind(this);
-        this.renderCookieConsent = this.renderCookieConsent.bind(this);
+        // this.renderCookieConsent = this.renderCookieConsent.bind(this);
         this.closeCelebrators = this.closeCelebrators.bind(this);
 
         this.state = {
@@ -224,21 +222,21 @@ class Home extends Component {
         this.props.changeDate('gotoDate', date.format('DDMMYYYY'));
     }
 
-    async getCelebrating() {
-        await this.props.fetchContacts();
-        if (this.props.error) {
-            // console.log(this.props.error.message);
-            return;
-        }
-        // console.log(this.props.contacts);
-        const personList = checkContacts(this.props.contacts, this.props.curdayinfo.dayNames);
-        // console.log(personList);
-        if (personList.length > 0) {
-            this.props.openCelebrating(personList, this.props.history);
-        } else {
-            this.props.noCelebrating();
-        }
-    }
+    // async getCelebrating() {
+    //     await this.props.fetchContacts();
+    //     if (this.props.error) {
+    //         // console.log(this.props.error.message);
+    //         return;
+    //     }
+    //     // console.log(this.props.contacts);
+    //     const personList = checkContacts(this.props.contacts, this.props.curdayinfo.dayNames);
+    //     // console.log(personList);
+    //     if (personList.length > 0) {
+    //         this.props.openCelebrating(personList, this.props.history);
+    //     } else {
+    //         this.props.noCelebrating();
+    //     }
+    // }
 
     openHelp() {
         this.props.history.push('/help');
@@ -286,7 +284,7 @@ class Home extends Component {
                     alignItems="center"
                     style={{ height: '100%' }}
                 >
-                    <Grid container direction="column" justify="flex-start" alignItems="center" spacing={0}>
+                    <Grid container item direction="column" justify="flex-start" alignItems="center" spacing={0}>
                         <Typography paragraph variant="h5" className={this.classes.calDayOfWeek}>
                             {dayOfWeek}
                         </Typography>
@@ -297,6 +295,7 @@ class Home extends Component {
                             {month} {dayinfo.year}
                         </Typography>
                     </Grid>
+                    {/* <Grid item> */}
                     <div className={this.classes.calHolidayDiv}>
                         {/* dayHolidays is an array */}
                         {dayinfo.dayHolidays.map((holiday, index) => (
@@ -305,12 +304,15 @@ class Home extends Component {
                             </Typography>
                         ))}
                     </div>
+                    {/* </Grid> */}
+                    {/* <Grid item> */}
                     <Typography paragraph variant="subtitle1" className={this.classes.calMoonPhase}>
                         {dayinfo.moonPhase}
                     </Typography>
                     <Typography paragraph variant="subtitle1" className={this.classes.calSunRiseSet}>
                         {dayinfo.sunRiseSet}
                     </Typography>
+                    {/* </Grid> */}
                 </Grid>
             </Paper>
         );
@@ -435,7 +437,6 @@ class Home extends Component {
                         />
                     </Grid>
                     <Grid container item alignItems="center" justify="flex-start">
-                        {/* <Button style={{ marginTop: '25px' }} onClick={() => this.getCelebrating()}> */}
                         <Button style={{ marginTop: '25px' }} onClick={() => this.setState({ celebratorsOpen: true })}>
                             <Typography paragraph variant="h6" className={this.classes.controlButtons}>
                                 {messages.celebrating}
@@ -454,14 +455,14 @@ class Home extends Component {
         );
     }
 
-    renderCookieConsent() {
-        //expires={150}
-        return (
-            <CookieConsent expires={1} buttonText={messages.cookiesConsentButton}>
-                {messages.cookiesConsentText}
-            </CookieConsent>
-        );
-    }
+    // renderCookieConsent() {
+    //     //expires={150}
+    //     return (
+    //         <CookieConsent expires={1} buttonText={messages.cookiesConsentButton}>
+    //             {messages.cookiesConsentText}
+    //         </CookieConsent>
+    //     );
+    // }
 
     closeCelebrators() {
         this.setState({ celebratorsOpen: false });
@@ -488,8 +489,10 @@ class Home extends Component {
                     onClose={this.onCloseErrorMsg}
                     severity={errorSeverity()}
                 />
-                {this.state.celebratorsOpen === true && <Celebrators onClose={this.closeCelebrators} />}
-                {this.renderCookieConsent()}
+                {this.state.celebratorsOpen === true && (
+                    <Celebrators dayNames={this.props.curdayinfo.dayNames} onClose={this.closeCelebrators} />
+                )}
+                {/* {this.renderCookieConsent()} */}
                 {this.props.curdayinfo.dayOfMonth && this.props.allHolidays && (
                     <MuiPickersUtilsProvider utils={MomentUtils} locale={'el'}>
                         <Grid container justify="center">
@@ -544,99 +547,99 @@ function getHolidayType(keyword) {
     }
 }
 
-function checkContacts(contacts, daynames) {
-    let personList = [];
+// function checkContacts(contacts, daynames) {
+//     let personList = [];
 
-    for (var i = 0; i < contacts.length; i++) {
-        if (!contacts[i].name) continue;
+//     for (var i = 0; i < contacts.length; i++) {
+//         if (!contacts[i].name) continue;
 
-        // if (contacts[i].givenName != null) givenName = contacts[i].gd$name.gd$givenName.$t;
+//         // if (contacts[i].givenName != null) givenName = contacts[i].gd$name.gd$givenName.$t;
 
-        // if (contacts[i].gd$name.gd$familyName != null) familyName = contacts[i].gd$name.gd$familyName.$t;
-        if (contacts[i].familyName == null) contacts[i].familyName = '';
+//         // if (contacts[i].gd$name.gd$familyName != null) familyName = contacts[i].gd$name.gd$familyName.$t;
+//         if (contacts[i].familyName == null) contacts[i].familyName = '';
 
-        if (contacts[i].givenName == null) {
-            if (contacts[i].fullName != null) {
-                let s = contacts[i].fullName.split(' ');
-                if (s == null || s.length === 0) continue;
-                if (s.length >= 2) {
-                    contacts[i].givenName = s[0];
-                    contacts[i].familyName = s[1];
-                } else {
-                    contacts[i].givenName = s[0];
-                }
+//         if (contacts[i].givenName == null) {
+//             if (contacts[i].fullName != null) {
+//                 let s = contacts[i].fullName.split(' ');
+//                 if (s == null || s.length === 0) continue;
+//                 if (s.length >= 2) {
+//                     contacts[i].givenName = s[0];
+//                     contacts[i].familyName = s[1];
+//                 } else {
+//                     contacts[i].givenName = s[0];
+//                 }
 
-                if (contacts[i].givenName == null) contacts[i].givenName = '';
-            } else {
-                continue;
-            }
-        }
+//                 if (contacts[i].givenName == null) contacts[i].givenName = '';
+//             } else {
+//                 continue;
+//             }
+//         }
 
-        // id = i;
+//         // id = i;
 
-        let isCelebrant = false;
-        // console.log(contacts[i].familyName + ' ' + contacts[i].givenName);
-        let gn = noGreekAccents(contacts[i].givenName).toUpperCase();
-        for (let j = 0; j < daynames.length; j++) {
-            let fn = noGreekAccents(daynames[j]).toUpperCase();
-            if (gn.startsWith(fn)) {
-                isCelebrant = true;
-                break;
-            }
-        }
+//         let isCelebrant = false;
+//         // console.log(contacts[i].familyName + ' ' + contacts[i].givenName);
+//         let gn = noGreekAccents(contacts[i].givenName).toUpperCase();
+//         for (let j = 0; j < daynames.length; j++) {
+//             let fn = noGreekAccents(daynames[j]).toUpperCase();
+//             if (gn.startsWith(fn)) {
+//                 isCelebrant = true;
+//                 break;
+//             }
+//         }
 
-        if (!isCelebrant) continue;
+//         if (!isCelebrant) continue;
 
-        let emails = '';
-        // if (i === 78) {
-        //     console.log(contacts[i].fullName);
-        //     console.log(contacts[i].emails);
-        // }
-        if (contacts[i].emails.length >= 1) {
-            for (let j = 0; j < contacts[i].emails.length; j++) {
-                if (!contacts[i].emails[j]) continue;
+//         let emails = '';
+//         // if (i === 78) {
+//         //     console.log(contacts[i].fullName);
+//         //     console.log(contacts[i].emails);
+//         // }
+//         if (contacts[i].emails.length >= 1) {
+//             for (let j = 0; j < contacts[i].emails.length; j++) {
+//                 if (!contacts[i].emails[j]) continue;
 
-                emails += contacts[i].emails[j];
+//                 emails += contacts[i].emails[j];
 
-                if (j < contacts[i].emails.length - 1) emails += ', ';
-            }
-        }
+//                 if (j < contacts[i].emails.length - 1) emails += ', ';
+//             }
+//         }
 
-        // let phones = '';
-        // if (contacts[i].phoneNumber != null) {
-        //     for (let j = 0; j < contacts[i].phoneNumber.length; j++) {
-        //         phones += contacts[i].phoneNumber[j].replace(/ /g, '');
-        //         if (j < contacts[i].phoneNumber.length - 1) phones += ', ';
-        //     }
-        // }
+//         // let phones = '';
+//         // if (contacts[i].phoneNumber != null) {
+//         //     for (let j = 0; j < contacts[i].phoneNumber.length; j++) {
+//         //         phones += contacts[i].phoneNumber[j].replace(/ /g, '');
+//         //         if (j < contacts[i].phoneNumber.length - 1) phones += ', ';
+//         //     }
+//         // }
 
-        let person = {
-            id: i,
-            familyName: contacts[i].familyName,
-            givenName: contacts[i].givenName,
-            fullName: contacts[i].familyName + ' ' + contacts[i].givenName,
-            phone: contacts[i].phoneNumber,
-            email: contacts[i].email || '',
-            emails: emails,
-            selected: false,
-        };
+//         let person = {
+//             id: i,
+//             familyName: contacts[i].familyName,
+//             givenName: contacts[i].givenName,
+//             fullName: contacts[i].familyName + ' ' + contacts[i].givenName,
+//             phone: contacts[i].phoneNumber,
+//             email: contacts[i].email || '',
+//             emails: emails,
+//             selected: false,
+//         };
 
-        personList.push(person);
-    }
+//         personList.push(person);
+//     }
 
-    // personList.sort(compareContacts);
+//     // personList.sort(compareContacts);
 
-    return personList;
+//     return personList;
 
-    // if (this.personlist.length > 0) this.setState({ contactsFound: true });
-    // else this.setState({ contactsFound: false });
-    //
-    // //		for (let i=0; i<this.personlist.length; i++){
-    // //			console.log(this.personlist[i].name);
-    // //		}
-    //
-    // this.setState({ canRender: true });
-}
+//     // if (this.personlist.length > 0) this.setState({ contactsFound: true });
+//     // else this.setState({ contactsFound: false });
+//     //
+//     // //		for (let i=0; i<this.personlist.length; i++){
+//     // //			console.log(this.personlist[i].name);
+//     // //		}
+//     //
+//     // this.setState({ canRender: true });
+// }
 
 // function compareContacts(a, b) {
 //     if (a.familyName < b.familyName) return -1;
