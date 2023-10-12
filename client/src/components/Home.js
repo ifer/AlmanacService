@@ -482,7 +482,7 @@ class Home extends Component {
         };
 
         return (
-            <div>
+            <div style={{ marginTop: '50px' }}>
                 <ShowNotification
                     open={this.props.isOpen}
                     text={errorText()}
